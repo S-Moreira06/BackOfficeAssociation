@@ -3,7 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "test": "vitest"
+    "test": "vitest",
+    "prepare": "husky"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
