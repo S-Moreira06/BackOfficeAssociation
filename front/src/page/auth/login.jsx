@@ -1,11 +1,14 @@
 'use client'
 
+import { signIn } from "@/api/auth"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+
 
 
 const loginSchema = z.object({
@@ -15,20 +18,33 @@ const loginSchema = z.object({
 })
 
 export default function Login() {
-  const { register, handleSubmit} = useForm({
+  const { register, handleSubmit } = useForm({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "fatima.elmouhine@laplateforme.io",
+      password: "Atelier123"
+
+    }
   })
 
-  // const loginMutation = useMutation({
-  //   mutationFn: async(newTodo) => {
-  //     return await signIn(newTodo)
-  //   },
-  // })
+  const loginMutation = useMutation({
+    mutationFn: async (newTodo) => {
+      return await signIn(newTodo)
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("data", data)
+      localStorage.setItem("accessToken", data.data.token.accessToken)
+      localStorage.setItem("refreshToken", data.data.token.refreshToken)
+      window.location="/"
 
-  const onSubmit = (data) => {
-    console.log("data submitted", data)
-  }
+    },
+    
+  })
   
+  const onSubmit = (data) => {
+    loginMutation.mutate(data)
+  }
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -51,7 +67,7 @@ export default function Login() {
                 required
               />
 
-              {}
+              { }
             </div>
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">

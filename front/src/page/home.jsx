@@ -1,9 +1,9 @@
-import { listUsers } from '@/api/auth'
+import { listUsersExample } from '@/api/auth'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
 
 export default function Home() {
-  const { isPending, isError, data, error } = useQuery({ queryKey: ['listUser'], queryFn: listUsers })
+  const { isPending, isError, data, error } = useQuery({ queryKey: ['listUser'], queryFn: listUsersExample })
 
   useEffect(()=>{
     console.log("DATA", data)
