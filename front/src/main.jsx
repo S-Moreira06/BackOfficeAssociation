@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useRouteError } from "react-router-dom";
 import App from "./App";
 import './index.css'
 import Header from "./layout/Header";
@@ -19,6 +19,8 @@ const queryClient = new QueryClient({
   },
 })
 
+
+
 const root = document.getElementById("root");
 ReactDOM.createRoot(root).render(
   <BrowserRouter>
@@ -28,6 +30,8 @@ ReactDOM.createRoot(root).render(
         <Route path="/" element={<Home />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
+       
+
       </Routes>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

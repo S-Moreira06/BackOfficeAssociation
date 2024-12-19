@@ -3,12 +3,21 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { useState } from 'react'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
+
+
+const loginSchema = z.object({
+  // name: z.string().min(2, "Votre nom ne doit pas être inferieur à 2 charactères"),
+  email: z.string().email("Ce n'est pas un mail valide"),
+  password: z.string()
+})
 
 export default function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  
+  const { register, handleSubmit} = useForm({
+    resolver: zodResolver(loginSchema),
+  })
 
   // const loginMutation = useMutation({
   //   mutationFn: async(newTodo) => {
@@ -16,19 +25,10 @@ export default function Login() {
   //   },
   // })
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    // Here you would typically handle the login logic
-    console.log('Login attempt with:', { email, password })
-    loginMutation({email: email, password:password})
-    // // Reset form fields after submission
-    // setEmail('')
-    // setPassword('')
+  const onSubmit = (data) => {
+    console.log("data submitted", data)
   }
   
-  // useEffect(()=>{
-  //   console.log("data", data)
-  // }, [data])
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -37,7 +37,7 @@ export default function Login() {
           <CardTitle className="text-2xl font-bold">Login</CardTitle>
           <CardDescription>Enter your credentials to access your account</CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit} className=''>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -47,10 +47,11 @@ export default function Login() {
                 id="email"
                 type="email"
                 placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email")}
                 required
               />
+
+              {}
             </div>
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -60,8 +61,7 @@ export default function Login() {
                 id="password"
                 type="password"
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                {...register("password")}
                 required
               />
             </div>
