@@ -1,6 +1,7 @@
 {
   "name": "back",
   "type": "module",
+  "version": "1.0.0",
   "scripts": {
     "dev": "nodemon src/index.js",
     "test": "vitest",
