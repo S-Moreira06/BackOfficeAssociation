@@ -1,22 +1,34 @@
 'use client'
 
-import { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { useState } from 'react'
 
-export default function LoginPage() {
+export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  
+
+  // const loginMutation = useMutation({
+  //   mutationFn: async(newTodo) => {
+  //     return await signIn(newTodo)
+  //   },
+  // })
 
   const handleSubmit = (event) => {
     event.preventDefault()
     // Here you would typically handle the login logic
     console.log('Login attempt with:', { email, password })
-    // Reset form fields after submission
-    setEmail('')
-    setPassword('')
+    loginMutation({email: email, password:password})
+    // // Reset form fields after submission
+    // setEmail('')
+    // setPassword('')
   }
+  
+  // useEffect(()=>{
+  //   console.log("data", data)
+  // }, [data])
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
