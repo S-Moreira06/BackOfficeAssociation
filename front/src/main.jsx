@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, useRouteError } from "react-router-dom";
-import App from "./App";
 import './index.css'
 import Header from "./layout/Header";
 import Login from "./page/auth/login";
@@ -30,7 +29,7 @@ ReactDOM.createRoot(root).render(
         <Route path="/" element={<Home />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
-       
+
 
       </Routes>
       <ReactQueryDevtools initialIsOpen={false} />
