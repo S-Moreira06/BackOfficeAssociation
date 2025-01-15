@@ -15,7 +15,7 @@ export async function sendVerificationEmail(userEmail) {
     },
     env.JWT_SECRET,
   )
-  const verificationUrl = `http://127.0.0.1:1337/verify/${verificationToken}`
+  const verificationUrl = `http://127.0.0.1:3000/api/verify/${verificationToken}`
   const html = `
         <h1>Email Verification</h1>
         <p>Please click the link below to verify your email address:</p>

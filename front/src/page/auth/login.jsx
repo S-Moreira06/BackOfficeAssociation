@@ -9,10 +9,7 @@ import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-
-
 const loginSchema = z.object({
-  // name: z.string().min(2, "Votre nom ne doit pas être inferieur à 2 charactères"),
   email: z.string().email("Ce n'est pas un mail valide"),
   password: z.string()
 })
@@ -35,12 +32,12 @@ export default function Login() {
       console.log("data", data)
       localStorage.setItem("accessToken", data.data.token.accessToken)
       localStorage.setItem("refreshToken", data.data.token.refreshToken)
-      window.location="/"
+      window.location = "/"
 
     },
-    
+
   })
-  
+
   const onSubmit = (data) => {
     loginMutation.mutate(data)
   }
@@ -67,7 +64,7 @@ export default function Login() {
                 required
               />
 
-              { }
+              {}
             </div>
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
