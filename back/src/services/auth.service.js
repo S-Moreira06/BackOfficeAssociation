@@ -21,8 +21,8 @@ async function findUserByEmail(email) {
 
 async function createUser(data) {
   const query = `
-    INSERT INTO users (firstname, lastname, email, password, address, zip,city, phone)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO users (firstname, lastname, email, password, address, zip,city, phone, role)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
   const values = [data.firstname,data.lastname ,data.email, data.password, data.address,data.zip,data.city,
     data.phone];
