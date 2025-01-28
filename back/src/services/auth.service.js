@@ -21,10 +21,11 @@ async function findUserByEmail(email) {
 
 async function createUser(data) {
   const query = `
-    INSERT INTO users (email, password, name, verified)
-    VALUES (?, ?, ?, ?)
+    INSERT INTO users (firstname, lastname, email, password, address, zip,city, phone)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
-  const values = [data.email, data.password, data.name, 0];
+  const values = [data.firstname,data.lastname ,data.email, data.password, data.address,data.zip,data.city,
+    data.phone];
   const result = await db.prepare(query).run(values);
   return await db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid);
 }
