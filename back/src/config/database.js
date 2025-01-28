@@ -12,7 +12,7 @@ db.exec(`CREATE TABLE IF NOT EXISTS users (
   zip VARCHAR(6),
   city VARCHAR(50),   
   phone VARCHAR(20),
-  role VARCHAR(20),
+  role VARCHAR(20) NOT NULL,
   verified BOOLEAN DEFAULT FALSE,
     created_at DATETIME,
     updated_at DATETIME,
