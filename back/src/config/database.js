@@ -30,7 +30,7 @@ db.exec(`CREATE TABLE IF NOT EXISTS organisation (
   contact VARCHAR(50)NOT NULL,   
   mail VARCHAR(20)NOT NULL,
   phone VARCHAR(20) NOT NULL,
-  repas_max int NOT NULL,
+  repas_max int ,
     description VARCHAR(255) ,
     image VARCHAR(255),
     menu VARCHAR(255),  
