@@ -2,7 +2,7 @@ import Database from 'libsql';
 
 const db = new Database('mydb.db');
 
-db.exec(`CREATE TABLE IF NOT EXISTS users (
+db.exec(`CREATE TABLE IF NOT EXISTS user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firstname VARCHAR(50),
   lastname VARCHAR(50),   
