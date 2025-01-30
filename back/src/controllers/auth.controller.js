@@ -14,6 +14,19 @@ async function register(c) {
   }
 }
 
+async function request(c) {
+  try {
+    const data = c.req.valid('json')
+    await authService.request(data)
+    return c.json({
+      message: 'Votre demande a bien été envoyée. Un administrateur vous contactera dans les plus brefs delais.'
+    }, 201)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error : 'request failed'}, 400)
+  }
+}
+
 async function login(c) {
   try {
     const { email, password } = c.req.valid('json')
@@ -78,5 +91,5 @@ async function verifyUserEmail(c) {
   }
 }
 
-export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification }
+export { register, request, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification }
 
