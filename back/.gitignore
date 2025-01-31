@@ -29,4 +29,3 @@ lerna-debug.log*
 
 # db
 mydb.db
-/src/encrypt.js
