@@ -2,8 +2,8 @@ import db from '../config/database.js'
 
 async function createRequest(data) {
     const query = `
-      INSERT INTO request (name, address, zip, city, siret, type, contact, mail, phone, max_meal, description, image, menu)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+      INSERT INTO request (name, address, zip, city, siret, type, contact, mail, phone, max_meal, description, image, menu, created_at)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP)
     `;
     const values = [data.name,data.address,data.zip,data.city, data.siret, data.type, data.contact, data.mail, data.phone,data.max_meal, data.description, data.image, data.menu];
     
