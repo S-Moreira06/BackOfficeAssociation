@@ -4,16 +4,14 @@ import authRouter from './auth.router.js'
 import { verify } from 'hono/jwt'
 import authService from '../services/auth.service.js'
 import env from '../config/env.js'
-import organisationRouter from "./organisation.router.js";
-
 import { authGuard } from '../middlewares/authguard.js'
+import organisationRouter from "./organisation.router.js";
 const app = new Hono()
 
 
 app.get('/', (c) => c.text('Hello from Hono!'))
 app.route('/api', authRouter)
 app.route('/organisation', organisationRouter)
-
 app.get(
   '/authenticated',
   authGuard(),
