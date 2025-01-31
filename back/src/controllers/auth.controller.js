@@ -14,6 +14,8 @@ async function register(c) {
   }
 }
 
+
+
 async function login(c) {
   try {
     const { email, password } = c.req.valid('json')

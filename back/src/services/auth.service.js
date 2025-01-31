@@ -29,6 +29,8 @@ async function createUser(data) {
   return await db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid);
 }
 
+
+
 async function updateUser(userId, data) {
   const setClauses = [];
   const values = [];
