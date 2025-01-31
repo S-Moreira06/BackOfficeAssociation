@@ -92,5 +92,5 @@ async function deleteUser(c) {
 }
 
 
-export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification }
+export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification, deleteUser }
 
