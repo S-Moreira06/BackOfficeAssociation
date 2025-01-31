@@ -6,7 +6,7 @@ import { request } from "../controllers/request.controller.js";
 const requestRouter = new Hono()
 
 requestRouter.post(
-    "/request", zValidator('json',
+    "/newRequest", zValidator('json',
         z.object({
             name: z.string().min(2),
             address: z.string().min(2),

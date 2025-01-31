@@ -3,7 +3,7 @@ import requestService from '../services/request.service.js'
 async function request(c) {
   try {
     const data = c.req.valid('json')
-    await requestService.request(data)
+    await requestService.createRequest(data)
     return c.json({
       message: 'Votre demande a bien été envoyée. Un administrateur vous contactera dans les plus brefs delais.'
     }, 201)

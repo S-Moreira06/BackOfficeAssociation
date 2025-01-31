@@ -12,7 +12,7 @@ const app = new Hono()
 
 app.get('/', (c) => c.text('Hello from Hono!'))
 app.route('/api', authRouter)
-app.route('/api', requestRouter)
+app.route('/api/request', requestRouter)
 
 app.get(
   '/authenticated',
