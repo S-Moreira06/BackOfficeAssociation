@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { request } from "../controllers/auth.controller.js";
+import { request } from "../controllers/request.controller.js";
 
 const requestRouter = new Hono()
 
@@ -9,7 +9,7 @@ requestRouter.post(
     "/request", zValidator('json',
         z.object({
             name: z.string().min(2),
-            adress: z.string().min(2),
+            address: z.string().min(2),
             zip: z.string().min(5).max(6),
             city: z.string().min(2),
             siret: z.string().min(2),

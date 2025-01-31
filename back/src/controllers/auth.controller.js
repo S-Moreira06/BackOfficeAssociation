@@ -80,5 +80,5 @@ async function verifyUserEmail(c) {
   }
 }
 
-export { register, request, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification }
+export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification }
 

@@ -1,5 +1,4 @@
 import db from '../config/database.js'
-import env from '../config/env.js'
 
 async function createRequest(data) {
     const query = `
