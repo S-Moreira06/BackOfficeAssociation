@@ -20,9 +20,8 @@ db.exec(
     updated_at DATETIME,
     deleted_at DATETIME,  
     reset_token VARCHAR(255)
-  )`
-)
-;
+  )
+  `);
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS organisation (
@@ -44,9 +43,8 @@ db.exec(`
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME,
     deleted_at DATETIME
-  )`
-)
-;
+  )
+  `);
 
 db.exec(
   `CREATE TABLE IF NOT EXISTS request (
@@ -68,8 +66,8 @@ db.exec(
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME,
     deleted_at DATETIME 
-  )`
-)
+  )
+  `);
 
 
 export default db;
