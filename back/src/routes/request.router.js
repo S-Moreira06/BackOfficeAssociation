@@ -15,7 +15,7 @@ requestRouter.post(
             siret: z.string().min(2),
             type: z.string(),
             contact: z.string().min(2),
-            mail: z.string().email("Invalid email"),
+            email: z.string().email("Invalid email"),
             phone: z.string().min(2).regex(/^\d+$/, "Le texte doit contenir uniquement des chiffres"),
             max_meal: z.string().min(2),
             description: z.string().min(2),
