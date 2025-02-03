@@ -8,25 +8,44 @@ import env from '../config/env.js';
 
 async function deleteUser(userId) {
   console.log("userId:", userId)
-  const query = 'DELETE FROM users WHERE id = ?';
+  const query = 'DELETE FROM user WHERE id = ?';
   const result = db.prepare(query).run(userId);
   return result.changes > 0; // returns true if a user was deleted, false if no user was found
 }
 
+async function softDeleteUser(userId) {
+  try {
+    let today = new Date().toISOString();
+    const query = `
+      UPDATE user
+      SET is_archived = ?, deleted_at = ?
+      WHERE id = ?
+    `;
+    const values = [1, today, userId]
+    const result = db.prepare(query).run(values);
+    return true;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
 async function findUserByEmail(email) {
-  const query = 'SELECT * FROM users WHERE email = ?';
+  const query = 'SELECT * FROM user WHERE email = ?';
   const result = await db.prepare(query).get(email);
+
   return result;
 }
 
 async function createUser(data) {
   const query = `
-    INSERT INTO users (email, password, name, verified)
-    VALUES (?, ?, ?, ?)
+    INSERT INTO user (email, password, firstname, lastname, address, zip, city, phone, role, verified)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
-  const values = [data.email, data.password, data.name, 0];
+  const values = [data.email, data.password, data.firstname,data.lastname,data.address, data.zip, data.city,
+    data.phone, data.role, 0];
   const result = await db.prepare(query).run(values);
-  return await db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid);
+  return await db.prepare('SELECT * FROM user WHERE id = ?').get(result.lastInsertRowid);
 }
 
 
@@ -42,13 +61,13 @@ async function updateUser(userId, data) {
   values.push(userId);
 
   const query = `
-    UPDATE users 
+    UPDATE user 
     SET ${setClauses.join(', ')}
     WHERE id = ?
   `;
 
   await db.prepare(query).run(values);
-  return await db.prepare('SELECT * FROM users WHERE id = ?').get(userId);
+  return await db.prepare('SELECT * FROM user WHERE id = ?').get(userId);
 }
 
 async function register(data) {
@@ -169,5 +188,5 @@ export default {
   findUserByEmail,
   createUser,
   updateUser,
-  deleteUser
+  softDeleteUser
 };
