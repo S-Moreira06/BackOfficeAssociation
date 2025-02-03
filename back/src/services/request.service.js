@@ -14,7 +14,7 @@ async function createRequest(data) {
 async function deleteRequest(requestId) {
   const query = `
     UPDATE request
-    SET isArchived = true, modified_at = CURRENT_TIMESTAMP , deleted_at = CURRENT_TIMESTAMP
+    SET is_Archived = true, modified_at = CURRENT_TIMESTAMP , deleted_at = CURRENT_TIMESTAMP
     WHERE id = ? )
   `;
   const result = await db.prepare(query).run(requestId);
