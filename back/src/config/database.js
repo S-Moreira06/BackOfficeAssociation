@@ -15,7 +15,7 @@ db.exec(
     phone VARCHAR(20),
     role VARCHAR(20) NOT NULL,
     verified BOOLEAN DEFAULT FALSE,
-    isArchived BOOLEAN DEFAULT FALSE,
+    is_archived BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME,
     deleted_at DATETIME,  
@@ -39,7 +39,7 @@ db.exec(`
     description VARCHAR(255) ,
     image VARCHAR(255),
     menu VARCHAR(255),  
-    isArchived BOOLEAN DEFAULT FALSE,
+    is_archived BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME,
     deleted_at DATETIME
@@ -62,7 +62,7 @@ db.exec(
     description VARCHAR(255) ,
     image VARCHAR(255),
     menu VARCHAR(255),  
-    isArchived BOOLEAN DEFAULT FALSE,
+    is_archived BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME,
     deleted_at DATETIME 

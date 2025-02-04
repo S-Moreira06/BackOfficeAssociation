@@ -14,11 +14,14 @@ async function createRequest(data) {
 async function deleteRequest(requestId) {
   const query = `
     UPDATE request
-    SET is_Archived = true, modified_at = CURRENT_TIMESTAMP , deleted_at = CURRENT_TIMESTAMP
-    WHERE id = ? )
+    SET is_archived = 1, 
+    modified_at = CURRENT_TIMESTAMP , 
+    deleted_at = CURRENT_TIMESTAMP
+    WHERE id =  ?
   `;
-  const result = await db.prepare(query).run(requestId);
-  return await db.prepare('SELECT isArchived FROM request WHERE id= ?').get(requestId);
+  const values = [requestId.id];
+  const result = await db.prepare(query).run([requestId.id]);
+  return await db.prepare('SELECT is_archived FROM request WHERE id= ?').get(requestId.id);
   
 }
 
