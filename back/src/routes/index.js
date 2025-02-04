@@ -2,6 +2,7 @@ import { Hono } from 'hono'
 import { bearerAuth } from 'hono/bearer-auth'
 import authRouter from './auth.router.js'
 import requestRouter from './request.router.js'
+import reservationRouter from './reservation.router.js'
 import { verify } from 'hono/jwt'
 import authService from '../services/auth.service.js'
 import env from '../config/env.js'
@@ -14,6 +15,7 @@ app.get('/', (c) => c.text('Hello from Hono!'))
 app.route('/api', authRouter)
 app.route('/api/request', requestRouter)
 app.route('/organisation', organisationRouter)
+app.route('/api/reservtion', reservationRouter)
 app.get(
   '/authenticated',
   authGuard(),
