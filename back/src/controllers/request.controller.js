@@ -26,4 +26,17 @@ async function deleteRequest(c) {
   }
 }
 
-export {createRequest,deleteRequest}
+async function getAllRequest(c) {
+  try {
+    const request = await requestService.getAllRequest();
+    return c.json({
+      message: 'Liste des requetes disponible',
+      request: request
+    }, 200)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'non ok'}, 400)
+  }
+}
+
+export {createRequest,deleteRequest, getAllRequest}

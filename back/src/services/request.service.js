@@ -22,7 +22,12 @@ async function deleteRequest(requestId) {
   const values = [requestId.id];
   const result = await db.prepare(query).run([requestId.id]);
   return await db.prepare('SELECT is_archived FROM request WHERE id= ?').get(requestId.id);
-  
 }
 
-export default {createRequest, deleteRequest};
+async function getAllRequest(req,res) {
+  const query = 'SELECT * FROM request';
+  const result = await db.prepare(query).all()
+  return result;
+}
+
+export default {createRequest, deleteRequest, getAllRequest};
