@@ -68,6 +68,11 @@ db.exec(
     deleted_at DATETIME 
   )
   `);
+db.exec(`CREATE TABLE IF NOT EXISTS option (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nom varchar(50)
+    )`
+);
 
 
 export default db;
