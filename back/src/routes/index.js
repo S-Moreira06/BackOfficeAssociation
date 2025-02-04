@@ -15,7 +15,7 @@ app.get('/', (c) => c.text('Hello from Hono!'))
 app.route('/api', authRouter)
 app.route('/api/request', requestRouter)
 app.route('/organisation', organisationRouter)
-app.route('/api/reservtion', reservationRouter)
+app.route('/api/reservation', reservationRouter)
 app.get(
   '/authenticated',
   authGuard(),

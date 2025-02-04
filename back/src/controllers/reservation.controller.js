@@ -1,4 +1,4 @@
-import reservationService from '../services/reservation.service';
+import reservationService from '../services/reservation.service.js';
 
 async function createReservation(c) {
     try {

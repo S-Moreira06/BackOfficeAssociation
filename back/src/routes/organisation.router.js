@@ -13,7 +13,7 @@ organisationRouter.post(
         siret: z.string(),
         type: z.string(),
         contact: z.string(),
-        mail: z.string().email(),
+        email: z.string().email(),
         phone: z.string(),
         repas_max: z.number().nullable().optional(),
         description: z.string().optional(),
