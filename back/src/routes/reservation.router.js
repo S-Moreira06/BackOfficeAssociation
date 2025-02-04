@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { createReservation } from "../controllers/reservation.controller.js";
+import { createReservation, deleteReservation } from "../controllers/reservation.controller.js";
 
 const reservationRouter = new Hono();
 
@@ -19,6 +19,17 @@ reservationRouter.post(
         })
     ),
     createReservation
+);
+
+reservationRouter.post(
+    "/delete", 
+    zValidator('json', 
+        z.object(
+        {
+            id: z.number().int()
+        }
+    )), 
+    deleteReservation
 );
 
 export default reservationRouter;

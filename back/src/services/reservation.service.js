@@ -1,3 +1,4 @@
+import { defaultErrorMap } from 'zod';
 import db from '../config/database.js';
 
 async function createReservation(data) {
@@ -11,4 +12,17 @@ async function createReservation(data) {
   return await db.prepare('SELECT * FROM reservation WHERE id = ?').get(result.lastInsertRowid);
 }
 
-export default {createReservation};
+async function deleteReservation(reservationId) {
+  const query = `
+    UPDATE reservation
+    SET status = 'deleted', 
+    updated_at = CURRENT_TIMESTAMP , 
+    deleted_at = CURRENT_TIMESTAMP
+    WHERE id =  ?
+  `;
+  const values = [reservationId.id];
+  const result = await db.prepare(query).run([reservationId.id]);
+  return await db.prepare('SELECT status FROM reservation WHERE id= ?').get(reservationId.id);
+}
+
+export default {createReservation, deleteReservation};

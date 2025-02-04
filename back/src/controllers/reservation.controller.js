@@ -9,8 +9,21 @@ async function createReservation(c) {
             }, 201)
     } catch (error) {
         console.error(error)
-        return c.json({ error : 'request failed'}, 400)
+        return c.json({ error : 'reservation failed'}, 400)
     }
+};
+
+async function deleteReservation(c) {
+  try {
+    const data = c.req.valid('json')
+    await reservationService.deleteReservation(data)
+    return c.json({
+      message: 'reservation archived.'
+    }, 201)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'non ok' }, 400)
+  }
 }
 
-export {createReservation}
+export {createReservation, deleteReservation}
