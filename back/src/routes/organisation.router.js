@@ -27,10 +27,9 @@ organisationRouter.delete(
             id: z.number().int()
         }
     )), deleteOrganisation
-)
+);
 
 organisationRouter.get('/', getAllOrganisations);
-
 
 organisationRouter.post(
     '/find-by-name',
@@ -40,4 +39,5 @@ organisationRouter.post(
             name: z.string(),
         })), findOrganisationByName
 );
+
 export default organisationRouter;
