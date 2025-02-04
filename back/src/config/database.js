@@ -92,7 +92,7 @@ db.exec(
   `CREATE TABLE IF NOT EXISTS reservation (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     id_organisation INTEGER REFERENCES organisation(id) NOT NULL,
-    id_availability INTEGER REFERENCES availability(id) NOT NULL,
+    id_availability INTEGER NOT NULL,
     time DATETIME NOT NULL,
     email VARCHAR(255) NOT NULL,
     nb_place_setting INTEGER NOT NULL,
