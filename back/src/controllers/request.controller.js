@@ -13,4 +13,17 @@ async function createRequest(c) {
   }
 }
 
-export {createRequest}
+async function deleteRequest(c) {
+  try {
+    const data = c.req.valid('json')
+    await requestService.deleteRequest(data)
+    return c.json({
+      message: 'request archived.'
+    }, 201)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'non ok' }, 400)
+  }
+}
+
+export {createRequest,deleteRequest}

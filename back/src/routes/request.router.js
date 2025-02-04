@@ -26,4 +26,12 @@ requestRouter.post(
     createRequest
 );
 
+requestRouter.delete(
+    "/delete", zValidator('json', z.object(
+        {
+            id: z.number().int()
+        }
+    )), deleteOrganisation
+)
+
 export default requestRouter;
