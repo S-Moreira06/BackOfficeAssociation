@@ -25,4 +25,10 @@ async function deleteReservation(reservationId) {
   return await db.prepare('SELECT status FROM reservation WHERE id= ?').get(reservationId.id);
 }
 
-export default {createReservation, deleteReservation};
+async function getAllReservation(req,res) {
+  const query = 'SELECT * FROM reservation';
+  const result = await db.prepare(query).all()
+  return result;
+}
+
+export default {createReservation, deleteReservation, getAllReservation};

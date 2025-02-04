@@ -24,6 +24,19 @@ async function deleteReservation(c) {
     console.error(error)
     return c.json({ error: 'non ok' }, 400)
   }
+};
+
+async function getAllReservation(c) {
+  try {
+    const reservation = await reservationService.getAllReservation();
+    return c.json({
+      message: 'Liste des requetes disponible',
+      reservation: reservation
+    }, 200)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'non ok'}, 400)
+  }
 }
 
-export {createReservation, deleteReservation}
+export {createReservation, deleteReservation, getAllReservation}
