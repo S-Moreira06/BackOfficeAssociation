@@ -27,7 +27,9 @@ requestRouter.post(
 );
 
 requestRouter.post(
-    "/delete", zValidator('json', z.object(
+    "/delete", 
+    zValidator('json', 
+        z.object(
         {
             id: z.string()
         }
