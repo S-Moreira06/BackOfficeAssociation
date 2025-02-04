@@ -70,7 +70,7 @@ db.exec(
   `);
 db.exec(`CREATE TABLE IF NOT EXISTS option (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  nom varchar(50)
+  name varchar(50)
     )`
 );
 

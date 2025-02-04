@@ -1,5 +1,4 @@
 import optionService from '../services/option.service.js'
-import organisationService from "../services/organisation.service.js";
 
 async function creationOption(c) {
     try {
@@ -18,11 +17,11 @@ async function deleteOption(c) {
         const data = c.req.valid('json')
         await optionService.deleteOption(data);
         return c.json({
-            message: 'option supprimer avec sucess.'
+            message: 'option supprimer avec succès.'
         }, 201)
     } catch (error) {
         console.error(error)
-        return c.json({ error: 'non ok' }, 400)
+        return c.json({ error: 'creation impossible' }, 400)
     }
 }
 async function getAllOption(c) {

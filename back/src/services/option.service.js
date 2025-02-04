@@ -1,10 +1,10 @@
 import db from '../config/database.js';
 async function creationOption(data) {
     const query = `
-      INSERT INTO option (nom)
+      INSERT INTO option (name)
       VALUES (?)
     `;
-    const values = [data.nom];
+    const values = [data.name];
     const result = await db.prepare(query).run(values);
     return await db.prepare('SELECT * FROM option WHERE id = ?').get(result.lastInsertRowid);
 }

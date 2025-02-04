@@ -8,7 +8,7 @@ import {getAllOption} from "../controllers/option.controller.js";
 const optionRouter = new Hono();
 optionRouter.post(
     "/add-option", zValidator('json', z.object({
-            nom: z.string(),
+            name: z.string(),
 
         }
     )), creationOption
