@@ -18,11 +18,11 @@ async function deleteReservation(c) {
     const data = c.req.valid('json')
     await reservationService.deleteReservation(data)
     return c.json({
-      message: 'reservation archived.'
+      message: 'La reservation a bien été archivée.'
     }, 201)
   } catch (error) {
     console.error(error)
-    return c.json({ error: 'non ok' }, 400)
+    return c.json({ error: 'archiving failed' }, 400)
   }
 };
 
@@ -30,12 +30,12 @@ async function getAllReservation(c) {
   try {
     const reservation = await reservationService.getAllReservation();
     return c.json({
-      message: 'Liste des requetes disponible',
+      message: 'Liste des réservation disponible',
       reservation: reservation
     }, 200)
   } catch (error) {
     console.error(error)
-    return c.json({ error: 'non ok'}, 400)
+    return c.json({ error: 'reservation list loading fail'}, 400)
   }
 }
 
