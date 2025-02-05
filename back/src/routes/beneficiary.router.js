@@ -33,7 +33,7 @@ beneficiaryRouter.delete(
 
 beneficiaryRouter.get('/',getAllBeneficiary);
 
-beneficiaryRouter.delete(
+beneficiaryRouter.get(
     "/", 
     zValidator('json', 
         z.object(

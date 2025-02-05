@@ -72,17 +72,17 @@ db.exec(
 db.exec(
     `CREATE TABLE IF NOT EXISTS beneficiary (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          firstname VARCHAR(255) UNIQUE NOT NULL,
+          firstname VARCHAR(255) NOT NULL,
           lastname VARCHAR(255) NOT NULL,
-          address VARCHAR(255),
-          zip VARCHAR(6),
-          city VARCHAR(50), 
-          phone VARCHAR(50),
+          address VARCHAR(255) NOT NULL,
+          zip VARCHAR(6) NOT NULL,
+          city VARCHAR(50) NOT NULL, 
+          phone VARCHAR(50) NOT NULL,
           remark VARCHAR(255),
           rgpd BOOLEAN DEFAULT FALSE,
           is_archived BOOLEAN DEFAULT FALSE,
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-          modified_at DATETIME,
+          updated_at DATETIME,
           deleted_at DATETIME
     )`
 );
