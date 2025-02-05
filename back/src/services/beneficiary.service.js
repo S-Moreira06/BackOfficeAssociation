@@ -36,4 +36,4 @@ async function createBeneficiary(data) {
     return result;
   }
 
-  export default {createBeneficiary, deleteBeneficiary, getAllBeneficiary}
+  export default {createBeneficiary, deleteBeneficiary, getAllBeneficiary, getBeneficiary}
