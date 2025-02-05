@@ -70,25 +70,6 @@ db.exec(
   `);
 
 db.exec(
-  `CREATE TABLE IF NOT EXISTS availability (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    restaurant_id INTEGER REFERENCES organisation(id) NOT NULL,
-    service_start DATETIME NOT NULL,
-    service_end DATETIME NOT NULL,
-    deadline_accept VARCHAR(50) NOT NULL,
-    on_site INT NOT NULL,
-    take_away INT NOT NULL,
-    max_people INT NOT NULL,
-    price DECIMAL NOT NULL,
-    commentary VARCHAR(255),
-    is_archived BOOLEAN DEFAULT FALSE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME,
-    deleted_at DATETIME
-  )`
-);
-
-db.exec(
   `CREATE TABLE IF NOT EXISTS reservation (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     id_organisation INTEGER REFERENCES organisation(id) NOT NULL,
@@ -104,6 +85,5 @@ db.exec(
     deleted_at DATETIME 
   )`
 );
-
 
 export default db;

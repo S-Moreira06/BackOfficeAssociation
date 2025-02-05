@@ -6,7 +6,7 @@ import { createReservation, deleteReservation, getAllReservation } from "../cont
 const reservationRouter = new Hono();
 
 reservationRouter.post(
-    "newReservation", zValidator('json',
+    "/new-reservation", zValidator('json',
         z.object({
             id_organisation: z.number().int(),
             id_availability: z.string().min(1),
@@ -22,7 +22,7 @@ reservationRouter.post(
 );
 
 reservationRouter.post(
-    "/delete", 
+    "/delete-reservation", 
     zValidator('json', 
         z.object(
         {
