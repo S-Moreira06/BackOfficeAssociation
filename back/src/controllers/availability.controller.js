@@ -1,4 +1,3 @@
-import AvailabilityService  from '../services/availability.service.js';
 import availabilityService from "../services/availability.service.js";
 
 async function createAvailability(c) {
@@ -55,3 +54,5 @@ async function updateAvailability(c) {
         return c.json({error: 'update availability failed'}, 400)
     }
 }
+
+export {createAvailability, getAllAvailabilities, updateAvailability, deleteAvailability }

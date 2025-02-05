@@ -7,6 +7,7 @@ import authService from '../services/auth.service.js'
 import env from '../config/env.js'
 import { authGuard } from '../middlewares/authguard.js'
 import organisationRouter from "./organisation.router.js";
+import availabilityRouter from "./availability.router.js";
 
 const app = new Hono()
 
@@ -14,6 +15,7 @@ app.get('/', (c) => c.text('Hello from Hono!'))
 app.route('/api', authRouter)
 app.route('/api/request', requestRouter)
 app.route('/organisation', organisationRouter)
+app.route('/api/availability', availabilityRouter)
 app.get(
   '/authenticated',
   authGuard(),

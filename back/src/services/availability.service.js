@@ -1,11 +1,11 @@
 import db from '../config/database.js';
 
 async function createAvailability(data) {
-    const query = `INSERT INTO availability (restaurant_id, service_start,
+    const query = `INSERT INTO availability (restaurant_id,
                                              service_start, service_end, deadline_accept,
                                              on_site, take_away, max_people, price,
                                              commentary)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     const values = [
         data.restaurant_id, data.service_start, data.service_end,
         data.deadline_accept, data.on_site, data.take_away,
