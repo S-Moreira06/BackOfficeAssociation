@@ -24,4 +24,16 @@ async function createBeneficiary(data) {
     return await db.prepare('SELECT is_archived FROM beneficiary WHERE id= ?').get(beneficiaryId.id);
   }
 
-  export default {createBeneficiary, deleteBeneficiary}
+  async function getAllBeneficiary() {
+    const query = 'SELECT * FROM beneficiary';
+    const result = await db.prepare(query).all()
+    return result;
+  }
+
+  async function getBeneficiary(beneficiaryId) {
+    const query = 'SELECT * FROM beneficiary WHERE id=?';
+    const result = await db.prepare(query).get([beneficiaryId.id])
+    return result;
+  }
+
+  export default {createBeneficiary, deleteBeneficiary, getAllBeneficiary}
