@@ -80,7 +80,7 @@ db.exec(
           phone VARCHAR(50),
           remark VARCHAR(255),
           rgpd BOOLEAN DEFAULT FALSE,
-          created_at DATETIME,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           modified_at DATETIME,
           deleted_at DATETIME
     )`
