@@ -5,7 +5,7 @@ async function createBeneficiary(data) {
       INSERT INTO beneficiary (firstname, lastname, address, zip, city, phone, remark)
       VALUES (?,?,?,?,?,?,?)
     `;
-    const values = [data.firstname,data.lastname,data.address,data.zip,data.city, data.phone,data.remark, data.rgpd];
+    const values = [data.firstname,data.lastname,data.address,data.zip,data.city, data.phone,data.remark];
     
     const result = await db.prepare(query).run(values);
     return await db.prepare('SELECT * FROM beneficiary WHERE id = ?').get(result.lastInsertRowid); 

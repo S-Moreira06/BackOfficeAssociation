@@ -3,7 +3,7 @@ import beneficiaryService from '../services/beneficiary.service.js'
 async function createBeneficiary(c) {
   try {
     const data = c.req.valid('json')
-    await requestService.createBeneficiary(data)
+    await beneficiaryService.createBeneficiary(data)
     return c.json({
       message: 'Le béneficiaire a bien été ajouté.'
     }, 201)
@@ -16,7 +16,7 @@ async function createBeneficiary(c) {
 async function deleteBeneficiary(c) {
   try {
     const data = c.req.valid('json')
-    await requestService.deleteBeneficiary(data)
+    await beneficiaryService.deleteBeneficiary(data)
     return c.json({
       message: 'beneficiary archived.'
     }, 201)
@@ -28,7 +28,7 @@ async function deleteBeneficiary(c) {
 
 async function getAllBeneficiary(c) {
   try {
-    const request = await beneficiaryService.getAllBeneficiary();
+    const beneficiary = await beneficiaryService.getAllBeneficiary();
     return c.json({
       message: 'Liste des béneficiaire disponible',
       beneficiary: beneficiary
@@ -42,7 +42,7 @@ async function getAllBeneficiary(c) {
 async function getBeneficiary(c) {
     try {
         const data = c.req.valid('json');
-        const request = await beneficiaryService.getBeneficiary(data);
+        const beneficiary = await beneficiaryService.getBeneficiary(data);
         return c.json({
             message: 'Liste des béneficiaire disponible',
             beneficiary: beneficiary
