@@ -23,68 +23,68 @@ db.exec(
   )
   `);
 
-db.exec(`
-  CREATE TABLE IF NOT EXISTS organisation (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(50)NOT NULL,
-    address VARCHAR(255)NOT NULL,   
-    zip VARCHAR(6)  NOT NULL,
-    city VARCHAR(50) NOT NULL,
-    siret VARCHAR(50)NOT NULL,
-    type VARCHAR(6)NOT NULL,
-    contact VARCHAR(50)NOT NULL,   
-    email VARCHAR(255)NOT NULL,
-    phone VARCHAR(20) NOT NULL,
-    max_meal INTEGER ,
-    description VARCHAR(255) ,
-    image VARCHAR(255),
-    menu VARCHAR(255),  
-    is_archived BOOLEAN DEFAULT FALSE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME,
-    deleted_at DATETIME
-  )
-  `);
+// db.exec(`
+//   CREATE TABLE IF NOT EXISTS organisation (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     name VARCHAR(50)NOT NULL,
+//     address VARCHAR(255)NOT NULL,   
+//     zip VARCHAR(6)  NOT NULL,
+//     city VARCHAR(50) NOT NULL,
+//     siret VARCHAR(50)NOT NULL,
+//     type VARCHAR(6)NOT NULL,
+//     contact VARCHAR(50)NOT NULL,   
+//     email VARCHAR(255)NOT NULL,
+//     phone VARCHAR(20) NOT NULL,
+//     max_meal INTEGER ,
+//     description VARCHAR(255) ,
+//     image VARCHAR(255),
+//     menu VARCHAR(255),  
+//     is_archived BOOLEAN DEFAULT FALSE,
+//     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+//     updated_at DATETIME,
+//     deleted_at DATETIME
+//   )
+//   `);
 
-db.exec(
-  `CREATE TABLE IF NOT EXISTS request (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(50)NOT NULL,
-    address VARCHAR(255)NOT NULL,   
-    zip VARCHAR(6) NOT NULL,
-    city VARCHAR(50) NOT NULL,
-    siret VARCHAR(50) NOT NULL,
-    type VARCHAR(6) NOT NULL,
-    contact VARCHAR(50) NOT NULL,   
-    email VARCHAR(255) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
-    max_meal INTEGER ,
-    description VARCHAR(255) ,
-    image VARCHAR(255),
-    menu VARCHAR(255),  
-    is_archived BOOLEAN DEFAULT FALSE,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME,
-    deleted_at DATETIME 
-  )
-  `);
+// db.exec(
+//   `CREATE TABLE IF NOT EXISTS request (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     name VARCHAR(50)NOT NULL,
+//     address VARCHAR(255)NOT NULL,   
+//     zip VARCHAR(6) NOT NULL,
+//     city VARCHAR(50) NOT NULL,
+//     siret VARCHAR(50) NOT NULL,
+//     type VARCHAR(6) NOT NULL,
+//     contact VARCHAR(50) NOT NULL,   
+//     email VARCHAR(255) NOT NULL,
+//     phone VARCHAR(20) NOT NULL,
+//     max_meal INTEGER ,
+//     description VARCHAR(255) ,
+//     image VARCHAR(255),
+//     menu VARCHAR(255),  
+//     is_archived BOOLEAN DEFAULT FALSE,
+//     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+//     updated_at DATETIME,
+//     deleted_at DATETIME 
+//   )
+//   `);
 
-db.exec(
-    `CREATE TABLE IF NOT EXISTS beneficiary (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          firstname VARCHAR(255) UNIQUE NOT NULL,
-          lastname VARCHAR(255) NOT NULL,
-          adress VARCHAR(255),
-          zip VARCHAR(6),
-          city VARCHAR(50), 
-          phone VARCHAR(50),
-          remark VARCHAR(255),
-          rgpd BOOLEAN DEFAULT FALSE,
-          created_at DATETIME,
-          modified_at DATETIME,
-          deleted_at DATETIME
-    )`
-);
+// db.exec(
+//     `CREATE TABLE IF NOT EXISTS beneficiary (
+//           id INTEGER PRIMARY KEY AUTOINCREMENT,
+//           firstname VARCHAR(255) UNIQUE NOT NULL,
+//           lastname VARCHAR(255) NOT NULL,
+//           adress VARCHAR(255),
+//           zip VARCHAR(6),
+//           city VARCHAR(50), 
+//           phone VARCHAR(50),
+//           remark VARCHAR(255),
+//           rgpd BOOLEAN DEFAULT FALSE,
+//           created_at DATETIME,
+//           modified_at DATETIME,
+//           deleted_at DATETIME
+//     )`
+// );
 
 
 export default db;
