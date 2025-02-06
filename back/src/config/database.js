@@ -77,5 +77,21 @@ db.exec(`CREATE TABLE IF NOT EXISTS option (
     )`
 );
 
+db.exec(
+    `CREATE TABLE IF NOT EXISTS beneficiary (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          firstname VARCHAR(255) UNIQUE NOT NULL,
+          lastname VARCHAR(255) NOT NULL,
+          adress VARCHAR(255),
+          zip VARCHAR(6),
+          city VARCHAR(50), 
+          phone VARCHAR(50),
+          remark VARCHAR(255),
+          rgpd BOOLEAN DEFAULT FALSE,
+          created_at DATETIME,
+          modified_at DATETIME,
+          deleted_at DATETIME
+    )`
+);
 
 export default db;
