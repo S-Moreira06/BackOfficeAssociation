@@ -53,31 +53,49 @@ async function getAllBeneficiary(c) {
 //     }
 //   }
 
-async function getBeneficiary(c) {
+// async function getBeneficiary(c) {
+//   try {
+//       const id = c.req.param('id');
+
+//       if (!id) {
+//           return c.json({ error: 'ID du bénéficiaire manquant' }, 400);
+//       }
+
+//       const beneficiary = await beneficiaryService.getBeneficiary(id);
+      
+
+//       if (!beneficiary) {
+//           return c.json({ message: 'Bénéficiaire non trouvé' }, 404);
+//       }
+
+//       return c.json({
+//           message: 'Liste des bénéficiaires disponible',
+//           beneficiary
+//       }, 200);
+//   } catch (error) {
+//       console.error('Erreur lors de la récupération du bénéficiaire :', error);
+//       return c.json({ error: 'Impossible de charger le bénéficiaire' }, 500);
+//   }
+// }
+async function findBeneByid(c) {
   try {
-      const id = c.req.param('id');
+    const id  = c.req.param('id');
 
-      if (!id) {
-          return c.json({ error: 'ID du bénéficiaire manquant' }, 400);
-      }
+    const Beneficiary = await beneficiaryService.findBeneByid(id);
 
-      const beneficiary = await beneficiaryService.getBeneficiary(id);
+    if (!Beneficiary) {
+      return c.json({ message: 'L organisation nexiste pas.' }, 404);
+    }
 
-      if (!beneficiary) {
-          return c.json({ message: 'Bénéficiaire non trouvé' }, 404);
-      }
-
-      return c.json({
-          message: 'Liste des bénéficiaires disponible',
-          beneficiary
-      }, 200);
+    return c.json(Beneficiary, 200);
   } catch (error) {
-      console.error('Erreur lors de la récupération du bénéficiaire :', error);
-      return c.json({ error: 'Impossible de charger le bénéficiaire' }, 500);
+    console.error('Erreur lors de la recherche de lorganisation:', error);
+    return c.json({ error: 'Erreur serveur' }, 500);
   }
 }
 
 
-  export {createBeneficiary,deleteBeneficiary, getAllBeneficiary,getBeneficiary}
+  export {createBeneficiary,deleteBeneficiary, getAllBeneficiary,findBeneByid}
+  // ,getBeneficiary
 
 
