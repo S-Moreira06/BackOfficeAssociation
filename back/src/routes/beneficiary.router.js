@@ -33,15 +33,6 @@ beneficiaryRouter.delete(
 
 beneficiaryRouter.get('/',getAllBeneficiary);
 
-beneficiaryRouter.get(
-    "/", 
-    zValidator('json', 
-        z.object(
-        {
-            id: z.string()
-        }
-    )), 
-    getBeneficiary
-);
+beneficiaryRouter.get("/:id", getBeneficiary);
 
 export default beneficiaryRouter;

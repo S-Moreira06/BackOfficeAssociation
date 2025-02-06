@@ -39,19 +39,44 @@ async function getAllBeneficiary(c) {
   }
 }
 
+// async function getBeneficiary(c) {
+//     try {
+//         const data = c.req.param('id');
+//         const beneficiary = await beneficiaryService.getBeneficiary(data);
+//         return c.json({
+//             message: 'Liste des béneficiaire disponible',
+//             beneficiary: beneficiary
+//       }, 200)
+//     } catch (error) {
+//       console.error(error)
+//       return c.json({ error: 'beneficiary list loading failed'}, 400)
+//     }
+//   }
+
 async function getBeneficiary(c) {
-    try {
-        const data = c.req.valid('json');
-        const beneficiary = await beneficiaryService.getBeneficiary(data);
-        return c.json({
-            message: 'Liste des béneficiaire disponible',
-            beneficiary: beneficiary
-      }, 200)
-    } catch (error) {
-      console.error(error)
-      return c.json({ error: 'beneficiary list loading failed'}, 400)
-    }
+  try {
+      const id = c.req.param('id');
+
+      if (!id) {
+          return c.json({ error: 'ID du bénéficiaire manquant' }, 400);
+      }
+
+      const beneficiary = await beneficiaryService.getBeneficiary(id);
+
+      if (!beneficiary) {
+          return c.json({ message: 'Bénéficiaire non trouvé' }, 404);
+      }
+
+      return c.json({
+          message: 'Liste des bénéficiaires disponible',
+          beneficiary
+      }, 200);
+  } catch (error) {
+      console.error('Erreur lors de la récupération du bénéficiaire :', error);
+      return c.json({ error: 'Impossible de charger le bénéficiaire' }, 500);
   }
+}
+
 
   export {createBeneficiary,deleteBeneficiary, getAllBeneficiary,getBeneficiary}
 
