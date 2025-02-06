@@ -30,16 +30,15 @@ async function createBeneficiary(data) {
     return result;
   }
 
-  // async function getBeneficiary(data) {
-  //   const query = 'SELECT * FROM beneficiary WHERE id=?';
-  //   const result = await db.prepare(query).get([data.id])
-  //   return result;
-  // }
+  async function getBeneficiary(id) {
+    const query = 'SELECT * FROM beneficiary WHERE id=?';
+    const result = await db.prepare(query).get(id)
+    return result;
+  }
   async function findBeneByid(id) {
     const query = 'SELECT * FROM beneficiary WHERE id = ?';
     const result = await db.prepare(query).get(id);
     return result;
   }
 
-  export default {createBeneficiary, deleteBeneficiary, getAllBeneficiary, findBeneByid}
-  // getBeneficiary
+  export default {createBeneficiary, deleteBeneficiary, getAllBeneficiary, findBeneByid,getBeneficiary}

@@ -5,7 +5,7 @@ async function createBeneficiary(c) {
     const data = c.req.valid('json')
     await beneficiaryService.createBeneficiary(data)
     return c.json({
-      message: 'Le béneficiaire a bien été ajouté.'
+      message: 'beneficiary is added'
     }, 201)
   } catch (error) {
     console.error(error)
@@ -30,7 +30,7 @@ async function getAllBeneficiary(c) {
   try {
     const beneficiary = await beneficiaryService.getAllBeneficiary();
     return c.json({
-      message: 'Liste des béneficiaire disponible',
+      message: "beneficiary's list available",
       beneficiary: beneficiary
     }, 200)
   } catch (error) {
@@ -38,20 +38,6 @@ async function getAllBeneficiary(c) {
     return c.json({ error: 'beneficiary list loading failed'}, 400)
   }
 }
-
-// async function getBeneficiary(c) {
-//     try {
-//         const data = c.req.param('id');
-//         const beneficiary = await beneficiaryService.getBeneficiary(data);
-//         return c.json({
-//             message: 'Liste des béneficiaire disponible',
-//             beneficiary: beneficiary
-//       }, 200)
-//     } catch (error) {
-//       console.error(error)
-//       return c.json({ error: 'beneficiary list loading failed'}, 400)
-//     }
-//   }
 
 // async function getBeneficiary(c) {
 //   try {
@@ -77,10 +63,25 @@ async function getAllBeneficiary(c) {
 //       return c.json({ error: 'Impossible de charger le bénéficiaire' }, 500);
 //   }
 // }
+async function getBeneficiary(c) {
+  try {
+      const id = c.req.param('id');
+      const beneficiary = await beneficiaryService.getBeneficiary(id);
+      if(!beneficiary) {
+        return c.json({ error : 'beneficiary not found'},404)
+      }
+      return c.json({
+          message: "beneficiary informations available",
+          beneficiary: beneficiary
+    }, 200)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'beneficiary information loading failed'}, 400)
+  }
+}
 async function findBeneByid(c) {
   try {
     const id  = c.req.param('id');
-
     const Beneficiary = await beneficiaryService.findBeneByid(id);
 
     if (!Beneficiary) {
@@ -95,7 +96,7 @@ async function findBeneByid(c) {
 }
 
 
-  export {createBeneficiary,deleteBeneficiary, getAllBeneficiary,findBeneByid}
-  // ,getBeneficiary
+  export {createBeneficiary,deleteBeneficiary, getAllBeneficiary,findBeneByid,getBeneficiary}
+  // 
 
 
