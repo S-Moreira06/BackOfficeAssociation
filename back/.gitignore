@@ -26,6 +26,7 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+../.DS_Store
 
 # db
 mydb.db
