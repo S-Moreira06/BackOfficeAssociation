@@ -5,11 +5,11 @@ async function creationOption(c) {
         const data = c.req.valid('json')
         await optionService.creationOption(data);
         return c.json({
-            message: 'option crée avec sucess.'
+            message: 'option create sucessfully.'
         }, 201)
     } catch (error) {
         console.error(error)
-        return c.json({ error: 'non ok' }, 400)
+        return c.json({ error: 'option create failed' }, 400)
     }
 }
 async function deleteOption(c) {
@@ -17,23 +17,23 @@ async function deleteOption(c) {
         const id = c.req.param('id')
         await optionService.deleteOption(id);
         return c.json({
-            message: 'option supprimer avec succès.'
+            message: 'option deleted succesfully.'
         }, 201)
     } catch (error) {
         console.error(error)
-        return c.json({ error: 'suppression impossible' }, 400)
+        return c.json({ error: 'option deleted failed' }, 400)
     }
 }
 async function getAllOption(c) {
     try {
         const option = await optionService.getAllOption();
         return c.json({
-            message: 'Liste option ok.',
+            message: 'Get all option succesfully.',
             option: option
         }, 200)
     } catch (error) {
         console.error(error)
-        return c.json({ error: 'non ok' }, 400)
+        return c.json({ error: 'Get all option failed' }, 400)
     }
 }
 async function getOption(c) {
@@ -44,12 +44,12 @@ async function getOption(c) {
             return c.json({ error : 'option not found'},404)
         }
         return c.json({
-            message: "option informations available",
+            message: "get option informations succesfully",
             option: option
         }, 200)
     } catch (error) {
         console.error(error)
-        return c.json({ error: 'option information loading failed'}, 400)
+        return c.json({ error: 'get option information  failed'}, 400)
     }
 }
 
