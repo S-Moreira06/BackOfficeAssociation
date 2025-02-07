@@ -20,7 +20,7 @@ async function createBeneficiary(data) {
       WHERE id =  ?
     `;
     const result = await db.prepare(query).get(id);
-    return await db.prepare('SELECT is_archived FROM beneficiary WHERE id= ?').get(id);
+    return true;
   }
 
   async function getAllBeneficiary() {
