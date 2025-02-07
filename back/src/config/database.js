@@ -13,7 +13,7 @@ db.exec(
     zip VARCHAR(6),
     city VARCHAR(50),   
     phone VARCHAR(20),
-    role VARCHAR(20) NOT NULL,
+    role VARCHAR(50) NOT NULL,
     verified BOOLEAN DEFAULT FALSE,
     is_archived BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -22,5 +22,4 @@ db.exec(
     reset_token VARCHAR(255)
   )
   `);
-
 export default db;
