@@ -29,6 +29,6 @@ export async function up(client) {
 * @returns { Promise<void> }
 */
 export async function down(client) {
-        await client.execute("DROP TABLE organisation;");
+        await client.execute("DROP TABLE beneficiary;");
 
 }
