@@ -7,7 +7,6 @@ import env from '../config/env.js';
 
 
 async function deleteUser(userId) {
-  console.log("userId:", userId)
   const query = 'DELETE FROM user WHERE id = ?';
   const result = db.prepare(query).run(userId);
   return result.changes > 0; // returns true if a user was deleted, false if no user was found
@@ -65,7 +64,6 @@ async function updateUser(userId, data) {
     SET ${setClauses.join(', ')}
     WHERE id = ?
   `;
-
   await db.prepare(query).run(values);
   return await db.prepare('SELECT * FROM user WHERE id = ?').get(userId);
 }
