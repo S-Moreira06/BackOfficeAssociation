@@ -21,8 +21,8 @@ beneficiaryRouter.post(
 );
 
 beneficiaryRouter.delete(
-    "/", 
-    zValidator('json', 
+    "/:id", 
+    zValidator('param', 
         z.object(
         {
             id: z.string()

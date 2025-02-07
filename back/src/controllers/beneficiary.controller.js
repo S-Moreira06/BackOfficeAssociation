@@ -15,8 +15,8 @@ async function createBeneficiary(c) {
 
 async function deleteBeneficiary(c) {
   try {
-    const data = c.req.valid('json')
-    await beneficiaryService.deleteBeneficiary(data)
+    const id = c.req.param('id')
+    await beneficiaryService.deleteBeneficiary(id)
     return c.json({
       message: 'beneficiary archived.'
     }, 201)
