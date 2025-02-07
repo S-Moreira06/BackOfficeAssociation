@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "cd back && npm run test -- run"
+    "back": "cd back && npm run dev",
+    "front": "cd front && npm run dev"
   },
   "author": "",
   "license": "ISC",
