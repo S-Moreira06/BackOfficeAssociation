@@ -1,15 +1,18 @@
 import db from '../config/database.js';
 
 async function createAvailability(data) {
-    const query = `INSERT INTO availability (restaurant_id,
-                                             service_start, service_end, deadline_accept,
+    const price =  data.price*100;
+    const query = `INSERT INTO availability (restaurant_id,date, 
+                                             time_start, time_end, deadline_accept,
                                              on_site, take_away, max_people, price,
                                              commentary)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                   VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?)`;
+
+
     const values = [
-        data.restaurant_id, data.service_start, data.service_end,
-        data.deadline_accept, data.on_site, data.take_away,
-        data.max_people, data.max_people, data.price,
+        data.restaurantId, data.date, data.timeStart,data.timeEnd,
+        data.deadlineAccept, data.onSite, data.takeAway,
+        data.maxPeople, price,
         data.commentary
     ];
     const result = await db.prepare(query).run(values);
@@ -20,6 +23,12 @@ async function createAvailability(data) {
 async function getAllAvailabilities(){
     const query = 'SELECT * FROM availability';
     const result = await db.prepare(query).all();
+    return result;
+}
+
+async function getAvailabilityById(id){
+    const query = 'SELECT * FROM availability WHERE id = ?';
+    const result = await db.prepare(query).get(id);
     return result;
 }
 
@@ -39,28 +48,29 @@ async function softDeleteAvailability(availabilityId){
     }
 }
 
-async function updateAvailability(availabilityId, data) {
-    const setClauses = [];
-    const values = [];
-
-    Object.entries(data).forEach(([key, value]) => {
-        setClauses.push(`${key} = ?`);
-        values.push(value);
+    async function updateAvailability(availabilityId, data) {
+        const setClauses = [];
+        const values = [];
+        Object.entries(data).forEach(([key, value]) => {
+            setClauses.push(`${key} = ?`);
+            values.push(value);
         });
-    values.push(availabilityId);
-    const query = `
-                            UPDATE availability
-                            SET ${setClauses.join(', ')}
-                            WHERE id = ?
-                        `;
-    await db.prepare(query).run(values);
-    return await db.prepare('SELECT * FROM availability WHERE id = ?').get(availabilityId);
+        values.push(availabilityId);
+        const query = `UPDATE availability SET ${ setClauses.join(', ') } WHERE id = ?`;
+        try {
+            await db.prepare(query).run(values);
+            const updatedRecord = await db.prepare('SELECT * FROM availability WHERE id = ?').get(availabilityId);
+            return updatedRecord;
+        } catch (error) {
+            console.error('Error updating availability:', error);
+            throw new Error('Failed to update availability');
+        }
 }
-
 
 export default {
     createAvailability,
     getAllAvailabilities,
+    getAvailabilityById,
     softDeleteAvailability,
     updateAvailability
 };
