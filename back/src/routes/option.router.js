@@ -4,22 +4,31 @@ import { z } from 'zod';
 import {creationOption} from "../controllers/option.controller.js";
 import {deleteOption} from "../controllers/option.controller.js";
 import {getAllOption} from "../controllers/option.controller.js";
+import {getOption} from "../controllers/option.controller.js";
 
 const optionRouter = new Hono();
 optionRouter.post(
-    "/add-option", zValidator('json', z.object({
+    "/", zValidator('json', z.object({
             name: z.string(),
 
         }
     )), creationOption
 )
 optionRouter.delete(
-    "/delete", zValidator('json', z.object(
+    "/:id", zValidator('param', z.object(
         {
-            id: z.number().int()
+            id: z.string()
         }
     )), deleteOption
 )
 optionRouter.get('/', getAllOption);
 
+optionRouter.get(
+    '/:id',
+    zValidator(
+        'param',
+        z.object({
+            id: z.string().regex(/^\d+$/),
+        })), getOption
+);
 export default optionRouter;

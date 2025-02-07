@@ -68,14 +68,6 @@ db.exec(
     deleted_at DATETIME 
   )
   `);
-db.exec(`CREATE TABLE IF NOT EXISTS option (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name varchar(50)
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME,
-    deleted_at DATETIME
-    )`
-);
 
 db.exec(
     `CREATE TABLE IF NOT EXISTS beneficiary (

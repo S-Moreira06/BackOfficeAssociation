@@ -8,19 +8,30 @@ async function creationOption(data) {
     const result = await db.prepare(query).run(values);
     return await db.prepare('SELECT * FROM option WHERE id = ?').get(result.lastInsertRowid);
 }
-async function deleteOption(data) {
-    const query = 'DELETE FROM option WHERE id = ?';
-    const values = [data.id];
-    const result = await db.prepare(query).run(values);
-    return result.changes > 0;
+async function deleteOption(id) {
+    const query = `
+        UPDATE option
+    SET 
+        updated_at = CURRENT_TIMESTAMP ,
+        deleted_at = CURRENT_TIMESTAMP
+    WHERE id =  ?`
+    ;
+    const result = await db.prepare(query).get(id);
+    return await db.prepare('SELECT * FROM option WHERE id=?').get(id);
 }
 async function getAllOption(req, res) {
     const query = 'SELECT * FROM option';
     const result = await db.prepare(query).all();
     return result;
 }
+async function getOption(id) {
+    const query = 'SELECT * FROM option WHERE id=?';
+    const result = await db.prepare(query).get(id)
+    return result;
+}
 export default {
     creationOption,
     deleteOption,
-    getAllOption
+    getAllOption ,
+    getOption
 };
