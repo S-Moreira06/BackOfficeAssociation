@@ -49,14 +49,22 @@ async function softDeleteAvailability(availabilityId){
 }
 
     async function updateAvailability(availabilityId, data) {
+        let today = new Date().toISOString();
         const setClauses = [];
         const values = [];
+        function camelToSnakeCase(str) {
+            return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+        }
         Object.entries(data).forEach(([key, value]) => {
-            setClauses.push(`${key} = ?`);
+            const snakeKey = camelToSnakeCase(key);
+            setClauses.push(`${snakeKey} = ?`);
             values.push(value);
         });
+        setClauses.push("updated_at = ?");
+        values.push(today);
         values.push(availabilityId);
         const query = `UPDATE availability SET ${ setClauses.join(', ') } WHERE id = ?`;
+        console.error(query);
         try {
             await db.prepare(query).run(values);
             const updatedRecord = await db.prepare('SELECT * FROM availability WHERE id = ?').get(availabilityId);
