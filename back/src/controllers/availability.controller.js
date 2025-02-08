@@ -62,8 +62,10 @@ async function getAvailabilityById(c) {
 async function updateAvailability(c) {
     try {
         const availabilityId = c.req.param('id');
-        console.error(c.req.valid('json'));
         const data = c.req.valid('json');
+        if (!availabilityId || !data) {
+            return c.json({ error: 'Missing required fields' }, 400);
+        }
         await availabilityService.updateAvailability(availabilityId, data);
         return c.json({
             message: 'update availability done'
