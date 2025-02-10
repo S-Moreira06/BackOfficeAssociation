@@ -4,7 +4,7 @@
 * @returns { Promise<void> }
 */
 export async function seed(client) {
-    await client.execute("DELETE FROM organisation;");
+    //await client.execute("DELETE FROM organisation;");
     await client.execute(`INSERT INTO organisation (name, address, zip, city, siret, type, contact, email, phone, max_meal, description, image, menu)
 VALUES
     ('La Belle Table', '10 Rue des Oliviers', '75001', 'Paris', '12345678901234', 'Restaurant', 'Jean Dupont', 'contact@labelletable.com', '0102030405', 100, 'Restaurant gastronomique', 'image1.jpg', 'menu1.pdf'),
