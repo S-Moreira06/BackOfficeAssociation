@@ -9,8 +9,6 @@ export async function up(client) {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_organisation INT REFERENCES organisation(id) NOT NULL,
         id_type INTEGER REFERENCES type(id) NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        deleted_at DATETIME
      )`);
 }
 
