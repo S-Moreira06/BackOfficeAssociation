@@ -1,4 +1,3 @@
-
 import authService from '../services/auth.service.js'
 
 async function register(c) {
@@ -14,11 +13,12 @@ async function register(c) {
   }
 }
 
+
+
 async function login(c) {
   try {
     const { email, password } = c.req.valid('json')
     const token = await authService.login(email, password)
-
     return c.json({ message: 'Login successful', token })
   } catch (error) {
     console.log("error:", error.message)
@@ -78,5 +78,23 @@ async function verifyUserEmail(c) {
   }
 }
 
+<<<<<<< HEAD
 export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification }
+=======
+async function deleteUser(c) {
+  try {
+    const data = c.req.valid('json')
+    await authService.softDeleteUser(data.id)
+    return c.json({
+      message: 'Delete user done.'
+    }, 201)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'Delete failed' }, 400)
+  }
+}
+
+
+export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification, deleteUser }
+>>>>>>> dev
 
