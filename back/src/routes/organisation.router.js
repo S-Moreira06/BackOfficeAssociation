@@ -13,7 +13,7 @@ organisationRouter.post(
         siret: z.string(),
         type: z.string(),
         contact: z.string(),
-        mail: z.string().email(),
+        email: z.string().email(),
         phone: z.string(),
         repas_max: z.number().nullable().optional(),
         description: z.string().optional(),
@@ -27,10 +27,9 @@ organisationRouter.delete(
             id: z.number().int()
         }
     )), deleteOrganisation
-)
+);
 
 organisationRouter.get('/', getAllOrganisations);
-
 
 organisationRouter.post(
     '/find-by-name',
@@ -40,4 +39,5 @@ organisationRouter.post(
             name: z.string(),
         })), findOrganisationByName
 );
+
 export default organisationRouter;
