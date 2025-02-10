@@ -31,4 +31,10 @@ async function getAllReservation(req,res) {
   return result;
 }
 
-export default {createReservation, deleteReservation, getAllReservation};
+async function getReservation(id) {
+  const query = 'SELECT * FROM reservation WHERE id=?';
+  const result = await db.prepare(query).get(id)
+  return result;
+}
+
+export default {createReservation, deleteReservation, getAllReservation, getReservation};

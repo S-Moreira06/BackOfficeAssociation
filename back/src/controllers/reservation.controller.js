@@ -39,4 +39,21 @@ async function getAllReservation(c) {
   }
 }
 
-export {createReservation, deleteReservation, getAllReservation}
+async function getReservation(c) {
+  try {
+      const id = c.req.param('id');
+      const reservation = await reservationService.getReservation(id);
+      if(!reservation) {
+        return c.json({ error : 'reservation not found'},404)
+      }
+      return c.json({
+          message: "reservation informations available",
+          reservation: reservation
+    }, 200)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'reservation information loading failed'}, 400)
+  }
+}
+
+export {createReservation, deleteReservation, getAllReservation, getReservation}

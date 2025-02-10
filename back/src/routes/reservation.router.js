@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { createReservation, deleteReservation, getAllReservation } from "../controllers/reservation.controller.js";
+import { createReservation, deleteReservation, getAllReservation, getReservation } from "../controllers/reservation.controller.js";
 
 const reservationRouter = new Hono();
 
@@ -33,5 +33,14 @@ reservationRouter.delete(
 );
 
 reservationRouter.get('/',getAllReservation);
+
+reservationRouter.get(
+    '/:id',
+    zValidator(
+        'param',
+        z.object({
+            id: z.string().regex(/^\d+$/),
+        })), getReservation
+);
 
 export default reservationRouter;
