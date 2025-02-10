@@ -2,10 +2,10 @@ import db from '../config/database.js';
 
 async function createOrganisation(data) {
   const query = `
-      INSERT INTO organisation (name, address, zip, city, siret, type, contact, mail ,phone ,repas_max ,description ,image)
+      INSERT INTO organisation (name, address, zip, city, siret, type, contact, email ,phone ,max_meal ,description ,image)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-  const values = [data.name, data.address, data.zip, data.city , data.siret ,data.type, data.contact, data.mail, data.phone , data.repas_max, data.description, data.image , data.created_at, data.updated_at, data.deleted_at];
+  const values = [data.name, data.address, data.zip, data.city , data.siret ,data.type, data.contact, data.email, data.phone , data.max_meal, data.description, data.image , data.created_at, data.updated_at, data.deleted_at];
   const result = await db.prepare(query).run(values);
   return await db.prepare('SELECT * FROM organisation WHERE id = ?').get(result.lastInsertRowid);
 }
