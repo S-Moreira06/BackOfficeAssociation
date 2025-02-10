@@ -22,11 +22,11 @@ reservationRouter.post(
 );
 
 reservationRouter.delete(
-    "/", 
-    zValidator('json', 
+    "/:id", 
+    zValidator('param', 
         z.object(
         {
-            id: z.number().int()
+            id: z.string()
         }
     )), 
     deleteReservation

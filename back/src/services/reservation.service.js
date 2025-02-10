@@ -15,14 +15,14 @@ async function createReservation(data) {
 async function deleteReservation(reservationId) {
   const query = `
     UPDATE reservation
-    SET status = 'deleted', 
+    SET status = 'deleted',
+    is_archive = 1, 
     updated_at = CURRENT_TIMESTAMP , 
     deleted_at = CURRENT_TIMESTAMP
     WHERE id =  ?
   `;
-  const values = [reservationId.id];
-  const result = await db.prepare(query).run([reservationId.id]);
-  return await db.prepare('SELECT status FROM reservation WHERE id= ?').get(reservationId.id);
+  const result = await db.prepare(query).get(reservationId);
+  return true;
 }
 
 async function getAllReservation(req,res) {
