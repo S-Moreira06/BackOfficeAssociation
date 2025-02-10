@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cd back && npm run test -- run"
+    "test": "cd back && npm run test -- run",
     "back": "cd back && npm run dev",
     "front": "cd front && npm run dev"
   },
