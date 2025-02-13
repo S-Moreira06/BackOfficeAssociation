@@ -8,7 +8,7 @@ export async function up(client) {
         `CREATE TABLE IF NOT EXISTS type_organisation (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_organisation INT REFERENCES organisation(id) NOT NULL,
-        id_type INTEGER REFERENCES type(id) NOT NULL,
+        id_type INTEGER REFERENCES type(id) NOT NULL
      )`);
 }
 

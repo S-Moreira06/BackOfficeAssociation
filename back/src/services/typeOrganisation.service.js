@@ -8,7 +8,7 @@ async function createTypeOrganisation(idOrganisation, idType) {
     return result.changes > 0;
 }
 
-async  function getAllTypesFromOrganisationId(idOrganisation){
+async  function getAllTypeOrganisationFromOrganisationId(idOrganisation){
     const query = 'SELECT * FROM type_organisation where id_organisation = ?';
     const result = db.prepare(query).all(idOrganisation);
     return result;
@@ -19,3 +19,5 @@ async function deleteTypeOrganisation(id) {
     const result = db.prepare(query).run(id);
     return result.changes > 0;
 }
+
+export default { createTypeOrganisation, getAllTypeOrganisationFromOrganisationId, deleteTypeOrganisation }
