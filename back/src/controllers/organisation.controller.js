@@ -70,10 +70,8 @@ async function updateOrganisation(c) {
 
 async function getTypesForRestaurant(c) {
     try {
-        console.error('toto');
         const id = c.req.param('id');
         const result = await typeOrganisationService.getTypesForRestaurant(id);
-        console.error(id);
         return c.json({message: `Get type for restaurant successfull` , types: result}, 201);
     } catch (error) {
         console.error(error);
