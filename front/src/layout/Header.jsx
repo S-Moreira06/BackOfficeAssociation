@@ -45,8 +45,8 @@ export default function Header() {
     ];
 
     return (
-        <div className="sticky top-0 bg-white flex justify-between items-center border-b px-10 pb-2">
-            <img src={logo} alt="" className="w-[5%]" />
+        <div className="sticky top-0 bg-white flex justify-between items-center border-b px-10 py-2">
+            <img src={logo} alt="" className="w-[5%] min-w-[50px]" />
             {token && !isMobile && (
                 <NavigationMenu>
                     <NavigationMenuList>
