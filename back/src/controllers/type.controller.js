@@ -1,5 +1,4 @@
 import typeService from '../services/type.service.js'
-import availabilityService from "../services/availability.service.js";
 
 async function creationType(c) {
     try {

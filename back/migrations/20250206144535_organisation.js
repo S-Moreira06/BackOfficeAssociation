@@ -12,7 +12,7 @@ export async function up(client) {
         zip VARCHAR(6)  NOT NULL,
         city VARCHAR(50) NOT NULL,
         siret VARCHAR(50)NOT NULL,
-        type VARCHAR(6)NOT NULL,
+        category VARCHAR(6)NOT NULL,
         contact VARCHAR(50)NOT NULL,   
         email VARCHAR(255)NOT NULL,
         phone VARCHAR(20) NOT NULL,

@@ -1,62 +1,85 @@
 import organisationService from '../services/organisation.service.js'
-import authService from "../services/auth.service.js";
+import TypeService from "../services/type.service.js";
+import typeOrganisationService from "../services/typeOrganisation.service.js";
 
 async function creationOrganisation(c) {
-  try {
-    const data = c.req.valid('json')
-    await organisationService.createOrganisation(data);
-    return c.json({
-      message: 'organisation crée avec sucess.'
-    }, 201)
-  } catch (error) {
-    console.error(error)
-    return c.json({ error: 'non ok' }, 400)
-  }
+    try {
+        const data = c.req.valid('json')
+        const parts = c.req.path.split("/api/");
+        if (!data) {
+            return c.json({ error: 'Data JSON invalid or missing.' }, 400);
+        }
+        if (parts.length <= 1) {
+            return c.json({ error: 'URL invalid, missing category.' }, 400);
+        }
+        data.category = parts[1];
+        await organisationService.createOrganisation(data);
+        return c.json({
+            message: `${ data.category } created successfully.`
+        }, 201)
+    } catch (error) {
+        console.error(error)
+        return c.json({ error: `${ data.category } created failed.` }, 400)
+    }
 }
-async function deleteOrganisation(c) {
-  try {
-    const data = c.req.valid('json')
-    await organisationService.deleteOrganisation(data);
-    return c.json({
-      message: 'organisation supprimer avec sucess.'
-    }, 201)
-  } catch (error) {
-    console.error(error)
-    return c.json({ error: 'non ok' }, 400)
-  }
-}
-
-async function getAllOrganisations(c) {
-  try {
-    const organisation = await organisationService.getAllOrganisations();
-    return c.json({
-      message: 'Liste organisation ok.',
-      organisation: organisation
-    }, 200)
-  } catch (error) {
-    console.error(error)
-    return c.json({ error: 'non ok' }, 400)
-  }
+async function softDeleteOrganisation(c) {
+    try {
+        const id = c.req.param('id')
+        const path = c.req.path.match(/\/([a-zA-Z]+)\/(\d+)/);
+        await organisationService.softDeleteOrganisation(id);
+        return c.json({
+            message: `${ path[1] } deleted successfully.`
+        }, 201)
+    } catch (error) {
+        console.error(error)
+        return c.json({ error: `${ path[1]  } deleted failed.` }, 400)
+    }
 }
 
-async function findOrganisationByName(c) {
-  try {
-    const data  = c.req.valid('json');
+async function getAllOrganisationsByCategory(c) {
+    try {
+        const testUrl = c.req.url.match(/restaurant/i);
+        const category = (testUrl[0])  ? testUrl[0] : 'association';
+        const organisations = await organisationService.getAllOrganisationsByCategory(category);
+        return c.json({
+            message: `Get all ${ category }s successfull`,
+            organisations: organisations
+        }, 200)
+    } catch (error) {
+        console.error(error)
+        return c.json({ error: `Get all ${ category }s failes` }, 400)
+    }
+}
 
-    const organisation = await organisationService.findOrganisationByName(data);
+async function updateOrganisation(c) {
+    try {
+        const id = c.req.param('id');
+        const data  = c.req.valid('json');
+        const testUrl = c.req.url.match(/restaurant/i);
+        const type = (testUrl[0])  ? testUrl[0] : 'association';
+        if (!id || !data) {
+            return c.json({ error: 'Missing required fields' }, 400);
+        }
+        await organisationService.updateOrganisation(id,data);
+        return c.json({message: `Update ${ type } successfull`}, 201);
+    } catch (error) {
+        console.error(error);
+        return c.json({error: `Update ${ type } failed`}, 400)
+    }
+}
 
-    if (!organisation) {
-      return c.json({ message: 'L organisation nexiste pas.' }, 404);
+async function getTypesForRestaurant(c) {
+    try {
+        const id = c.req.param('id');
+        const result = await typeOrganisationService.getTypesForRestaurant(id);
+        return c.json({message: `Get type for restaurant successfull` , types: result}, 201);
+    } catch (error) {
+        console.error(error);
+        return c.json({error: `Get type for restaurant failed`}, 400)
     }
 
-    return c.json(organisation, 200);
-  } catch (error) {
-    console.error('Erreur lors de la recherche de lorganisation:', error);
-    return c.json({ error: 'Erreur serveur' }, 500);
-  }
 }
 
 
-
-
-export { creationOrganisation , deleteOrganisation ,findOrganisationByName, getAllOrganisations}
+export { creationOrganisation  ,updateOrganisation, getAllOrganisationsByCategory,
+    softDeleteOrganisation, getTypesForRestaurant }
