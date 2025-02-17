@@ -70,39 +70,41 @@ export default function Header() {
                 </NavigationMenu>
             )}
 
-            {token && isMobile && (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline">
-                            <Menu />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-[250px]">
-                        {menuItems.map((item, index) => (
-                            <DropdownMenuItem key={index} className="flex flex-col">
-                                <span className="font-bold">{item.title}</span>
-                                {item.links.map((link, i) => (
-                                    <a key={i} href="" className="text-sm pl-2">{link}</a>
-                                ))}
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )}
+            <div className="flex items-center gap-2">
+                {token && isMobile && (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline">
+                                <Menu />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[250px]">
+                            {menuItems.map((item, index) => (
+                                <DropdownMenuItem key={index} className="flex flex-col">
+                                    <span className="font-bold">{item.title}</span>
+                                    {item.links.map((link, i) => (
+                                        <a key={i} href="" className="text-sm pl-2">{link}</a>
+                                    ))}
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )}
 
-            {token != null ? (
-                <Button
-                    className="self-center bg-white text-black hover:bg-gray-200 px-2 py-2 flex"
-                    onClick={logout}
-                >
-                    <LogOut /> Déconnexion
-                </Button>
-            ) : (
-                <div className="flex gap-2 items-center">
-                    <Button onClick={toLogin}>Connexion</Button>
-                    <Button onClick={toRegister}>Inscription</Button>
-                </div>
-            )}
+                {token != null ? (
+                    <Button
+                        className="self-center bg-white text-black hover:bg-gray-200 px-2 py-2 flex"
+                        onClick={logout}
+                    >
+                        <LogOut /> Déconnexion
+                    </Button>
+                ) : (
+                    <div className="flex gap-2 items-center">
+                        <Button onClick={toLogin}>Connexion</Button>
+                        <Button onClick={toRegister}>Inscription</Button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
