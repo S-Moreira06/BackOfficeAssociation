@@ -18,8 +18,8 @@ export default function Login() {
   const { register, handleSubmit } = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "fatima.elmouhine@laplateforme.io",
-      password: "Atelier123"
+      email: "soso@soso.fr",
+      password: "Azerty06!"
 
     }
   })
