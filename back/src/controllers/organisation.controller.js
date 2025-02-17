@@ -1,4 +1,6 @@
 import organisationService from '../services/organisation.service.js'
+import TypeService from "../services/type.service.js";
+import typeOrganisationService from "../services/typeOrganisation.service.js";
 
 async function creationOrganisation(c) {
     try {
@@ -34,18 +36,18 @@ async function softDeleteOrganisation(c) {
     }
 }
 
-async function getAllOrganisationsByType(c) {
+async function getAllOrganisationsByCategory(c) {
     try {
         const testUrl = c.req.url.match(/restaurant/i);
-        const type = (testUrl[0])  ? testUrl[0] : 'association';
-        const organisations = await organisationService.getAllOrganisationsByType(type);
+        const category = (testUrl[0])  ? testUrl[0] : 'association';
+        const organisations = await organisationService.getAllOrganisationsByCategory(category);
         return c.json({
-            message: `Get all ${ type }s successfull`,
+            message: `Get all ${ category }s successfull`,
             organisations: organisations
         }, 200)
     } catch (error) {
         console.error(error)
-        return c.json({ error: `Get all ${ type }s failes` }, 400)
+        return c.json({ error: `Get all ${ category }s failes` }, 400)
     }
 }
 
@@ -66,6 +68,20 @@ async function updateOrganisation(c) {
     }
 }
 
+async function getTypesForRestaurant(c) {
+    try {
+        console.error('toto');
+        const id = c.req.param('id');
+        const result = await typeOrganisationService.getTypesForRestaurant(id);
+        console.error(id);
+        return c.json({message: `Get type for restaurant successfull` , types: result}, 201);
+    } catch (error) {
+        console.error(error);
+        return c.json({error: `Get type for restaurant failed`}, 400)
+    }
+
+}
 
 
-export { creationOrganisation  ,updateOrganisation, getAllOrganisationsByType, softDeleteOrganisation}
+export { creationOrganisation  ,updateOrganisation, getAllOrganisationsByCategory,
+    softDeleteOrganisation, getTypesForRestaurant }

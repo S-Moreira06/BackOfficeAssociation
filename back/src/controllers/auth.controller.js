@@ -78,9 +78,6 @@ async function verifyUserEmail(c) {
   }
 }
 
-<<<<<<< HEAD
-export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification }
-=======
 async function deleteUser(c) {
   try {
     const data = c.req.valid('json')
@@ -94,7 +91,6 @@ async function deleteUser(c) {
   }
 }
 
-
 export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification, deleteUser }
->>>>>>> dev
+
 

@@ -24,7 +24,7 @@ async function softDeleteOrganisation(id){
     throw err;
   }
 }
-async function getAllOrganisationsByType(type) {
+async function getAllOrganisationsByCategory(category) {
   const query = 'SELECT * FROM organisation where category = ?';
   const result = await db.prepare(query).all(type);
   return result;
@@ -63,9 +63,11 @@ async function updateOrganisation(organisationId, data) {
   }
 }
 
+
+
 export default {
   createOrganisation,
   softDeleteOrganisation ,
-  getAllOrganisationsByType,
+  getAllOrganisationsByCategory,
   updateOrganisation
 };

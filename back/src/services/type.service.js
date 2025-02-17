@@ -56,6 +56,7 @@ async function updateType(typeId, data) {
     }
 }
 
+
     export default {
         creationType,
             deleteType,

@@ -5,7 +5,7 @@
 */
 export async function seed(client) {
     //await client.execute("DELETE FROM type_organisation;");
-    await client.execute(`INSERT INTO request (id_organisation, id_type)
+    await client.execute(`INSERT INTO type_organisation (id_organisation, id_type)
 VALUES
     (1, 2),
     (2, 3),

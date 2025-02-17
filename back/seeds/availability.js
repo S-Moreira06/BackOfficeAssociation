@@ -4,7 +4,7 @@
 * @returns { Promise<void> }
 */
 export async function seed(client) {
-    await client.execute("DELETE FROM availability;");
+   // await client.execute("DELETE FROM availability;");
     await client.execute(`INSERT INTO availability (restaurant_id, date, time_start, time_end, deadline_accept,
                                                     on_site, take_away, max_people, price, commentary)
                           VALUES 

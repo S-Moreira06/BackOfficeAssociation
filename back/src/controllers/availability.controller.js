@@ -68,7 +68,7 @@ async function updateAvailability(c) {
         }
         await availabilityService.updateAvailability(availabilityId, data);
         return c.json({
-            message: 'update availability done'
+            message: 'Update availability successfull'
         }, 201)
     } catch (error) {
         console.error(error);

@@ -1,9 +1,15 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { z } from 'zod';
-import {creationOrganisation, softDeleteOrganisation, getAllOrganisationsByType , updateOrganisation} from "../controllers/organisation.controller.js";
-
+import {
+    creationOrganisation,
+    softDeleteOrganisation,
+    getAllOrganisationsByCategory,
+    updateOrganisation,
+    getTypesForRestaurant,
+} from "../controllers/organisation.controller.js";
 const restaurantRouter = new Hono();
+
 restaurantRouter.post(
     "/", zValidator('json', z.object({
             name: z.string(),
@@ -22,7 +28,7 @@ restaurantRouter.post(
 )
 restaurantRouter.delete('/:id', softDeleteOrganisation );
 
-restaurantRouter.get('/', getAllOrganisationsByType);
+restaurantRouter.get('/', getAllOrganisationsByCategory);
 
 restaurantRouter.put(
     '/:id',
@@ -42,6 +48,8 @@ restaurantRouter.put(
             image: z.string().optional()
         })), updateOrganisation
 );
+
+restaurantRouter.get('/:id/type', getTypesForRestaurant );
 
 export default restaurantRouter;
 
