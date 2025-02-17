@@ -56,7 +56,6 @@ async function softDeleteAvailability(availabilityId){
             return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
         }
         Object.entries(data).forEach(([key, value]) => {
-
             const snakeKey = camelToSnakeCase(key);
             setClauses.push(`${snakeKey} = ?`);
             values.push(value);
