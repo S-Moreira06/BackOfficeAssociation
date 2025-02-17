@@ -71,26 +71,7 @@ export default function Header() {
             )}
 
             <div className="flex items-center gap-2">
-                {token && isMobile && (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline">
-                                <Menu />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-[250px]">
-                            {menuItems.map((item, index) => (
-                                <DropdownMenuItem key={index} className="flex flex-col">
-                                    <span className="font-bold">{item.title}</span>
-                                    {item.links.map((link, i) => (
-                                        <a key={i} href="" className="text-sm pl-2">{link}</a>
-                                    ))}
-                                </DropdownMenuItem>
-                            ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                )}
-
+                
                 {token != null ? (
                     <Button
                         className="self-center bg-white text-black hover:bg-gray-200 px-2 py-2 flex"
@@ -103,6 +84,25 @@ export default function Header() {
                         <Button onClick={toLogin}>Connexion</Button>
                         <Button onClick={toRegister}>Inscription</Button>
                     </div>
+                )}
+                {token && isMobile && (
+                    <DropdownMenu className="">
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="w-[10%]">
+                                <Menu />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[250px] bg-gray-400 ">
+                            {menuItems.map((item, index) => (
+                                <DropdownMenuItem key={index} className="flex flex-col">
+                                    <span className="font-bold">{item.title}</span>
+                                    {item.links.map((link, i) => (
+                                        <a key={i} href="" className="text-sm pl-2">{link}</a>
+                                    ))}
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 )}
             </div>
         </div>
