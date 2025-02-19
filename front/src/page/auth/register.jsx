@@ -198,7 +198,7 @@ export default function Register() {
             </div>
             <div className="space-y-2">
               <label htmlFor="description" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Nombre de repas max
+                Description
               </label>
               <Input
                 id="description"
@@ -210,7 +210,7 @@ export default function Register() {
             </div>
             <div className="space-y-2">
               <label htmlFor="image" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Nombre de repas max
+                Image de votre organisation
               </label>
               <Input
                 id="image"
@@ -222,14 +222,13 @@ export default function Register() {
             </div>
             <div className="space-y-2">
               <label htmlFor="menu" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Nombre de repas max
+                Menu
               </label>
               <Input
                 id="menu"
                 type="menu"
                 placeholder="Enter your menu"
                 {...register("menu")}
-                required
               />
             </div>               
             {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}

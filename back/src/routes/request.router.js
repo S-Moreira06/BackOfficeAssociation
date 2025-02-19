@@ -20,7 +20,7 @@ requestRouter.post(
             max_meal: z.string().min(2).regex(/^\d+$/, "Le champ doit contenir uniquement des chiffres"),
             description: z.string().min(2),
             image: z.string().min(2),
-            menu: z.string().min(2),
+            menu: z.optional(z.string()),
         })
     ),
     createRequest
