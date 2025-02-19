@@ -7,6 +7,25 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
+import { useMutation } from "@tanstack/react-query"
+import { useForm } from "react-hook-form"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
+
+const requestSchema = z.object({
+  name: z.string(),
+  contact: z.string(),
+  email: z.string().email("Email invalide"), 
+  phone: z.string(), 
+  address: z.string(), 
+  zip: z.string(), 
+  city: z.string(), 
+  siret: z.string(), 
+  type: z.string()
+}
+)
+
 
 export default function Register() {
   const [name, setName] = useState('')
@@ -20,23 +39,52 @@ export default function Register() {
   const [type, setType] = useState('')
   const [error, setError] = useState('')
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    setError('')
+  // const handleSubmit = (event) => {
+  //   event.preventDefault()
+  //   setError('')
 
-    // Here you would typically handle the registration logic
-    console.log('Registration attempt with:', { name, contact, email, phone, address, zip, city, siret, type })
-    // Reset form fields after submission
-    setName('')
-    setContact('')
-    setEmail('')
-    setPhone('')
-    setAddress('')
-    setZip('')
-    setCity('')
-    setSiret('')
-    setType('')
-  }
+  //   // Here you would typically handle the registration logic
+  //   console.log('Registration attempt with:', { name, contact, email, phone, address, zip, city, siret, type })
+  //   // Reset form fields after submission
+  //   setName('')
+  //   setContact('')
+  //   setEmail('')
+  //   setPhone('')
+  //   setAddress('')
+  //   setZip('')
+  //   setCity('')
+  //   setSiret('')
+  //   setType('')
+  // }
+  const { register, handleSubmit } = useForm({
+      resolver: zodResolver(requestSchema),
+      defaultValues: {
+        name: "asso1", 
+        contact: "Pierre Grolar", 
+        email: "pierregrolar@gmail.fr",
+        phone: "0606060666", 
+        address:"726 Avenue de la rue", 
+        zip: "01001", 
+        city: "LA VILLE", 
+        siret: "71617851785385", 
+        type: "Asso"
+      }
+    })
+
+    const requestMutation = useMutation({
+      mutationFn: async (newTodo) => {
+        return await request(newTodo)
+      },
+      onSuccess: (data, variables, context) => {
+        console.log("data", data)
+        window.location = "/"
+      },
+  
+    })
+
+    const onSubmit = (data) => {
+      requestMutation.mutate(data)
+    }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -45,7 +93,7 @@ export default function Register() {
           <CardTitle className="text-2xl font-bold">Demande d'inscription</CardTitle>
           <CardDescription>Suite a votre demande, vous serrez contacté par un administrateur dans les plus brefs delais</CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -55,8 +103,7 @@ export default function Register() {
                 id="name"
                 type="text"
                 placeholder="Enter your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                {...register("name")}
                 required
               />
             </div>
@@ -68,8 +115,7 @@ export default function Register() {
                 id="contact"
                 type="text"
                 placeholder="Entrez le nom du contact"
-                value={contact}
-                onChange={(e) => setContact(e.target.value)}
+                {...register("contact")}
                 required
               />
             </div>
@@ -81,8 +127,7 @@ export default function Register() {
                 id="email"
                 type="email"
                 placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email")}
                 required
               />
             </div>
@@ -94,8 +139,7 @@ export default function Register() {
                 id="phone"
                 type="phone"
                 placeholder="Enter your phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                {...register("phone")}
                 required
               />
             </div>
@@ -107,8 +151,7 @@ export default function Register() {
                 id="address"
                 type="address"
                 placeholder="Enter your address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                {...register("address")}
                 required
               />
             </div>
@@ -120,8 +163,7 @@ export default function Register() {
                 id="zip"
                 type="zip"
                 placeholder="Enter your zip"
-                value={zip}
-                onChange={(e) => setZip(e.target.value)}
+                {...register("zip")}
                 required
               />
             </div>
@@ -133,8 +175,7 @@ export default function Register() {
                 id="city"
                 type="city"
                 placeholder="Enter your city"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
+                {...register("city")}
                 required
               />
             </div>
@@ -146,8 +187,7 @@ export default function Register() {
                 id="siret"
                 type="siret"
                 placeholder="Enter your siret"
-                value={siret}
-                onChange={(e) => setSiret(e.target.value)}
+                {...register("siret")}
                 required
               />
             </div>
@@ -159,8 +199,7 @@ export default function Register() {
                 id="type"
                 type="type"
                 placeholder="Enter your type"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
+                {...register("type")}
                 required
               />
             </div>              
