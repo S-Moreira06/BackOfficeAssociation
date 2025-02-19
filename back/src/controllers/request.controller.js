@@ -15,7 +15,7 @@ async function createRequest(c) {
 
 async function deleteRequest(c) {
   try {
-    const data = c.req.valid('json')
+    const data = c.req.valid('param')
     await requestService.deleteRequest(data)
     return c.json({
       message: 'request archived.'

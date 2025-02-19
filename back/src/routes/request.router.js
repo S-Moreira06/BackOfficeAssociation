@@ -6,7 +6,7 @@ import { createRequest, deleteRequest, getAllRequest } from "../controllers/requ
 const requestRouter = new Hono()
 
 requestRouter.post(
-    "/newRequest", zValidator('json',
+    "/", zValidator('json',
         z.object({
             name: z.string().min(2),
             address: z.string().min(2),
@@ -26,9 +26,9 @@ requestRouter.post(
     createRequest
 );
 
-requestRouter.post(
-    "/delete", 
-    zValidator('json', 
+requestRouter.delete(
+    "/:id", 
+    zValidator('param', 
         z.object(
         {
             id: z.string()
@@ -38,5 +38,6 @@ requestRouter.post(
 );
 
 requestRouter.get('/',getAllRequest);
+
 
 export default requestRouter;
