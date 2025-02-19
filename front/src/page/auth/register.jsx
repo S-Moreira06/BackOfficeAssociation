@@ -22,40 +22,17 @@ const requestSchema = z.object({
   zip: z.string(), 
   city: z.string(), 
   siret: z.string(), 
-  type: z.string()
+  type: z.string(),
+  max_meal: z.string(),
+  description: z.string(),
+  image: z.string(),
+  menu: z.string()
 }
 )
 
 
 export default function Register() {
-  const [name, setName] = useState('')
-  const [contact, setContact] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [address, setAddress] = useState('')
-  const [zip, setZip] = useState('')
-  const [city, setCity] = useState('')
-  const [siret, setSiret] = useState('')
-  const [type, setType] = useState('')
-  const [error, setError] = useState('')
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault()
-  //   setError('')
-
-  //   // Here you would typically handle the registration logic
-  //   console.log('Registration attempt with:', { name, contact, email, phone, address, zip, city, siret, type })
-  //   // Reset form fields after submission
-  //   setName('')
-  //   setContact('')
-  //   setEmail('')
-  //   setPhone('')
-  //   setAddress('')
-  //   setZip('')
-  //   setCity('')
-  //   setSiret('')
-  //   setType('')
-  // }
   const { register, handleSubmit } = useForm({
       resolver: zodResolver(requestSchema),
       defaultValues: {
@@ -67,7 +44,11 @@ export default function Register() {
         zip: "01001", 
         city: "LA VILLE", 
         siret: "71617851785385", 
-        type: "Asso"
+        type: "Asso",
+        max_meal: "12",
+        description: "Voici une description pour tester",
+        image: "image.png",
+        menu: "menu.png"
       }
     })
 
@@ -75,7 +56,7 @@ export default function Register() {
       mutationFn: async (newTodo) => {
         return await request(newTodo)
       },
-      onSuccess: (data, variables, context) => {
+      onSuccess: (data) => {
         console.log("data", data)
         window.location = "/"
       },
@@ -202,8 +183,56 @@ export default function Register() {
                 {...register("type")}
                 required
               />
-            </div>              
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="max_meal" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Nombre de repas max
+              </label>
+              <Input
+                id="max_meal"
+                type="max_meal"
+                placeholder="Enter your max_meal"
+                {...register("max_meal")}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="description" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Nombre de repas max
+              </label>
+              <Input
+                id="description"
+                type="description"
+                placeholder="Enter your description"
+                {...register("description")}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="image" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Nombre de repas max
+              </label>
+              <Input
+                id="image"
+                type="image"
+                placeholder="Enter your image"
+                {...register("image")}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="menu" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Nombre de repas max
+              </label>
+              <Input
+                id="menu"
+                type="menu"
+                placeholder="Enter your menu"
+                {...register("menu")}
+                required
+              />
+            </div>               
+            {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
           </CardContent>
           <CardFooter>
             <Button type="submit" className="w-full">
