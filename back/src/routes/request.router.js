@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { createRequest, deleteRequest, getAllRequest } from "../controllers/request.controller.js";
+import { createRequest, deleteRequest, getAllRequest, getRequest } from "../controllers/request.controller.js";
 
 const requestRouter = new Hono()
 
@@ -38,6 +38,8 @@ requestRouter.delete(
 );
 
 requestRouter.get('/',getAllRequest);
+
+requestRouter.get('/:id',getRequest);
 
 
 export default requestRouter;

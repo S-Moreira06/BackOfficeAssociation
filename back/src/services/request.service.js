@@ -1,5 +1,6 @@
 import db from '../config/database.js'
 
+
 async function createRequest(data) {
   const query = `
     INSERT INTO request (name, address, zip, city, siret, type, contact, email, phone, max_meal, description, image, menu)
@@ -24,10 +25,16 @@ async function deleteRequest(requestId) {
   return await db.prepare('SELECT is_archived FROM request WHERE id= ?').get(requestId.id);
 }
 
-async function getAllRequest(req,res) {
+async function getAllRequest() {
   const query = 'SELECT * FROM request';
   const result = await db.prepare(query).all()
   return result;
 }
 
-export default {createRequest, deleteRequest, getAllRequest};
+async function getRequest(id) {
+  const query = 'SELECT * FROM request WHERE id=?';
+  const result = await db.prepare(query).get(id)
+  return result;
+}
+
+export default {createRequest, deleteRequest, getAllRequest, getRequest};
