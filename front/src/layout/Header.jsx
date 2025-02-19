@@ -45,7 +45,7 @@ export default function Header() {
     ];
 
     return (
-        <div className="sticky top-0 bg-white flex justify-between items-center border-b px-10 py-2">
+        <div className="sticky top-0 bg-white flex justify-between items-center border-b px-8 py-2">
             <img src={logo} alt="" className="w-[5%] min-w-[50px]" />
             {token && !isMobile && (
                 <NavigationMenu>
@@ -70,7 +70,7 @@ export default function Header() {
                 </NavigationMenu>
             )}
 
-            <div className="flex items-center gap-2">
+            <div className="flex justify-between items-center">
                 
                 {token != null ? (
                     <Button
@@ -80,9 +80,9 @@ export default function Header() {
                         <LogOut /> Déconnexion
                     </Button>
                 ) : (
-                    <div className="flex gap-2 items-center">
-                        <Button onClick={toLogin}>Connexion</Button>
-                        <Button onClick={toRegister}>Inscription</Button>
+                    <div className="flex items-center ">
+                        <Button className="px-2 py-2" onClick={toLogin}>Connexion</Button>
+                        <Button className="px-2 py-2" onClick={toRegister}>Inscription</Button>
                     </div>
                 )}
                 {token && isMobile && (
