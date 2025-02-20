@@ -39,19 +39,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod";
 
 const requestSchema = z.object({
+  type: z.string(),
   name: z.string(),
-  contact: z.string(),
-  email: z.string().email("Email invalide"), 
-  phone: z.string(), 
   address: z.string(), 
   zip: z.string(), 
-  city: z.string(), 
-  siret: z.string(), 
-  type: z.string(),
-  max_meal: z.string(),
-  description: z.string(),
-  image: z.string(),
-  menu: z.string()
+  city: z.string(),
+  firstname: z.string(),
+  lastname: z.string(),
+  email: z.string().email("Email invalide"), 
+  phone: z.string()
 }
 );
 
@@ -61,22 +57,19 @@ export default function Register() {
   const { register, handleSubmit, setValue } = useForm({
       resolver: zodResolver(requestSchema),
       defaultValues: {
+        type: "association",
         name: "asso1", 
-        contact: "Pierre Grolar", 
-        email: "pierregrolar@gmail.fr",
-        phone: "0606060666", 
         address:"726 Avenue de la rue", 
         zip: "01001", 
-        city: "LA VILLE", 
-        siret: "71617851785385", 
-        type: "Asso",
-        max_meal: "12",
-        description: "Voici une description pour tester",
-        image: "image.png",
-        menu: "menu.png"
+        city: "LA VILLE",
+        firstname: "Pierre",
+        lastname: "Grolar",
+        email: "pierregrolar@gmail.fr",
+        phone: "0606060666"
+        
       }
     });
-    const [selectedType, setSelectedType] = useState("");
+    
 
     const requestMutation = useMutation({
       mutationFn: async (newTodo) => {
@@ -94,7 +87,6 @@ export default function Register() {
 
     const handleSelectChange = (value) => {
       setValue("type", value);
-      setSelectedType(value);
     };
 
   return (
@@ -124,54 +116,19 @@ export default function Register() {
             </Select>
             <input type="hidden" {...register("type", { required: true })} />
           </div>
-            <div className="space-y-2">
+          <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 Nom de l'organisation
               </label>
               <Input
                 id="name"
                 type="text"
-                placeholder="Enter your name"
+                placeholder="Enter organisation's name"
                 {...register("name")}
                 required
               />
             </div>
-            <div className="space-y-2">
-              <label htmlFor="contact" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Contact
-              </label>
-              <Input
-                id="contact"
-                type="text"
-                placeholder="Entrez le nom du contact"
-                {...register("contact")}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Email
-              </label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                {...register("email")}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="phone" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Téléphone
-              </label>
-              <Input
-                id="phone"
-                type="phone"
-                placeholder="Enter your phone"
-                {...register("phone")}
-                required
-              />
-            </div>
+            
             <div className="space-y-2">
               <label htmlFor="address" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 Adresse
@@ -209,68 +166,57 @@ export default function Register() {
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="siret" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Siret
+              <label htmlFor="firstname" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Prénom du contact
               </label>
               <Input
-                id="siret"
-                type="siret"
-                placeholder="Enter your siret"
-                {...register("siret")}
+                id="firstname"
+                type="text"
+                placeholder="Enter your firstname"
+                {...register("firstname")}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="lastname" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Nom du contact
+              </label>
+              <Input
+                id="lastname"
+                type="text"
+                placeholder="Enter your lastname"
+                {...register("lastname")}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Email
+              </label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                {...register("email")}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="phone" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Téléphone
+              </label>
+              <Input
+                id="phone"
+                type="phone"
+                placeholder="Enter your phone"
+                {...register("phone")}
                 required
               />
             </div>
             
             
-            <div className="space-y-2">
-              <label htmlFor="max_meal" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Nombre de repas max
-              </label>
-              <Input
-                id="max_meal"
-                type="max_meal"
-                placeholder="Enter your max_meal"
-                {...register("max_meal")}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="description" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Description
-              </label>
-              <Input
-                id="description"
-                type="description"
-                placeholder="Enter your description"
-                {...register("description")}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="image" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Image de votre organisation
-              </label>
-              <Input
-                id="image"
-                type="image"
-                placeholder="Enter your image"
-                {...register("image")}
-                required
-              />
-            </div>
-            {selectedType === "restaurant" && (
-              <div className="space-y-2 mt-4">
-                <label htmlFor="menu" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  Menu
-                </label>
-                <Input
-                  id="menu"
-                  type="text"
-                  placeholder="Enter menu details"
-                  {...register("menu")}
-                />
-              </div>
-            )}               
+            
+                        
             {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
           </CardContent>
           <CardFooter>
