@@ -75,7 +75,7 @@ export default function Register() {
         image: "image.png",
         menu: "menu.png"
       }
-    })
+    });
     const [selectedType, setSelectedType] = useState("");
 
     const requestMutation = useMutation({
@@ -86,8 +86,7 @@ export default function Register() {
         console.log("data", data)
         window.location = "/"
       },
-  
-    })
+    });
 
     const onSubmit = (data) => {
       requestMutation.mutate(data)
