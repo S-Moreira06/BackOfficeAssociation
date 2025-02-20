@@ -8,19 +8,15 @@ const requestRouter = new Hono()
 requestRouter.post(
     "/", zValidator('json',
         z.object({
+            type: z.string(),
             name: z.string().min(2),
             address: z.string().min(2),
             zip: z.string().min(5).max(6).regex(/^\d+$/, "Le champ doit contenir uniquement des chiffres"),
             city: z.string().min(2),
-            siret: z.string().min(2),
-            type: z.string(),
-            contact: z.string().min(2),
+            firstname: z.string().min(2),
+            lastname: z.string().min(2),
             email: z.string().email("Invalid email"),
-            phone: z.string().min(2).regex(/^\d+$/, "Le champ doit contenir uniquement des chiffres"),
-            max_meal: z.string().min(2).regex(/^\d+$/, "Le champ doit contenir uniquement des chiffres"),
-            description: z.string().min(2),
-            image: z.string().min(2),
-            menu: z.optional(z.string()),
+            phone: z.string().min(2).regex(/^\d+$/, "Le champ doit contenir uniquement des chiffres")
         })
     ),
     createRequest
