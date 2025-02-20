@@ -124,11 +124,24 @@ export default function Register() {
                 id="name"
                 type="text"
                 placeholder="Enter organisation's name"
+                name="name"
                 {...register("name")}
                 required
               />
             </div>
-            
+            <div className="space-y-2">
+              <label htmlFor="phone" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Téléphone
+              </label>
+              <Input
+                id="phone"
+                type="phone"
+                placeholder="Enter your phone"
+                name="phone"
+                {...register("phone")}
+                required
+              />
+            </div>
             <div className="space-y-2">
               <label htmlFor="address" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 Adresse
@@ -137,6 +150,7 @@ export default function Register() {
                 id="address"
                 type="address"
                 placeholder="Enter your address"
+                name="address"
                 {...register("address")}
                 required
               />
@@ -149,6 +163,7 @@ export default function Register() {
                 id="zip"
                 type="zip"
                 placeholder="Enter your zip"
+                name="zip"
                 {...register("zip")}
                 required
               />
@@ -161,6 +176,7 @@ export default function Register() {
                 id="city"
                 type="city"
                 placeholder="Enter your city"
+                name="city"
                 {...register("city")}
                 required
               />
@@ -173,6 +189,7 @@ export default function Register() {
                 id="firstname"
                 type="text"
                 placeholder="Enter your firstname"
+                name="firstname"
                 {...register("firstname")}
                 required
               />
@@ -185,6 +202,7 @@ export default function Register() {
                 id="lastname"
                 type="text"
                 placeholder="Enter your lastname"
+                name="lastname"
                 {...register("lastname")}
                 required
               />
@@ -197,22 +215,12 @@ export default function Register() {
                 id="email"
                 type="email"
                 placeholder="Enter your email"
+                name="email"
                 {...register("email")}
                 required
               />
             </div>
-            <div className="space-y-2">
-              <label htmlFor="phone" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Téléphone
-              </label>
-              <Input
-                id="phone"
-                type="phone"
-                placeholder="Enter your phone"
-                {...register("phone")}
-                required
-              />
-            </div>
+            
             
             
             
