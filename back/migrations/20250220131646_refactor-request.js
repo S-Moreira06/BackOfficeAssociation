@@ -1,0 +1,26 @@
+/**
+* Migrates the database schema upward, making changes to bring the schema toward the latest version.
+* @param client - The libsql client to use when migrating.
+* @returns { Promise<void> }
+*/
+export async function up(client) {
+    await client.execute(
+      `
+      ALTER TABLE request RENAME TO old_request;
+      `
+    );
+  }
+  
+  /**
+  * Migrates the database schema downward, making changes to roll the schema back to a previous version.
+  * @param client - The libsql client to use when migrating.
+  * @returns { Promise<void> }
+  */
+  export async function down(client) {
+      await client.execute(
+          `
+          ALTER TABLE old_request RENAME TO request;
+          `
+        );
+  }
+  
