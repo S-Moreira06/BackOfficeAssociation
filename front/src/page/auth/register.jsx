@@ -1,17 +1,42 @@
 'use client'
 
-import { request } from "@/api/request"
+import { request } from "@/api/request";
 
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
 
 import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import * as z from "zod";
 
 const requestSchema = z.object({
   name: z.string(),
@@ -28,12 +53,12 @@ const requestSchema = z.object({
   image: z.string(),
   menu: z.string()
 }
-)
+);
 
 
 export default function Register() {
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, setValue } = useForm({
       resolver: zodResolver(requestSchema),
       defaultValues: {
         name: "asso1", 
@@ -51,6 +76,7 @@ export default function Register() {
         menu: "menu.png"
       }
     })
+    const [selectedType, setSelectedType] = useState("");
 
     const requestMutation = useMutation({
       mutationFn: async (newTodo) => {
@@ -67,6 +93,11 @@ export default function Register() {
       requestMutation.mutate(data)
     }
 
+    const handleSelectChange = (value) => {
+      setValue("type", value);
+      setSelectedType(value);
+    };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md bg-white">
@@ -74,8 +105,26 @@ export default function Register() {
           <CardTitle className="text-2xl font-bold">Demande d'inscription</CardTitle>
           <CardDescription>Suite a votre demande, vous serrez contacté par un administrateur dans les plus brefs delais</CardDescription>
         </CardHeader>
+
+        <Form {...register}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent className="space-y-4">
+            
+          <div className="space-y-2">
+            <label htmlFor="type" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              Type
+            </label>
+            <Select onValueChange={handleSelectChange}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Type d'organisation" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="association">Association</SelectItem>
+                <SelectItem value="restaurant">Restaurant</SelectItem>
+              </SelectContent>
+            </Select>
+            <input type="hidden" {...register("type", { required: true })} />
+          </div>
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 Nom de l'organisation
@@ -172,18 +221,8 @@ export default function Register() {
                 required
               />
             </div>
-            <div className="space-y-2">
-              <label htmlFor="type" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Type
-              </label>
-              <Input
-                id="type"
-                type="type"
-                placeholder="Enter your type"
-                {...register("type")}
-                required
-              />
-            </div>
+            
+            
             <div className="space-y-2">
               <label htmlFor="max_meal" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 Nombre de repas max
@@ -220,17 +259,19 @@ export default function Register() {
                 required
               />
             </div>
-            <div className="space-y-2">
-              <label htmlFor="menu" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Menu
-              </label>
-              <Input
-                id="menu"
-                type="menu"
-                placeholder="Enter your menu"
-                {...register("menu")}
-              />
-            </div>               
+            {selectedType === "restaurant" && (
+              <div className="space-y-2 mt-4">
+                <label htmlFor="menu" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Menu
+                </label>
+                <Input
+                  id="menu"
+                  type="text"
+                  placeholder="Enter menu details"
+                  {...register("menu")}
+                />
+              </div>
+            )}               
             {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
           </CardContent>
           <CardFooter>
@@ -238,8 +279,11 @@ export default function Register() {
               Register
             </Button>
           </CardFooter>
+          
         </form>
+        </Form>
       </Card>
+      
     </div>
   )
 }
