@@ -175,6 +175,15 @@ async function sendEmailVerification(email) {
   await sendVerificationEmail(email);
 }
 
+async function getAllUsers() {
+  const query = 'SELECT * FROM user';
+
+  const result = await db.prepare(query).all();
+
+  return result;
+
+}
+
 
 export default {
   register,
@@ -186,5 +195,6 @@ export default {
   findUserByEmail,
   createUser,
   updateUser,
-  softDeleteUser
+  softDeleteUser,
+  getAllUsers
 };

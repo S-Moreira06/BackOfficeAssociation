@@ -78,4 +78,9 @@ authRouter.delete(
     deleteUser
 );
 
+authRouter.get(
+  "/",
+  getAllUsers
+);
+
 export default authRouter;
