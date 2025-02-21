@@ -29,8 +29,6 @@ ReactDOM.createRoot(root).render(
         <Route path="/" element={<Home />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
-
-
       </Routes>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
