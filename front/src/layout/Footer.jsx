@@ -9,7 +9,7 @@ export default function Footer() {
                 <ul>
                     <li>Conditions générales d'utilisation</li>
                     <li>Mentions légales</li>
-                    <li>Contacte</li>
+                    <li>Contact</li>
                 </ul>
             </div>
         </div>
