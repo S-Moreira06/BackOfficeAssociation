@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { z } from 'zod';
-import {creationOrganisation, deleteOrganisation, getAllOrganisations , findOrganisationByName} from "../controllers/organisation.controller.js";
+import {creationOrganisation} from "../controllers/organisation.controller.js";
 
 const organisationRouter = new Hono();
 organisationRouter.post(
