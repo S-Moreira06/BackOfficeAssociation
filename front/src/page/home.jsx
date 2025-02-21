@@ -8,15 +8,21 @@ export default function Home() {
   useEffect(()=>{
     console.log("DATA", data)
   }, [data])
+
+  const storedData = localStorage.getItem("accessToken")
   
   return (
     <div className='px-20 py-5'>
       <h2 className='text-xl'>Liste d'utilisateurs</h2>
-      <ol className='flex gap-8 flex-col mt-10'>
-        {data?.length > 0 && data.map((user)=>{
-          return (<li key={user.id}>{user?.name}</li>)
-        })}
-      </ol>
-  </div>
+      {storedData ? (
+        <ol className='flex gap-4 flex-col mt-10'>
+          {data?.length > 0 && data.map((user)=>{
+            return (<li key={user.id}>{user?.name}</li>)
+          })}
+        </ol>
+      ):(
+        <p>Connectez-vous pour charger la liste des utilisateurs</p>
+      )}
+    </div>
   )
 }
