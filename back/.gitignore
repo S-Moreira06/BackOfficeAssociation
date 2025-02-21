@@ -29,5 +29,6 @@ lerna-debug.log*
 ../.DS_Store
 ../.idea/
 /src/encrypt.js
+
 # db
 mydb.db
