@@ -26,4 +26,4 @@ async function deleteUserOrganisation(id) {
 }
 
 
-export default { createTypeOrganisation, getTypesForRestaurant, deleteTypeOrganisation }
+export default { createUserOrganisation, getUsersForOrganisation, deleteUserOrganisation }
