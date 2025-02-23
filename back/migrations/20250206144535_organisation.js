@@ -11,7 +11,7 @@ export async function up(client) {
         address VARCHAR(255)NOT NULL,   
         zip VARCHAR(6)  NOT NULL,
         city VARCHAR(50) NOT NULL,
-        siret VARCHAR(50)NOT NULL,
+        siret VARCHAR(14)NOT NULL,
         category VARCHAR(6)NOT NULL,
         contact VARCHAR(50)NOT NULL,   
         email VARCHAR(255)NOT NULL,
@@ -23,7 +23,8 @@ export async function up(client) {
         is_archived BOOLEAN DEFAULT FALSE,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME,
-        deleted_at DATETIME
+        deleted_at DATETIME,
+        UNIQUE (name, address, city, zip, siret)
         )`
     );
 }

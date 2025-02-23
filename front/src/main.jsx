@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, useRouteError } from "react-router-dom";
 import './index.css'
 import Header from "./layout/Header";
+import Footer from "@/layout/Footer"
 import Login from "./page/auth/login";
 import Home from "./page/home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -30,6 +31,7 @@ ReactDOM.createRoot(root).render(
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
       </Routes>
+      <Footer />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </BrowserRouter>

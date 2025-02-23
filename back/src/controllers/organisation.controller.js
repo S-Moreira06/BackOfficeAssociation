@@ -1,19 +1,18 @@
 import organisationService from '../services/organisation.service.js'
 import TypeService from "../services/type.service.js";
 import typeOrganisationService from "../services/typeOrganisation.service.js";
+import OrganisationService from "../services/organisation.service.js";
 
 async function creationOrganisation(c) {
     try {
-        const data = c.req.valid('json')
+        const data  = c.req.valid('json');
+
         const parts = c.req.path.split("/api/");
-        if (!data) {
-            return c.json({ error: 'Data JSON invalid or missing.' }, 400);
-        }
-        if (parts.length <= 1) {
-            return c.json({ error: 'URL invalid, missing category.' }, 400);
-        }
+
         data.category = parts[1];
+
         await organisationService.createOrganisation(data);
+
         return c.json({
             message: `${ data.category } created successfully.`
         }, 201)
@@ -39,7 +38,7 @@ async function softDeleteOrganisation(c) {
 async function getAllOrganisationsByCategory(c) {
     try {
         const testUrl = c.req.url.match(/restaurant/i);
-        const category = (testUrl[0])  ? testUrl[0] : 'association';
+        const category = testUrl ? testUrl[0] : 'association';
         const organisations = await organisationService.getAllOrganisationsByCategory(category);
         return c.json({
             message: `Get all ${ category }s successfull`,
@@ -56,10 +55,7 @@ async function updateOrganisation(c) {
         const id = c.req.param('id');
         const data  = c.req.valid('json');
         const testUrl = c.req.url.match(/restaurant/i);
-        const type = (testUrl[0])  ? testUrl[0] : 'association';
-        if (!id || !data) {
-            return c.json({ error: 'Missing required fields' }, 400);
-        }
+        const type = testUrl?.[0] ?? 'association';
         await organisationService.updateOrganisation(id,data);
         return c.json({message: `Update ${ type } successfull`}, 201);
     } catch (error) {
@@ -80,6 +76,23 @@ async function getTypesForRestaurant(c) {
 
 }
 
+async function findOrganisationById(c) {
+    try {
+        const testUrl = c.req.url.match(/restaurant/i);
+        const category = testUrl ? testUrl[0] : 'association';
+        const id = c.req.param('id');
+        const organisation = await OrganisationService.findOrganisationById(id);
+        return c.json({
+            message: `Get  ${ category } detail successfull`,
+            organisation: organisation
+        }, 200)
+    } catch (error) {
+        console.error(error)
+        return c.json({ error: `Get  ${ category } detail failed` }, 400)
+    }
+
+}
+
 
 export { creationOrganisation  ,updateOrganisation, getAllOrganisationsByCategory,
-    softDeleteOrganisation, getTypesForRestaurant }
+    softDeleteOrganisation, getTypesForRestaurant, findOrganisationById }
