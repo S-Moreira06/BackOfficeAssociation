@@ -3,7 +3,7 @@ import logo from "@/assets/logo-white.png"
 export default function Footer() {
     
     return (
-        <div className="bg-gray-800 px-5 py-1 flex justify-between">
+        <div className="bg-gray-800 px-5 py-1 absolute bottom-0 w-screen flex justify-between">
             <img src={logo} alt="" className="w-[8%] min-w-14 max-w-20"/>
             <div className="text-xs sm:text-base md:text-lg self-center ">
                 <ul>
