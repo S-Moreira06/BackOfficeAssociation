@@ -15,8 +15,10 @@ export default function Home() {
     <div className='px-20 py-5 min-h-screen'>
       {storedData ? (
         <>
-        <h2 className='text-xl'>Liste d'utilisateurs</h2>
-        <table>
+        <caption className="caption-top">
+          Liste des utilisateurs
+        </caption>
+        <table className="">
           <thead>
             <tr>
               <th>Nom</th>
