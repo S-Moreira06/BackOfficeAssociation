@@ -176,7 +176,7 @@ async function sendEmailVerification(email) {
 }
 
 async function getAllUsers() {
-  const query = 'SELECT * FROM user';
+  const query = 'SELECT id,firstname,lastname,email,address,zip,city,phone,role,verified,is_archived,created_at,updated_at,deleted_at FROM user';
 
   const result = await db.prepare(query).all();
 
