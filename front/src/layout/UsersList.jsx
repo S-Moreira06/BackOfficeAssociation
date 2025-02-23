@@ -1,5 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+
 
 import { getAllUsers } from '@/api/user'
 
@@ -10,30 +20,32 @@ export default function UsersList() {
         console.log("DATA", data)
     }, [data])
     return (
-        <>
-        <caption className="caption-top">
+        <Table>
+        <TableCaption className="caption-top">
             Liste des utilisateurs
-        </caption>
-        <table className="">
-            <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Role</th>
-            </tr>
-            </thead>
-            <tbody>
+        </TableCaption>
+        
+            <TableHeader>
+            <TableRow>
+                <TableHead>Nom</TableHead>
+                <TableHead>Prénom</TableHead>
+                <TableHead>Role</TableHead>
+                <TableHead>Téléphone</TableHead>
+            </TableRow>
+            </TableHeader>
+            <TableBody>
             {data?.users.length > 0 && data.users.map((user)=>{
             return (
-                <tr key={user.id}>
-                <td>{user?.firstname}</td>
-                <td>{user?.firstname}</td>
-                <td>{user?.role}</td>
-                </tr>
+                <TableRow key={user.id}>
+                <TableCell>{user?.firstname}</TableCell>
+                <TableCell>{user?.lastname}</TableCell>
+                <TableCell>{user?.role}</TableCell>
+                <TableCell>{user?.phone}</TableCell>
+                </TableRow>
             )
             })}
-            </tbody>
-        </table>
-        </>
+            </TableBody>
+        
+        </Table>
     )
 }
