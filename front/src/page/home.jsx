@@ -12,7 +12,7 @@ export default function Home() {
   const storedData = localStorage.getItem("accessToken")
   
   return (
-    <div className='px-20 py-5'>
+    <div className='px-20 py-5 min-h-screen'>
       {storedData ? (
         <>
         <h2 className='text-xl'>Liste d'utilisateurs</h2>
