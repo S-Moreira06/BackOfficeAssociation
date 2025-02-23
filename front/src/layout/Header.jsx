@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -23,6 +24,8 @@ export default function Header() {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+    const navigate = useNavigate()
+      
 
     function logout() {
         localStorage.clear();
@@ -46,7 +49,7 @@ export default function Header() {
 
     return (
         <div className="sticky top-0 bg-white flex justify-between items-center border-b px-8 py-2">
-            <img src={logo} alt="" className="w-[5%] min-w-[50px]" />
+            <img src={logo} alt="La petite Lili" className="w-[5%] min-w-[50px]" onClick={() => navigate("/")}/>
             {token && !isMobile && (
                 <NavigationMenu>
                     <NavigationMenuList>
@@ -83,8 +86,8 @@ export default function Header() {
                     </Button>
                 ) : (
                     <div className="flex items-center ">
-                        <Button className="px-2 py-2" onClick={toLogin}>Connexion</Button>
-                        <Button className="px-2 py-2" onClick={toRegister}>Inscription</Button>
+                        <Button className="px-2 py-2" onClick={() => navigate("/auth/login")}>Connexion</Button>
+                        <Button className="px-2 py-2" onClick={() => navigate("/auth/register")}>Inscription</Button>
                     </div>
                 )}
                 {token && isMobile && (
