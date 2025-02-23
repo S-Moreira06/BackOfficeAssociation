@@ -1,9 +1,9 @@
-import { listUsersExample } from '@/api/auth'
+import { usersList } from '@/api/usersList'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
 
 export default function Home() {
-  const { isPending, isError, data, error } = useQuery({ queryKey: ['listUser'], queryFn: listUsersExample })
+  const { isPending, isError, data, error } = useQuery({ queryKey: ['usersList'], queryFn: usersList })
 
   useEffect(()=>{
     console.log("DATA", data)
@@ -16,11 +16,27 @@ export default function Home() {
       {storedData ? (
         <>
         <h2 className='text-xl'>Liste d'utilisateurs</h2>
-        <ol className='flex gap-4 flex-col mt-10'>
-          {data?.length > 0 && data.map((user)=>{
-            return (<li key={user.id}>{user?.name}</li>)
+        <table>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+          {data?.users.length > 0 && data.users.map((user)=>{
+            return (
+              <tr key={user.id}>
+                <td>{user?.firstname}</td>
+                <td>{user?.firstname}</td>
+                <td>{user?.role}</td>
+              </tr>
+            )
           })}
-        </ol></>
+          </tbody>
+        </table>
+        </>
       ):(
         <>
         <h1>LA PETITE LILI</h1>
