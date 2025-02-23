@@ -10,7 +10,7 @@ import {
   CardHeader, 
   CardTitle 
 } from "@/components/ui/card";
-
+import Guest from "../layout/Guest"
 import { getAllUsers } from '@/api/user'
 
 export default function Home() {
@@ -23,16 +23,24 @@ export default function Home() {
   return (
     <div className='px-20 py-5 min-h-screen'>
       {storedData ? (
-        <>
-        <Card  onClick={() => navigate("/UsersList")}>
+        <div className='sm:flex justify-between text-center'>
+        <Card  onClick={() => navigate("/users-list")}>
           <CardHeader>Nombre d'utilisateurs</CardHeader>
-          <CardContent>{data?.users.length}</CardContent>
+          <CardContent className="">{data?.users.length}</CardContent>
         </Card>
-        </>
+        <Card  onClick={() => navigate("/UsersList")}>
+          <CardHeader>Nombre d'Associations</CardHeader>
+          <CardContent className="">{data?.users.length}</CardContent>
+        </Card>
+        <Card  onClick={() => navigate("/UsersList")}>
+          <CardHeader>Nombre de bénéficiaires</CardHeader>
+          <CardContent className="">{data?.users.length}</CardContent>
+        </Card>
+        </div>
       ):(
         <>
-        <h1>LA PETITE LILI</h1>
-        <p>Connectez-vous pour charger la liste des utilisateurs</p></>
+          <Guest />
+        </>
       )}
     </div>
   )

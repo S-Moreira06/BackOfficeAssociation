@@ -36,7 +36,7 @@ export default function Header() {
     }
 
     const menuItems = [
-        { title: "Utilisateurs", links: [{ name: "Liste des Utilisateurs", path: "/usersList" }, { name: "Créer un utilisateur", path: "/create-user" }] },
+        { title: "Utilisateurs", links: [{ name: "Liste des Utilisateurs", path: "/users-list" }, { name: "Créer un utilisateur", path: "/create-user" }] },
         { title: "Restaurants", links: [{ name: "Liste des restaurants", path: "/restaurants" }, { name: "Créer un restaurant", path: "/create-restaurant" }] },
         { title: "Associations", links: [{ name: "Liste des associations", path: "/associations" }, { name: "Créer une association", path: "/create-association" }] },
         { title: "Bénéficiaires", links: [{ name: "Liste des bénéficiaires", path: "/beneficiaires" }, { name: "Créer un bénéficiaire", path: "/create-beneficiaire" }] },
