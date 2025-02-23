@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
 
-import UsersList from '@/layout/UsersList'
 
 export default function Home() {
   
@@ -11,7 +10,7 @@ export default function Home() {
   return (
     <div className='px-20 py-5 min-h-screen'>
       {storedData ? (
-        <UsersList/>
+        <p>Vous êtes connectez</p>
       ):(
         <>
         <h1>LA PETITE LILI</h1>

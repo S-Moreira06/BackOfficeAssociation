@@ -36,12 +36,12 @@ export default function Header() {
     }
 
     const menuItems = [
-        { title: "Utilisateurs", links: ["Liste des Utilisateurs", "Créer un utilisateur"] },
-        { title: "Restaurants", links: ["Liste des restaurants", "Créer un restaurant"] },
-        { title: "Associations", links: ["Liste des associations", "Créer une association"] },
-        { title: "Bénéficiaires", links: ["Liste des bénéficiaires", "Créer un bénéficiaire"] },
-        { title: "Disponibilités", links: ["Liste des disponibilités", "Créer une disponibilité"] },
-        { title: "Réservations", links: ["Liste des réservations", "Créer une réservation"] },
+        { title: "Utilisateurs", links: [{ name: "Liste des Utilisateurs", path: "/usersList" }, { name: "Créer un utilisateur", path: "/create-user" }] },
+        { title: "Restaurants", links: [{ name: "Liste des restaurants", path: "/restaurants" }, { name: "Créer un restaurant", path: "/create-restaurant" }] },
+        { title: "Associations", links: [{ name: "Liste des associations", path: "/associations" }, { name: "Créer une association", path: "/create-association" }] },
+        { title: "Bénéficiaires", links: [{ name: "Liste des bénéficiaires", path: "/beneficiaires" }, { name: "Créer un bénéficiaire", path: "/create-beneficiaire" }] },
+        { title: "Disponibilités", links: [{ name: "Liste des disponibilités", path: "/disponibilites" }, { name: "Créer une disponibilité", path: "/create-disponibilite" }] },
+        { title: "Réservations", links: [{ name: "Liste des réservations", path: "/reservations" }, { name: "Créer une réservation", path: "/create-reservation" }] },
     ];
 
     return (
@@ -51,14 +51,16 @@ export default function Header() {
                 <NavigationMenu>
                     <NavigationMenuList>
                         {menuItems.map((item, index) => (
-                            <NavigationMenuItem key={index}>
+                            <NavigationMenuItem key={item.title}>
                                 <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <ul className="grid gap-3 p-2 w-[250px]">
-                                        {item.links.map((link, i) => (
-                                            <li key={i}>
+                                        {item.links.map((link) => (
+                                            <li key={link.name}>
                                                 <NavigationMenuLink asChild>
-                                                    <a href="">{link}</a>
+                                                    <a href={link.path} className="block w-full text-left px-2 py-1 hover:bg-gray-200 rounded">
+                                                        {link.name}
+                                                    </a>
                                                 </NavigationMenuLink>
                                             </li>
                                         ))}
@@ -93,11 +95,13 @@ export default function Header() {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-[250px] bg-gray-400 ">
-                            {menuItems.map((item, index) => (
-                                <DropdownMenuItem key={index} className="flex flex-col">
+                            {menuItems.map((item) => (
+                                <DropdownMenuItem key={item.title} className="flex flex-col">
                                     <span className="font-bold">{item.title}</span>
-                                    {item.links.map((link, i) => (
-                                        <a key={i} href="" className="text-sm pl-2">{link}</a>
+                                    {item.links.map((link) => (
+                                        <a key={link.name} href={link.path} className="text-sm pl-2 hover:underline">
+                                            {link.name}
+                                        </a>
                                     ))}
                                 </DropdownMenuItem>
                             ))}

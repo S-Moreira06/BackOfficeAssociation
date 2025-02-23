@@ -6,9 +6,11 @@ import Header from "./layout/Header";
 import Footer from "@/layout/Footer"
 import Login from "./page/auth/login";
 import Home from "./page/home";
+import UsersList from "./layout/UsersList";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Register from "./page/auth/register";
+
 
 
 const queryClient = new QueryClient({
@@ -30,6 +32,7 @@ ReactDOM.createRoot(root).render(
         <Route path="/" element={<Home />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
+        <Route path="/usersList" element={<UsersList />} />
       </Routes>
       <Footer />
       <ReactQueryDevtools initialIsOpen={false} />
