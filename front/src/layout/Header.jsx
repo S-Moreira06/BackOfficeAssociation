@@ -25,17 +25,10 @@ export default function Header() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
     const navigate = useNavigate()
-      
 
     function logout() {
         localStorage.clear();
         window.location = "/";
-    }
-    function toLogin() {
-        window.location = "/auth/login";
-    }
-    function toRegister() {
-        window.location = "/auth/register";
     }
 
     const menuItems = [
