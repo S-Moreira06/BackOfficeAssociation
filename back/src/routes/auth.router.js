@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { forgotPassword, login, register, resetPassword, sendVerification, verifyUserEmail, deleteUser } from "../controllers/auth.controller.js";
+import { forgotPassword, login, register, resetPassword, sendVerification, verifyUserEmail, deleteUser, getAllUsers } from "../controllers/auth.controller.js";
 const authRouter = new Hono()
 
 authRouter.post(
