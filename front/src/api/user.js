@@ -6,7 +6,7 @@ async function createUser(data) {
 }
 async function getAllUsers() {
     try {
-        const response = await axios.get("http://localhost:3000/api/auth")
+        const response = await instance.get("/auth")
         return response.data
     } catch (error) {
         return error
@@ -15,19 +15,19 @@ async function getAllUsers() {
 
 async function getUser(id) {
     try {
-        const response = await axios.get(`http://localhost:3000/api/auth/${id}`)
+        const response = await instance.get(`/auth/${id}`)
         return response.data
     } catch (error) {
         return error
     }
 }
 
-export async function updateUser(id, userData) {
+async function updateUser(id, userData) {
     try {
-        const response = await axios.put(`http://localhost:3000/api/auth/${id}`, userData);
+        const response = await instance.put(`/auth/${id}`, userData);
         return response.data;
     } catch (error) {
-        throw error;
+        return error;
     }
 }
 

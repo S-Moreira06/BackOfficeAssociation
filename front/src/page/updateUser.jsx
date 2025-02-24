@@ -74,11 +74,11 @@ export default function UpdateUser() {
     console.log("Données recues:", data);
 
     useEffect(() => {
-        if (data) {
+        if (data?.user) {
             console.log("Données chargées dans le formulaire", data);
             reset(data.user); // Remplit tous les champs d'un coup
         }
-    }, [data, reset]);
+    }, [data?.user, reset]);
 
     
 
