@@ -11,6 +11,7 @@ import Login from "./page/auth/login";
 import Home from "./page/home";
 import UsersList from "./layout/UsersList";
 import CreateUser from "./page/createUser";
+import UpdateUser from "./page/updateUser";
 
 
 
@@ -35,6 +36,7 @@ ReactDOM.createRoot(root).render(
         <Route path="/auth/register" element={<Register />} />
         <Route path="/users-list" element={<UsersList />} />
         <Route path="/create-user" element={<CreateUser/>}/>
+        <Route path="/update-user" element={<UpdateUser/>} />
       </Routes>
       <Footer />
       <ReactQueryDevtools initialIsOpen={false} />

@@ -3,7 +3,7 @@ import axios from "axios"
 
 
 async function signIn(data) {
-    return await instance.post("/login", data)
+    return await instance.post("/auth/login", data)
 
 }
 

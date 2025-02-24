@@ -102,8 +102,8 @@ authRouter.get(
 );
 
 authRouter.get(
-    "/:id",
-    getUserDetail
+  "/:id",
+  getUserDetail
 );
 
 

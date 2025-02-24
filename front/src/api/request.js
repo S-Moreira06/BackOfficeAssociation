@@ -7,7 +7,7 @@ async function request(data) {
 
 async function getAllRequests() {
     try {
-        const response = await instance.get("http://localhost:3000/api/request")
+        const response = await axios.get("http://localhost:3000/api/request")
         console.log(response)
         return response.data
     } catch (error) {

@@ -1,5 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
+
+import { Button } from '@/components/ui/button'
 import {
     Table,
     TableBody,
@@ -15,6 +18,7 @@ import { getAllUsers } from '@/api/user'
 
 export default function UsersList() {
     const { isPending, isError, data, error } = useQuery({ queryKey: ['usersList'], queryFn: getAllUsers })
+    const navigate = useNavigate()
 
     useEffect(()=>{
         console.log("DATA", data)
@@ -31,6 +35,7 @@ export default function UsersList() {
                 <TableHead>Prénom</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Téléphone</TableHead>
+                <TableHead>Edit</TableHead>
             </TableRow>
             </TableHeader>
             <TableBody>
@@ -41,6 +46,7 @@ export default function UsersList() {
                 <TableCell>{user?.lastname}</TableCell>
                 <TableCell>{user?.role}</TableCell>
                 <TableCell>{user?.phone}</TableCell>
+                <TableCell><Button onClick={() => navigate("/update-user",{ state: { userId: user.id }})}>Modifier</Button></TableCell>
                 </TableRow>
             )
             })}

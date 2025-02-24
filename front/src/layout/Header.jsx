@@ -54,9 +54,9 @@ export default function Header() {
                                         {item.links.map((link) => (
                                             <li key={link.name}>
                                                 <NavigationMenuLink asChild>
-                                                    <a href={link.path} className="block w-full text-left px-2 py-1 hover:bg-gray-200 rounded">
+                                                    <Button onClick={() => navigate(link.path)} className="block w-full text-left px-2 py-1 hover:bg-gray-200 rounded">
                                                         {link.name}
-                                                    </a>
+                                                    </Button>
                                                 </NavigationMenuLink>
                                             </li>
                                         ))}
@@ -95,9 +95,9 @@ export default function Header() {
                                 <DropdownMenuItem key={item.title} className="flex flex-col">
                                     <span className="font-bold">{item.title}</span>
                                     {item.links.map((link) => (
-                                        <a key={link.name} href={link.path} className="text-sm pl-2 hover:underline">
+                                        <Button key={link.name} onClick={() => navigate(link.path)} className="text-sm pl-2 hover:underline">
                                             {link.name}
-                                        </a>
+                                        </Button>
                                     ))}
                                 </DropdownMenuItem>
                             ))}

@@ -2,15 +2,33 @@ import instance from "./config";
 import axios from "axios";
 
 async function createUser(data) {
-    return await instance.post("/register",data)
+    return await instance.post("/auth/register",data)
 }
 async function getAllUsers() {
     try {
-        const response = await axios.get("http://localhost:3000/api")
+        const response = await instance.get("/auth")
         return response.data
     } catch (error) {
         return error
     }
 }
 
-export { getAllUsers, createUser }
+async function getUser(id) {
+    try {
+        const response = await instance.get(`/auth/${id}`)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+
+async function updateUser(id, userData) {
+    try {
+        const response = await instance.put(`/auth/${id}`, userData);
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
+export { getAllUsers, createUser, getUser, updateUser }
