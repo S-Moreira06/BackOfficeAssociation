@@ -1,5 +1,4 @@
 import organisationService from '../services/organisation.service.js'
-import TypeService from "../services/type.service.js";
 import typeOrganisationService from "../services/typeOrganisation.service.js";
 import OrganisationService from "../services/organisation.service.js";
 

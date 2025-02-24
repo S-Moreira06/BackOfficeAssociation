@@ -9,7 +9,7 @@ export async function up(client) {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_restaurant INTEGER NOT NULL,
         id_option INTEGER  NOT NULL,
-        FOREIGN KEY (id_restaurant) REFERENCES organisation(id)
+        FOREIGN KEY (id_restaurant) REFERENCES organisation(id),
         FOREIGN KEY (id_option) REFERENCES option(id)
      )`);
 }
