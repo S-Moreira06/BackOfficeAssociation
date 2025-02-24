@@ -43,7 +43,7 @@ const userSchema = z.object({
     role: z.string().min(1)
 });
 
-export default function createUser() {
+export default function CreateUser() {
   const form = useForm({
     resolver: zodResolver(userSchema),
     defaultValues: {
