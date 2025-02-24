@@ -1,7 +1,9 @@
 import instance from "./config";
 import axios from "axios";
 
-
+async function createBeneficiary(data) {
+    return await instance.post("/beneficiary",data)
+}
 async function getAllBeneficiary() {
     try {
         const response = await instance.get("http://localhost:3000/api/beneficiary")
@@ -30,4 +32,4 @@ async function updateBeneficiary(id, beneficiaryData) {
     }
 }
 
-export { getAllBeneficiary, getBeneficiary, updateBeneficiary }
+export { createBeneficiary,getAllBeneficiary, getBeneficiary, updateBeneficiary }

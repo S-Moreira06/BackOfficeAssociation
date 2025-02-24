@@ -14,7 +14,7 @@ beneficiaryRouter.post(
             zip: z.string().min(5).max(6).regex(/^\d+$/, "Le champ doit contenir uniquement des chiffres"),
             city: z.string().min(2),
             phone: z.string().min(2).regex(/^\d+$/, "Le champ doit contenir uniquement des chiffres"),
-            remark: z.string().min(2)
+            remark: z.string().min(2).optional()
         })
     ),
     createBeneficiary
