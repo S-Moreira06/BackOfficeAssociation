@@ -26,13 +26,16 @@ async function softDeleteOrganisation(id){
 }
 async function getAllOrganisationsByCategory(category) {
   const query = 'SELECT * FROM organisation where category = ?';
-  const result = await db.prepare(query).all(type);
+  const result = await db.prepare(query).all(category);
+  if (result.length < 1) {
+    throw new Error("No result");
+  }
   return result;
 }
 
-async function findOrganisationByName(data) {
-  const query = 'SELECT * FROM organisation WHERE name = ?';
-  const result = await db.prepare(query).all(data.name);
+async function findOrganisationById(id) {
+  const query = 'SELECT * FROM organisation WHERE id = ?';
+  const result = await db.prepare(query).get(id);
   return result;
 }
 
@@ -69,5 +72,6 @@ export default {
   createOrganisation,
   softDeleteOrganisation ,
   getAllOrganisationsByCategory,
+  findOrganisationById,
   updateOrganisation
 };

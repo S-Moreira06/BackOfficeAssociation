@@ -5,7 +5,7 @@ async function createRequest(c) {
     const data = c.req.valid('json')
     await requestService.createRequest(data)
     return c.json({
-      message: 'Votre demande a bien été envoyée. Un administrateur vous contactera dans les plus brefs delais.'
+      message: 'request valid'
     }, 201)
   } catch (error) {
     console.error(error)
@@ -15,7 +15,7 @@ async function createRequest(c) {
 
 async function deleteRequest(c) {
   try {
-    const data = c.req.valid('json')
+    const data = c.req.valid('param')
     await requestService.deleteRequest(data)
     return c.json({
       message: 'request archived.'
@@ -30,7 +30,7 @@ async function getAllRequest(c) {
   try {
     const request = await requestService.getAllRequest();
     return c.json({
-      message: 'Liste des requetes disponible',
+      message: 'request list available',
       request: request
     }, 200)
   } catch (error) {
@@ -39,4 +39,21 @@ async function getAllRequest(c) {
   }
 }
 
-export {createRequest,deleteRequest, getAllRequest}
+async function getRequest(c) {
+  try {
+      const id = c.req.param('id');
+      const request = await requestService.getRequest(id);
+      if(!request) {
+        return c.json({ error : 'request not found'},404)
+      }
+      return c.json({
+          message: "request informations available",
+          request: request
+    }, 200)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'request information loading failed'}, 400)
+  }
+}
+
+export {createRequest,deleteRequest, getAllRequest, getRequest}

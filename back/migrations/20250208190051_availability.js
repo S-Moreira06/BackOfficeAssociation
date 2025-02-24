@@ -7,7 +7,7 @@ export async function up(client) {
     await client.execute(
         `CREATE TABLE IF NOT EXISTS availability (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        restaurant_id INTEGER REFERENCES organisation(id) NOT NULL,
+        restaurant_id INTEGER NOT NULL,
         date DATE NOT NULL, 
         time_start TIME NOT NULL,
         time_end TIME NOT NULL,
@@ -20,7 +20,8 @@ export async function up(client) {
         is_archived BOOLEAN DEFAULT FALSE,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME,
-        deleted_at DATETIME
+        deleted_at DATETIME,
+        FOREIGN KEY (restaurant_id) REFERENCES organisation(id)
      )`);
 }
 

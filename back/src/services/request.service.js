@@ -1,11 +1,12 @@
 import db from '../config/database.js'
 
+
 async function createRequest(data) {
   const query = `
-    INSERT INTO request (name, address, zip, city, siret, type, contact, email, phone, max_meal, description, image, menu)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+    INSERT INTO request (type, name, address, zip, city, firstname, lastname,  email, phone)
+    VALUES (?,?,?,?,?,?,?,?,?)
   `;
-  const values = [data.name,data.address,data.zip,data.city, data.siret, data.type, data.contact, data.email, data.phone,data.max_meal, data.description, data.image, data.menu];
+  const values = [data.type,data.name, data.address, data.zip, data.city, data.firstname, data.lastname,  data.email, data.phone];
   
   const result = await db.prepare(query).run(values);
   return await db.prepare('SELECT * FROM request WHERE id = ?').get(result.lastInsertRowid); 
@@ -24,10 +25,16 @@ async function deleteRequest(requestId) {
   return await db.prepare('SELECT is_archived FROM request WHERE id= ?').get(requestId.id);
 }
 
-async function getAllRequest(req,res) {
+async function getAllRequest() {
   const query = 'SELECT * FROM request';
   const result = await db.prepare(query).all()
   return result;
 }
 
-export default {createRequest, deleteRequest, getAllRequest};
+async function getRequest(id) {
+  const query = 'SELECT * FROM request WHERE id=?';
+  const result = await db.prepare(query).get(id)
+  return result;
+}
+
+export default {createRequest, deleteRequest, getAllRequest, getRequest};

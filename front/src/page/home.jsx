@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div className='px-20 py-5'>
       <h2 className='text-xl'>Liste d'utilisateurs</h2>
-      <ol className='flex gap-4 flex-col mt-10'>
+      <ol className='flex gap-8 flex-col mt-10'>
         {data?.length > 0 && data.map((user)=>{
           return (<li key={user.id}>{user?.name}</li>)
         })}
