@@ -104,5 +104,19 @@ async function getAllUsers(c) {
   }
 }
 
-export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification, deleteUser, getAllUsers }
+async function getUserDetail(c) {
+  try {
+    const id = c.req.param('id')
+    const userDetail = await authService.getUserDetail(id);
+    return c.json({
+      message: "Get user detail successfull",
+      user: userDetail
+    }, 200)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'Get user detail failed'}, 400)
+  }
+}
+
+export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification, deleteUser, getAllUsers, getUserDetail }
 
