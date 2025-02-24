@@ -16,7 +16,7 @@ import associationRouter from "./association.router.js";
 const app = new Hono()
 
 
-app.get('api/', (c) => c.text('Hello from Hono!'))
+// app.get('api/', (c) => c.text('Hello from Hono!'))
 app.route('/api', authRouter)
 app.route('api/option',optionRouter)
 app.route('/api/request', requestRouter)

@@ -1,22 +1,35 @@
-import { listUsersExample } from '@/api/auth'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
+
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from "@/components/ui/card";
+import Guest from "../layout/Guest"
+import Stats from "../layout/Stats"
+import { getAllUsers } from '@/api/user'
 
 export default function Home() {
-  const { isPending, isError, data, error } = useQuery({ queryKey: ['listUser'], queryFn: listUsersExample })
+  const { isPending, isError, data, error } = useQuery({ queryKey: ['usersList'], queryFn: getAllUsers })
 
-  useEffect(()=>{
-    console.log("DATA", data)
-  }, [data])
+  const storedData = localStorage.getItem("accessToken")
+  const navigate = useNavigate()
   
+
   return (
-    <div className='px-20 py-5'>
-      <h2 className='text-xl'>Liste d'utilisateurs</h2>
-      <ol className='flex gap-8 flex-col mt-10'>
-        {data?.length > 0 && data.map((user)=>{
-          return (<li key={user.id}>{user?.name}</li>)
-        })}
-      </ol>
-  </div>
+    <div className='px-20 py-5 min-h-screen'>
+      {storedData ? (
+        <Stats/>
+      ):(
+        <>
+          <Guest />
+        </>
+      )}
+    </div>
   )
 }

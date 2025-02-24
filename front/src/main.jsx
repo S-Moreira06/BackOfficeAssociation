@@ -1,14 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, useRouteError } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import './index.css'
 import Header from "./layout/Header";
 import Footer from "@/layout/Footer"
+import Register from "./page/auth/register";
 import Login from "./page/auth/login";
 import Home from "./page/home";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Register from "./page/auth/register";
+import UsersList from "./layout/UsersList";
+import CreateUser from "./page/createUser";
+
 
 
 const queryClient = new QueryClient({
@@ -30,8 +33,8 @@ ReactDOM.createRoot(root).render(
         <Route path="/" element={<Home />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
-
-
+        <Route path="/users-list" element={<UsersList />} />
+        <Route path="/create-user" element={<CreateUser/>}/>
       </Routes>
       <Footer />
       <ReactQueryDevtools initialIsOpen={false} />

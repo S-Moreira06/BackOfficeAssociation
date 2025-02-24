@@ -91,6 +91,18 @@ async function deleteUser(c) {
   }
 }
 
+async function getAllUsers(c) {
+  try {
+    const users = await authService.getAllUsers();
+    return c.json({
+      message: "user's list available",
+      users: users
+    }, 200)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'users list loading failed'}, 400)
+  }
+}
 
-export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification, deleteUser }
+export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification, deleteUser, getAllUsers }
 
