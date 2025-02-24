@@ -1,4 +1,5 @@
 import beneficiaryOrganisationService from "../services/beneficiaryOrganisation.service.js";
+import beneficiaryService from "../services/beneficiary.service.js";
 
 async function linkBeneficiaryToOrganisation(c) {
     try {
@@ -26,24 +27,34 @@ async function linkBeneficiaryToOrganisation(c) {
 
 async function getBeneficiariesForOrganisation(c) {
     try {
-        const organisation_id = c.req.query('organisation_id');
+        const organisation_id = c.req.param('id');
+console.error(organisation_id)
 
-        if (!organisation_id) {
-            return c.json({ error: "Missing organisation_id" }, 400);
-        }
 
         const beneficiaries = await beneficiaryOrganisationService.getBeneficiariesForOrganisation(
             organisation_id
         );
 
-        return c.status(200).json({
+        return c.json({
             message: "Get all beneficiaries successfully",
-            beneficiaries
-        });
+            beneficiaries : beneficiaries
+        },201);
     } catch (error) {
         console.error(error);
         return c.json({ error: "Failed to get all beneficiaries" }, 500);
     }
 }
+async function deleteBeneficiary(c) {
+    try {
+        const id = c.req.param('id')
+        await beneficiaryOrganisationService.deleteBeneficiaryOrganisation(id)
+        return c.json({
+            message: 'beneficiary deleted.'
+        }, 201)
+    } catch (error) {
+        console.error(error)
+        return c.json({ error: 'delete failed' }, 400)
+    }
+}
 
-export { linkBeneficiaryToOrganisation, getBeneficiariesForOrganisation };
+export { linkBeneficiaryToOrganisation, getBeneficiariesForOrganisation, deleteBeneficiary };

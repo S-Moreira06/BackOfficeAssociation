@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { linkBeneficiaryToOrganisation, getBeneficiariesForOrganisation } from "../controllers/beneficiaryOrganisation.controller.js";
+import { linkBeneficiaryToOrganisation, getBeneficiariesForOrganisation ,deleteBeneficiary} from "../controllers/beneficiaryOrganisation.controller.js";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 
@@ -21,5 +21,6 @@ beneficiaryOrganisationRouter.get(
         "/:id",
         getBeneficiariesForOrganisation
     );
+beneficiaryOrganisationRouter.delete('/:id',deleteBeneficiary);
 
 export default beneficiaryOrganisationRouter;
