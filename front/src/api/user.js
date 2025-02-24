@@ -13,4 +13,13 @@ async function getAllUsers() {
     }
 }
 
-export { getAllUsers, createUser }
+async function getUser(id) {
+    try {
+        const response = await axios.get(`http://localhost:3000/api/${id}`)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+
+export { getAllUsers, createUser, getUser }
