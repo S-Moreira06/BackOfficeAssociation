@@ -16,7 +16,7 @@ const app = new Hono()
 
 
 // app.get('api/', (c) => c.text('Hello from Hono!'))
-app.route('/api', authRouter)
+app.route('/api/auth', authRouter)
 app.route('api/option',optionRouter)
 app.route('/api/request', requestRouter)
 app.route('/api/availability', availabilityRouter)
