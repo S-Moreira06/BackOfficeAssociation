@@ -13,6 +13,20 @@ async function register(c) {
   }
 }
 
+async function updateUser(c) {
+  try {
+    const userId = c.req.param('id');
+    const data = c.req.valid('json');
+    await authService.update(userId, data);
+    return c.json({
+      message: 'Update user successfull'
+    }, 201)
+  } catch (error) {
+    console.error(error);
+    return c.json({error: 'Update user failed'}, 400)
+  }
+}
+
 
 
 async function login(c) {
@@ -118,5 +132,5 @@ async function getUserDetail(c) {
   }
 }
 
-export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification, deleteUser, getAllUsers, getUserDetail }
+export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification, deleteUser, getAllUsers, getUserDetail, updateUser }
 

@@ -190,7 +190,32 @@ async function getUserDetail(id) {
                 FROM user WHERE id = ? `;
   const result = await db.prepare(query).get(id);
   return result;
+}
 
+async function update(userId, data) {
+  let today = new Date().toISOString();
+  const setClauses = [];
+  const values = [];
+  function camelToSnakeCase(str) {
+    return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+  }
+  Object.entries(data).forEach(([key, value]) => {
+    const snakeKey = camelToSnakeCase(key);
+    setClauses.push(`${snakeKey} = ?`);
+    values.push(value);
+  });
+  setClauses.push("updated_at = ?");
+  values.push(today);
+  values.push(userId);
+  const query = `UPDATE user SET ${ setClauses.join(', ') } WHERE id = ?`;
+  try {
+    await db.prepare(query).run(values);
+    const updatedRecord = await db.prepare('SELECT * FROM user WHERE id = ?').get(userId);
+    return updatedRecord;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw new Error('Failed to update user');
+  }
 }
 
 
@@ -203,8 +228,8 @@ export default {
   sendEmailVerification,
   findUserByEmail,
   createUser,
-  updateUser,
   softDeleteUser,
   getAllUsers,
-  getUserDetail
+  getUserDetail,
+  update
 };
