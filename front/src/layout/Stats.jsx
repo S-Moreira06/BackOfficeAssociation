@@ -13,6 +13,7 @@ import {
 import UsersCard from '@/components/usersCard';
 import RequestsCard from '@/components/requestsCard';
 import BeneficiaryCard from '@/components/beneficiaryCard';
+import RestaurantsCard from '@/components/restaurantsCard';
 
 
 export default function Stats() {
@@ -23,6 +24,7 @@ export default function Stats() {
             <UsersCard />
             <RequestsCard />
             <BeneficiaryCard />
+            <RestaurantsCard />
         </div>
     )
 }
