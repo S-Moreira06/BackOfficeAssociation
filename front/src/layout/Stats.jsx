@@ -15,11 +15,8 @@ import RequestsCard from '@/components/requestsCard';
 import BeneficiaryCard from '@/components/beneficiaryCard';
 
 
-import { getAllRequests } from '@/api/request';
-
 export default function Stats() {
-    const { isPending, isError, data, error } = useQuery({ queryKey: ['requestsList'], queryFn: getAllRequests })
-    const navigate = useNavigate()
+
 
     return (
         <div className='sm:flex justify-between text-center'>

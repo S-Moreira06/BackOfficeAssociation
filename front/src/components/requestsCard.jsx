@@ -16,6 +16,7 @@ import { getAllRequests } from '@/api/request';
 export default function RequestsCard() {
     const { isPending, isError, data, error } = useQuery({ queryKey: ['requestsList'], queryFn: getAllRequests })
     const navigate = useNavigate()
+    console.log(data)
 
     return (
         <Card  onClick={() => navigate("/request-list")}>

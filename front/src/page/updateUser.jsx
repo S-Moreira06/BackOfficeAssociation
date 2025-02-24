@@ -38,7 +38,7 @@ const userSchema = z.object({
     firstname: z.string().min(1, "Prénom requis"),
     lastname: z.string().min(1, "Nom requis"),
     email: z.string().email("Email invalide"),
-    password: z.string(), 
+    password: z.string().optional(), 
     address: z.string().min(1, "Adresse requise"), 
     zip: z.string().min(1, "Code postal requis"), 
     city: z.string().min(1, "Ville requise"),
@@ -47,6 +47,9 @@ const userSchema = z.object({
 });
 
 export default function UpdateUser() {
+    const location = useLocation();
+    const userId = location.state?.userId; 
+    
     const form = useForm({
         resolver: zodResolver(userSchema),
         defaultValues: {
@@ -61,11 +64,31 @@ export default function UpdateUser() {
             phone: ""
         },
     });
-    const { handleSubmit, setValue } = form;
-    const location = useLocation();
-    const userId = location.state?.userId; 
-    const { isPending, isError, data, error } = useQuery({ queryKey: ['getUser'], queryFn: getUser(userId) })
+    const { handleSubmit, setValue, reset } = form;
+    const { isPending, isError, data, error } = useQuery({ 
+        queryKey: ['getUser'], 
+        queryFn: () => getUser(userId),
+        enabled: !!userId,
+    });
     
+    console.log("Données recues:", data);
+
+    useEffect(() => {
+        if (data) {
+            console.log("Données chargées dans le formulaire", data);
+            reset(data.user); // Remplit tous les champs d'un coup
+        }
+    }, [data, reset]);
+
+    
+
+    const onSubmit = (formData) => {
+        console.log("Données mises à jour :", formData);
+        // Ici, tu peux appeler une API pour modifier l'utilisateur
+    };
+
+    if (isPending) return <div>Chargement...</div>;
+    if (isError) return <div>Erreur : {error.message}</div>;
 
     return (
         <>
@@ -73,16 +96,106 @@ export default function UpdateUser() {
             <Card>
                 <CardHeader>
                     <CardTitle>Modifier l'utilisateur</CardTitle>
-                    <CardDescription>ID de l'utilisateur:{userId}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <p>Card Content</p>
+                    <Form {...form}>
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                            <FormField
+                                control={form.control}
+                                name="firstname"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Prénom</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="lastname"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Nom</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Email</FormLabel>
+                                        <FormControl>
+                                            <Input type="email" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="phone"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Téléphone</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="address"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Adresse</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="zip"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Code postal</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="city"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Ville</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <Button type="submit">Mettre à jour</Button>
+                        </form>
+                    </Form>
                 </CardContent>
-                <CardFooter>
-                    <p>Card Footer</p>
-                </CardFooter>
             </Card>
         </>
-
     );
 }
