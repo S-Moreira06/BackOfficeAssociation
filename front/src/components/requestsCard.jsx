@@ -10,22 +10,18 @@ import {
     CardHeader, 
     CardTitle 
 } from "@/components/ui/card";
-import UsersCard from '@/components/usersCard';
-import RequestsCard from '@/components/requestsCard';
-import BeneficiaryCard from '@/components/beneficiaryCard';
-
 
 import { getAllRequests } from '@/api/request';
 
-export default function Stats() {
+export default function RequestsCard() {
     const { isPending, isError, data, error } = useQuery({ queryKey: ['requestsList'], queryFn: getAllRequests })
     const navigate = useNavigate()
 
     return (
-        <div className='sm:flex justify-between text-center'>
-            <UsersCard />
-            <RequestsCard />
-            <BeneficiaryCard />
-        </div>
+        <Card  onClick={() => navigate("/request-list")}>
+                            <CardHeader>Nombre de requetes</CardHeader>
+                            <CardContent className="">{data?.request.length}</CardContent>
+                        </Card>
     )
+    
 }
