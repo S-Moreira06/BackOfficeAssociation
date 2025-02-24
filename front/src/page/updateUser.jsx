@@ -32,7 +32,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { getUser } from "../api/user";
+import { getUser, updateUser } from "../api/user";
 
 const userSchema = z.object({
     firstname: z.string().min(1, "Prénom requis"),
@@ -80,11 +80,18 @@ export default function UpdateUser() {
         }
     }, [data?.user, reset]);
 
-    
+    const updateUserMutation = useMutation({
+        mutationFn: async (newData) => {
+            return await updateUser(userId, newData)
+        },
+        onSuccess: () => {
+            window.location = "/users-list";
+        },
+    });
 
     const onSubmit = (formData) => {
         console.log("Données mises à jour :", formData);
-        // Ici, tu peux appeler une API pour modifier l'utilisateur
+        updateUserMutation.mutate(formData);
     };
 
     if (isPending) return <div>Chargement...</div>;
