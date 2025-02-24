@@ -1,4 +1,4 @@
-import beneficiaryService from '../services/beneficiary.service.js'
+ import beneficiaryService from '../services/beneficiary.service.js'
 
 async function createBeneficiary(c) {
   try {
