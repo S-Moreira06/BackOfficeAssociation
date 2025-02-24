@@ -22,4 +22,13 @@ async function getUser(id) {
     }
 }
 
-export { getAllUsers, createUser, getUser }
+export async function updateUser(id, userData) {
+    try {
+        const response = await axios.put(`http://localhost:3000/api/auth/${id}`, userData);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export { getAllUsers, createUser, getUser, updateUser }
