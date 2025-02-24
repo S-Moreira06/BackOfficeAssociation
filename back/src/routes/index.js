@@ -11,7 +11,6 @@ import reservationRouter from './reservation.router.js'
 import availabilityRouter from "./availability.router.js";
 import optionRouter from "./option.router.js";
 import restaurantRouter from "./restaurant.router.js";
-import beneficiaryOrganisationRouter from "./beneficiaryOrganisation.router.js";
 import associationRouter from "./association.router.js";
 const app = new Hono()
 
@@ -25,7 +24,6 @@ app.route('/api/beneficiary', beneficiaryRouter)
 app.route('api/type',typeRouter)
 app.route('/api/reservation', reservationRouter)
 app.route('/api/restaurant', restaurantRouter)
-app.route('/api/beneficiary-organisation',beneficiaryOrganisationRouter)
 app.route('/api/association', associationRouter)
 
 
