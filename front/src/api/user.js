@@ -1,6 +1,9 @@
 import instance from "./config";
 import axios from "axios";
 
+async function createUser(data) {
+    return await instance.post("/register",data)
+}
 async function getAllUsers() {
     try {
         const response = await axios.get("http://localhost:3000/api")
@@ -10,4 +13,4 @@ async function getAllUsers() {
     }
 }
 
-export { getAllUsers }
+export { getAllUsers, createUser }

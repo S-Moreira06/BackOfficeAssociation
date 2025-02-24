@@ -32,10 +32,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
+import { createUser } from "@/api/user"
+
 const userSchema = z.object({
     firstname: z.string().min(1, "Prénom requis"),
     lastname: z.string().min(1, "Nom requis"),
-    email: z.string().email("Email invalide"), 
+    email: z.string().email("Email invalide"),
+    password: z.string(), 
     address: z.string().min(1, "Adresse requise"), 
     zip: z.string().min(1, "Code postal requis"), 
     city: z.string().min(1, "Ville requise"),
@@ -47,14 +50,15 @@ export default function CreateUser() {
   const form = useForm({
     resolver: zodResolver(userSchema),
     defaultValues: {
-        firstname: "Jean",
-        lastname: "Neymar",
-        email: "jean-neymar@hotmail.fr", 
-        address: "Rue de la propagande", 
-        zip: "01234", 
-        city: "Saint Roustan",
-        phone: "0698763578",
-        role: "restaurateur"
+        email : "ROBERTo@soso.fr",
+  password : "Azerty06!",
+  firstname: "Soso",
+  lastname: "Admin",
+  role: "Admin",
+  address: "138 boulevard des CDPI",
+  city: "Mougins",
+  zip: "06250",
+  phone: "0606060606"
     },
   });
 
@@ -62,7 +66,7 @@ export default function CreateUser() {
 
   const userMutation = useMutation({
     mutationFn: async (newData) => {
-      return await request(newData);
+      return await createUser(newData);
     },
     onSuccess: () => {
       window.location = "/users-list";
@@ -119,6 +123,20 @@ export default function CreateUser() {
                             <FormLabel>Email</FormLabel>
                             <FormControl>
                             <Input {...field} placeholder="Email" type="email" />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                        />
+
+<FormField 
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Mot de passe</FormLabel>
+                            <FormControl>
+                            <Input {...field} placeholder="password" type="password" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -192,7 +210,7 @@ export default function CreateUser() {
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="admin">Administrateur</SelectItem>
-                                    <SelectItem value="restaurant">Restauranteur</SelectItem>
+                                    <SelectItem value="restaurant">Restaurateur</SelectItem>
                                     <SelectItem value="association">Gerant de l'association</SelectItem>
                                     <SelectItem value="agent">Agent de reservation</SelectItem>
                                 </SelectContent>
@@ -205,7 +223,7 @@ export default function CreateUser() {
 
                     <CardFooter>
                     <Button type="submit" className="w-full">
-                        S'inscrire
+                        Créer l'utilisateur
                     </Button>
                     </CardFooter>
                 </form>
