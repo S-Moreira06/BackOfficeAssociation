@@ -11,6 +11,25 @@ async function createBeneficiary(data) {
     return await db.prepare('SELECT * FROM beneficiary WHERE id = ?').get(result.lastInsertRowid); 
   }
 
+  async function updateBeneficiary(beneficiaryId, data) {
+    const setClauses = [];
+    const values = [];
+  
+    Object.entries(data).forEach(([key, value]) => {
+      setClauses.push(`${key} = ?`);
+      values.push(value);
+    });
+    values.push(beneficiaryId);
+  
+    const query = `
+      UPDATE beneficiary 
+      SET ${setClauses.join(', ')}
+      WHERE id = ?
+    `;
+    await db.prepare(query).run(values);
+    return await db.prepare('SELECT * FROM beneficiary WHERE id = ?').get(beneficiaryId);
+  }
+
   async function deleteBeneficiary(id) {
     const query = `
       UPDATE beneficiary
@@ -35,4 +54,30 @@ async function createBeneficiary(data) {
     return result;
   }
 
-  export default {createBeneficiary, deleteBeneficiary, getAllBeneficiary, getBeneficiary}
+  async function update(beneficiaryId, data) {
+    let today = new Date().toISOString();
+    const setClauses = [];
+    const values = [];
+    function camelToSnakeCase(str) {
+      return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+    }
+    Object.entries(data).forEach(([key, value]) => {
+      const snakeKey = camelToSnakeCase(key);
+      setClauses.push(`${snakeKey} = ?`);
+      values.push(value);
+    });
+    setClauses.push("updated_at = ?");
+    values.push(today);
+    values.push(beneficiaryId);
+    const query = `UPDATE beneficiary SET ${ setClauses.join(', ') } WHERE id = ?`;
+    try {
+      await db.prepare(query).run(values);
+      const updatedRecord = await db.prepare('SELECT * FROM beneficiary WHERE id = ?').get(beneficiaryId);
+      return updatedRecord;
+    } catch (error) {
+      console.error('Error updating beneficiary:', error);
+      throw new Error('Failed to update beneficiary');
+    }
+  }
+
+  export default {createBeneficiary, deleteBeneficiary, getAllBeneficiary, getBeneficiary,updateBeneficiary,update}

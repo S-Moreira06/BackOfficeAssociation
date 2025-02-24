@@ -35,7 +35,7 @@ export default function Header() {
         { title: "Utilisateurs", links: [{ name: "Liste des Utilisateurs", path: "/users-list" }, { name: "Créer un utilisateur", path: "/create-user" }] },
         { title: "Restaurants", links: [{ name: "Liste des restaurants", path: "/restaurants" }, { name: "Créer un restaurant", path: "/create-restaurant" }] },
         { title: "Associations", links: [{ name: "Liste des associations", path: "/associations" }, { name: "Créer une association", path: "/create-association" }] },
-        { title: "Bénéficiaires", links: [{ name: "Liste des bénéficiaires", path: "/beneficiairy-list" }, { name: "Créer un bénéficiaire", path: "/create-beneficiaire" }] },
+        { title: "Bénéficiaires", links: [{ name: "Liste des bénéficiaires", path: "/beneficiary-list" }, { name: "Créer un bénéficiaire", path: "/create-beneficiary" }] },
         { title: "Disponibilités", links: [{ name: "Liste des disponibilités", path: "/disponibilites" }, { name: "Créer une disponibilité", path: "/create-disponibilite" }] },
         { title: "Réservations", links: [{ name: "Liste des réservations", path: "/reservations" }, { name: "Créer une réservation", path: "/create-reservation" }] },
     ];
