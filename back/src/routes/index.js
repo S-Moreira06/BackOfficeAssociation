@@ -26,6 +26,7 @@ app.route('/api/reservation', reservationRouter)
 app.route('/api/restaurant', restaurantRouter)
 app.route('/api/association', associationRouter)
 
+
 app.get(
   '/authenticated',
   authGuard(),

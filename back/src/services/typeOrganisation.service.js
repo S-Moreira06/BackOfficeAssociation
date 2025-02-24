@@ -5,13 +5,13 @@ async function createTypeOrganisation(idOrganisation, idType) {
         VALUES (?,?)`;
 
     const values = [idOrganisation, idType];
-    const result = await db.prepare(query).run(values);
+    const result     = await db.prepare(query).run(values);
     return result.changes > 0;
 }
 
 async  function getTypesForRestaurant(idOrganisation){
     const query = `SELECT t.name
-                   FROM type_organisation as t_o
+                   FROM type_organisation as t_o    
                             INNER JOIN type AS t ON t_o.id_type = t.id
                    WHERE  t_o.id_organisation = ? `;
     const result = db.prepare(query).all(idOrganisation);
