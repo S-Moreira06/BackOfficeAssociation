@@ -12,6 +12,9 @@ import Home from "./page/home";
 import UsersList from "./layout/UsersList";
 import CreateUser from "./page/createUser";
 import UpdateUser from "./page/updateUser";
+import BeneficiaryList from "./layout/beneficiaryList";
+import UpdateBeneficiary from "./page/updateBeneficiary";
+import CreateBeneficiary from "./page/createBeneficiary";
 
 
 
@@ -37,6 +40,11 @@ ReactDOM.createRoot(root).render(
         <Route path="/users-list" element={<UsersList />} />
         <Route path="/create-user" element={<CreateUser/>}/>
         <Route path="/update-user" element={<UpdateUser/>} />
+        <Route path="/beneficiary-list" element={<BeneficiaryList/>} />
+        <Route path="/update-beneficiary" element={<UpdateBeneficiary/>} />
+        <Route path="/create-beneficiary" element={<CreateBeneficiary/>}/>
+        
+
       </Routes>
       <Footer />
       <ReactQueryDevtools initialIsOpen={false} />

@@ -13,6 +13,20 @@ async function createBeneficiary(c) {
   }
 }
 
+async function updateBeneficiary(c) {
+  try {
+    const beneficiaryId = c.req.param('id');
+    const data = c.req.valid('json');
+    await beneficiaryService.update(beneficiaryId, data);
+    return c.json({
+      message: 'Update beneficiary successfull'
+    }, 201)
+  } catch (error) {
+    console.error(error);
+    return c.json({error: 'Update beneficiary failed'}, 400)
+  }
+}
+
 async function deleteBeneficiary(c) {
   try {
     const id = c.req.param('id')
@@ -58,7 +72,7 @@ async function getBeneficiary(c) {
 
 
 
-  export {createBeneficiary,deleteBeneficiary, getAllBeneficiary,getBeneficiary}
+  export {createBeneficiary,deleteBeneficiary, getAllBeneficiary,getBeneficiary,updateBeneficiary}
 
 
 
