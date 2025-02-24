@@ -47,37 +47,37 @@ const userSchema = z.object({
 });
 
 export default function CreateUser() {
-  const form = useForm({
-    resolver: zodResolver(userSchema),
-    defaultValues: {
-        email : "ROBERTo@soso.fr",
-  password : "Azerty06!",
-  firstname: "Soso",
-  lastname: "Admin",
-  role: "Admin",
-  address: "138 boulevard des CDPI",
-  city: "Mougins",
-  zip: "06250",
-  phone: "0606060606"
-    },
-  });
+    const form = useForm({
+        resolver: zodResolver(userSchema),
+        defaultValues: {
+            email : "ROBERTo@soso.fr",
+            password : "Azerty06!",
+            firstname: "Soso",
+            lastname: "Admin",
+            role: "Admin",
+            address: "138 boulevard des CDPI",
+            city: "Mougins",
+            zip: "06250",
+            phone: "0606060606"
+        },
+    });
 
-  const { handleSubmit, setValue } = form;
+    const { handleSubmit, setValue } = form;
 
-  const userMutation = useMutation({
-    mutationFn: async (newData) => {
-      return await createUser(newData);
-    },
-    onSuccess: () => {
-      window.location = "/users-list";
-    },
-  });
+    const userMutation = useMutation({
+        mutationFn: async (newData) => {
+            return await createUser(newData);
+        },
+        onSuccess: () => {
+            window.location = "/users-list";
+        },
+    });
 
-  const onSubmit = (data) => {
-    userMutation.mutate(data);
-  };
+    const onSubmit = (data) => {
+        userMutation.mutate(data);
+    };
 
-  return (
+    return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <Card className="w-full max-w-md bg-white">
             <CardHeader>
@@ -129,7 +129,7 @@ export default function CreateUser() {
                         )}
                         />
 
-<FormField 
+                        <FormField 
                         control={form.control}
                         name="password"
                         render={({ field }) => (
