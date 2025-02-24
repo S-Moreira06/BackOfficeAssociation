@@ -66,7 +66,7 @@ export default function UpdateUser() {
     });
     const { handleSubmit, setValue, reset } = form;
     const { isPending, isError, data, error } = useQuery({ 
-        queryKey: ['getUser'], 
+        queryKey: ['getUser' , userId], 
         queryFn: () => getUser(userId),
         enabled: !!userId,
     });
@@ -75,7 +75,7 @@ export default function UpdateUser() {
 
     useEffect(() => {
         if (data?.user) {
-            console.log("Données chargées dans le formulaire", data);
+            console.log("Données chargées dans le formulaire", data.user);
             reset(data.user); // Remplit tous les champs d'un coup
         }
     }, [data?.user, reset]);
