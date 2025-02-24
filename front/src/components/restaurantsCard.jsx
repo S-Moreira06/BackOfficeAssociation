@@ -16,11 +16,12 @@ import { getAllRestaurants } from '@/api/restaurant';
 export default function RestaurantsCard() {
     const { isPending, isError, data, error } = useQuery({ queryKey: ['restaurantsList'], queryFn: getAllRestaurants })
     const navigate = useNavigate()
+    console.log(data)
 
     return (
         <Card  onClick={() => navigate("/restaurants-list")}>
             <CardHeader>Nombre de restaurants</CardHeader>
-            <CardContent className="">{data?.restaurants.length}</CardContent>
+            <CardContent className="">{data?.organisations.length}</CardContent>
         </Card>
     )
     
