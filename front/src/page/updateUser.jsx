@@ -191,6 +191,28 @@ export default function UpdateUser() {
                                     </FormItem>
                                 )}
                             />
+                            <FormField 
+                            control={form.control}
+                            name="role"
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Role</FormLabel>
+                                <Select onValueChange={(value) => setValue("role", value)} defaultValue={field.value}>
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Role" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="admin">Administrateur</SelectItem>
+                                    <SelectItem value="restaurant">Restaurateur</SelectItem>
+                                    <SelectItem value="association">Gerant de l'association</SelectItem>
+                                    <SelectItem value="agent">Agent de reservation</SelectItem>
+                                </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                            
                             <Button type="submit">Mettre à jour</Button>
                         </form>
                     </Form>
