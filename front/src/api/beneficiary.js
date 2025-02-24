@@ -12,4 +12,22 @@ async function getAllBeneficiary() {
     }
 }
 
-export { getAllBeneficiary }
+async function getBeneficiary(id) {
+    try {
+        const response = await instance.get(`/beneficiary/${id}`)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+
+async function updateBeneficiary(id, beneficiaryData) {
+    try {
+        const response = await instance.put(`/beneficiary/${id}`, beneficiaryData);
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
+export { getAllBeneficiary, getBeneficiary, updateBeneficiary }
