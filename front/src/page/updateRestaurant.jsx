@@ -77,11 +77,11 @@ export default function UpdateRestaurant () {
     });
     console.log("Données recues:", data);
     useEffect(() => {
-        if (data?.restaurants) {
-            console.log("Données chargées dans le formulaire", data.restaurants);
-            reset(data.restaurants);
+        if (data?.organisation) {
+            console.log("Données chargées dans le formulaire", data.organisation);
+            reset(data.organisation);
         }
-    }, [data?.restaurants, reset]);
+    }, [data?.organisation, reset]);
 
     const updateRestaurantMutation = useMutation({
         mutationFn: async (newData) => {

@@ -18,6 +18,13 @@ async function getRestaurant(id) {
         return error
     }
 }
-async function updateRestaurant() {}
+async function updateRestaurant(id, restaurantData) {
+    try {
+        const response = await instance.put(`/restaurant/${id}`,restaurantData);
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
 
 export { getAllRestaurants, getRestaurant, updateRestaurant }
