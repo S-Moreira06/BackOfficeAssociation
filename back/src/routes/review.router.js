@@ -3,9 +3,8 @@ import { zValidator } from "@hono/zod-validator";
 import { z } from 'zod';
 import {
     addReview,
-  /*  softDeleteReview,
-    getAllReviewsForRestaurant,
-    updateReview*/
+    editReview,
+    deleteReview
 } from "../controllers/review.controller.js";
 import restaurantRouter from "./restaurant.router.js";
 const reviewRouter = new Hono();
@@ -18,6 +17,21 @@ reviewRouter.post(
             rating: z.number().int(),
         }
     )), addReview
+)
+
+reviewRouter.put(
+    "/:id", zValidator('json', z.object({
+            idBeneficiary: z.number().int().optional(),
+            idReservation: z.number().int().optional(),
+            message: z.string().max(255).optional(),
+            rating: z.number().int().optional(),
+        }
+    )), editReview
+)
+
+
+reviewRouter.delete(
+    "/:id", deleteReview
 )
 
 
