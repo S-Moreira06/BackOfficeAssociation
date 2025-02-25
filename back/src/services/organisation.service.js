@@ -25,7 +25,7 @@ async function softDeleteOrganisation(id){
   }
 }
 async function getAllOrganisationsByCategory(category) {
-  const query = 'SELECT * FROM organisation where category = ?';
+  const query = 'SELECT * FROM organisation where type = ?';
   const result = await db.prepare(query).all(category);
   if (result.length < 1) {
     throw new Error("No result");

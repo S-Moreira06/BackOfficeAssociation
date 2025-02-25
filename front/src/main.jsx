@@ -15,6 +15,9 @@ import UpdateUser from "./page/updateUser";
 import BeneficiaryList from "./layout/beneficiaryList";
 import UpdateBeneficiary from "./page/updateBeneficiary";
 import CreateBeneficiary from "./page/createBeneficiary";
+import RestaurantsList from "./layout/RestaurantsList";
+import UpdateRestaurant from "./page/updateRestaurant";
+
 
 
 
@@ -43,7 +46,8 @@ ReactDOM.createRoot(root).render(
         <Route path="/beneficiary-list" element={<BeneficiaryList/>} />
         <Route path="/update-beneficiary" element={<UpdateBeneficiary/>} />
         <Route path="/create-beneficiary" element={<CreateBeneficiary/>}/>
-        
+        <Route path="/restaurants-list" element={<RestaurantsList/>} />
+        <Route path="/update-restaurant" element={<UpdateRestaurant/>} />
 
       </Routes>
       <Footer />
