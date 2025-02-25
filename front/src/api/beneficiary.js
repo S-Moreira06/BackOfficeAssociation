@@ -31,5 +31,12 @@ async function updateBeneficiary(id, beneficiaryData) {
         return error;
     }
 }
-
-export { createBeneficiary,getAllBeneficiary, getBeneficiary, updateBeneficiary }
+async function deleteBeneficiary(id) {
+    try {
+        const response = await instance.delete(`/beneficiary/${id}`);
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+export { createBeneficiary,getAllBeneficiary, getBeneficiary, updateBeneficiary, deleteBeneficiary }
