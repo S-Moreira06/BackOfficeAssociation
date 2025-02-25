@@ -1,5 +1,4 @@
 import organisationService from '../services/organisation.service.js'
-import TypeService from "../services/type.service.js";
 import typeOrganisationService from "../services/typeOrganisation.service.js";
 import OrganisationService from "../services/organisation.service.js";
 
@@ -52,6 +51,23 @@ async function getAllOrganisationsByCategory(c) {
     }
 }
 
+async function getOrganisationById(c) {
+    try {
+        const id = c.req.param('id');
+        const testUrl = c.req.url.match(/restaurant/i);
+        const category = testUrl ? testUrl[0] : 'association';
+        const organisationDetail = await organisationService.getOrganisationById(id);
+        return c.json({
+            message: `get  ${ category } detail successfull`,
+            organisation: organisationDetail
+        }, 201)
+    } catch (error) {
+        console.error(error);
+        return c.json({
+            error: `get  ${ category } detail failed`
+        }, 400)
+    }
+}
 
 async function updateOrganisation(c) {
     try {
@@ -98,4 +114,4 @@ async function findOrganisationById(c) {
 
 
 export { creationOrganisation  ,updateOrganisation, getAllOrganisationsByCategory,
-    softDeleteOrganisation, getTypesForRestaurant, findOrganisationById }
+    softDeleteOrganisation, getTypesForRestaurant, findOrganisationById, getOrganisationById }
