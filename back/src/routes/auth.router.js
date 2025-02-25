@@ -87,12 +87,7 @@ authRouter.get(
 );
 
 authRouter.delete(
-    "/delete",
-    zValidator('json',
-        z.object({
-            id: z.string()
-        })
-    ),
+    "/:id",
     deleteUser
 );
 

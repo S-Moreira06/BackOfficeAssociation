@@ -1,4 +1,5 @@
 import authService from '../services/auth.service.js'
+import availabilityService from "../services/availability.service.js";
 
 async function register(c) {
   try {
@@ -94,14 +95,14 @@ async function verifyUserEmail(c) {
 
 async function deleteUser(c) {
   try {
-    const data = c.req.valid('json')
-    await authService.softDeleteUser(data.id)
+    const userId = c.req.param('id');
+    await authService.softDeleteUser(userId);
     return c.json({
-      message: 'Delete user done.'
-    }, 201)
+      message: "Delete user successfull"
+    }, 201);
   } catch (error) {
-    console.error(error)
-    return c.json({ error: 'Delete failed' }, 400)
+    console.error(error);
+    return c.json({ error: 'Delete user failed'}, 400);
   }
 }
 
