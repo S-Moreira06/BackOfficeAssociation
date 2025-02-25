@@ -35,18 +35,22 @@ export default function BeneficiaryList() {
                 <TableHead>Prénom</TableHead>
                 <TableHead>Téléphone</TableHead>
                 <TableHead>RGPD</TableHead>
-                <TableHead>Edit</TableHead>
             </TableRow>
             </TableHeader>
             <TableBody>
             {data?.beneficiary.length > 0 && data.beneficiary.map((beneficiary)=>{
             return (
                 <TableRow key={beneficiary.id}>
-                <TableCell>{beneficiary?.firstname}</TableCell>
-                <TableCell>{beneficiary?.lastname}</TableCell>
-                <TableCell>{beneficiary?.phone}</TableCell>
-                <TableCell>{beneficiary?.rgpd}</TableCell>
-                <TableCell><Button onClick={() => navigate("/update-beneficiary",{ state: { beneficiaryId: beneficiary.id }})}>Modifier</Button></TableCell>
+                    <TableCell>{beneficiary?.firstname}</TableCell>
+                    <TableCell>{beneficiary?.lastname}</TableCell>
+                    <TableCell>{beneficiary?.phone}</TableCell>
+                    <TableCell>{beneficiary?.rgpd}</TableCell>
+                    <TableCell>
+                        <Button onClick={() => navigate("/update-beneficiary",{ state: { beneficiaryId: beneficiary.id }})}>Modifier</Button>
+                    </TableCell>
+                    <TableCell>
+                        <Button onClick={() => navigate("/delete-beneficiary",{ state: { beneficiaryId: beneficiary.id }})}>Supprimer</Button>
+                    </TableCell>
                 </TableRow>
             )
             })}
