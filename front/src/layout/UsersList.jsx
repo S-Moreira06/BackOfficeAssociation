@@ -46,7 +46,12 @@ export default function UsersList() {
                 <TableCell>{user?.lastname}</TableCell>
                 <TableCell>{user?.role}</TableCell>
                 <TableCell>{user?.phone}</TableCell>
-                <TableCell><Button onClick={() => navigate("/update-user",{ state: { userId: user.id }})}>Modifier</Button></TableCell>
+                <TableCell>
+                    <Button onClick={() => navigate("/update-user",{ state: { userId: user.id }})}>Modifier</Button>
+                </TableCell>
+                <TableCell>
+                    <Button onClick={() => navigate("/delete-user",{ state: { userId: user.id }})}>Supprimer</Button>
+                </TableCell>
                 </TableRow>
             )
             })}

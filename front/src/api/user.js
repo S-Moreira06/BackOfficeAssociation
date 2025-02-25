@@ -31,4 +31,14 @@ async function updateUser(id, userData) {
     }
 }
 
-export { getAllUsers, createUser, getUser, updateUser }
+async function deleteUser(id) {
+    try {
+        const response = await instance.delete(`/auth/${id}`);
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
+
+
+export { getAllUsers, createUser, getUser, updateUser, deleteUser }
