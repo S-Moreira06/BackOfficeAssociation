@@ -12,6 +12,7 @@ import availabilityRouter from "./availability.router.js";
 import optionRouter from "./option.router.js";
 import restaurantRouter from "./restaurant.router.js";
 import associationRouter from "./association.router.js";
+import reviewRouter from "./review.router.js";
 const app = new Hono()
 
 
@@ -25,6 +26,7 @@ app.route('api/type',typeRouter)
 app.route('/api/reservation', reservationRouter)
 app.route('/api/restaurant', restaurantRouter)
 app.route('/api/association', associationRouter)
+app.route('/api/review', reviewRouter)
 
 
 app.get(
