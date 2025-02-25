@@ -16,8 +16,8 @@ import reviewRouter from "./review.router.js";
 const app = new Hono()
 
 
-app.get('api/', (c) => c.text('Hello from Hono!'))
-app.route('/api', authRouter)
+// app.get('api/', (c) => c.text('Hello from Hono!'))
+app.route('/api/auth', authRouter)
 app.route('api/option',optionRouter)
 app.route('/api/request', requestRouter)
 app.route('/api/availability', availabilityRouter)
@@ -27,6 +27,7 @@ app.route('/api/reservation', reservationRouter)
 app.route('/api/restaurant', restaurantRouter)
 app.route('/api/association', associationRouter)
 app.route('/api/review', reviewRouter)
+
 
 app.get(
   '/authenticated',

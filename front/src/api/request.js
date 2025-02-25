@@ -2,9 +2,17 @@ import instance from "./config";
 import axios from "axios";
 
 async function request(data) {
-    console.log(data)
     return await instance.post("request",data)
-    
 }
 
-export { request }
+async function getAllRequests() {
+    try {
+        const response = await axios.get("http://localhost:3000/api/request")
+        console.log(response)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+
+export { request, getAllRequests }

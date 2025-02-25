@@ -69,4 +69,4 @@ async function updateType(c) {
     }
 }
 
-export {creationType ,deleteType ,getAllType ,getType,updateType} ;
+export {creationType ,deleteType ,getAllType ,getType,updateType    } ;

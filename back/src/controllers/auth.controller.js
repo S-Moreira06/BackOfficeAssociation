@@ -13,6 +13,20 @@ async function register(c) {
   }
 }
 
+async function updateUser(c) {
+  try {
+    const userId = c.req.param('id');
+    const data = c.req.valid('json');
+    await authService.update(userId, data);
+    return c.json({
+      message: 'Update user successfull'
+    }, 201)
+  } catch (error) {
+    console.error(error);
+    return c.json({error: 'Update user failed'}, 400)
+  }
+}
+
 
 
 async function login(c) {
@@ -91,6 +105,32 @@ async function deleteUser(c) {
   }
 }
 
+async function getAllUsers(c) {
+  try {
+    const users = await authService.getAllUsers();
+    return c.json({
+      message: "user's list available",
+      users: users
+    }, 200)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'users list loading failed'}, 400)
+  }
+}
 
-export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification, deleteUser }
+async function getUserDetail(c) {
+  try {
+    const id = c.req.param('id')
+    const userDetail = await authService.getUserDetail(id);
+    return c.json({
+      message: "Get user detail successfull",
+      user: userDetail
+    }, 200)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'Get user detail failed'}, 400)
+  }
+}
+
+export { register, verifyUserEmail, resetPassword, forgotPassword, login, sendVerification, deleteUser, getAllUsers, getUserDetail, updateUser }
 
