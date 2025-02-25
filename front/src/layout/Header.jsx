@@ -41,7 +41,7 @@ export default function Header() {
     ];
 
     return (
-        <div className="sticky top-0 bg-white flex justify-between items-center border-b px-8 py-2">
+        <div className="sticky top-0 bg-white z-40 flex justify-between items-center border-b px-8 py-2">
             <img src={logo} alt="La petite Lili" className="w-[5%] min-w-[50px]" onClick={() => navigate("/")}/>
             {token && !isMobile && (
                 <NavigationMenu>
@@ -49,7 +49,7 @@ export default function Header() {
                         {menuItems.map((item, index) => (
                             <NavigationMenuItem key={item.title}>
                                 <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
-                                <NavigationMenuContent>
+                                <NavigationMenuContent className="bg-white">
                                     <ul className="grid gap-3 p-2 w-[250px]">
                                         {item.links.map((link) => (
                                             <li key={link.name}>

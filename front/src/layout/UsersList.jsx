@@ -70,7 +70,7 @@ export default function UsersList() {
                     <TableCell>
                         <AlertDialog>
                             <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
-                            <AlertDialogContent>
+                            <AlertDialogContent className="bg-white">
                                 <AlertDialogHeader>
                                 <AlertDialogTitle>Etes vous sure de vouloir supprimer l'utilisateur?</AlertDialogTitle>
                                 <AlertDialogDescription>
