@@ -35,7 +35,7 @@ export default function UsersList() {
                 <TableHead>Prénom</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Téléphone</TableHead>
-                <TableHead>Edit</TableHead>
+                
             </TableRow>
             </TableHeader>
             <TableBody>
