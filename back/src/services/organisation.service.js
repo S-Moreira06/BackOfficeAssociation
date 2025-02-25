@@ -66,12 +66,17 @@ async function updateOrganisation(organisationId, data) {
   }
 }
 
-
+async function getOrganisationById(id){
+  const query = 'SELECT * FROM organisation WHERE id = ?';
+  const result = await db.prepare(query).get(id);
+  return result;
+}
 
 export default {
   createOrganisation,
   softDeleteOrganisation ,
   getAllOrganisationsByCategory,
   findOrganisationById,
-  updateOrganisation
+  updateOrganisation,
+  getOrganisationById
 };
