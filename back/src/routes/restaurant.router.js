@@ -7,6 +7,7 @@ import {
     getAllOrganisationsByCategory,
     updateOrganisation,
     getTypesForRestaurant,
+    getOrganisationById
 } from "../controllers/organisation.controller.js";
 const restaurantRouter = new Hono();
 
@@ -29,6 +30,7 @@ restaurantRouter.post(
 restaurantRouter.delete('/:id', softDeleteOrganisation );
 
 restaurantRouter.get('/', getAllOrganisationsByCategory);
+restaurantRouter.get('/:id', getOrganisationById);
 
 restaurantRouter.put(
     '/:id',

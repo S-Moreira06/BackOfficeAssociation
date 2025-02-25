@@ -35,17 +35,37 @@ async function softDeleteOrganisation(c) {
 }
 
 async function getAllOrganisationsByCategory(c) {
+    let category = 'association'; // Déclaration de category avant le try
     try {
         const testUrl = c.req.url.match(/restaurant/i);
-        const category = testUrl ? testUrl[0] : 'association';
+        category = testUrl ? testUrl[0] : 'association';
+
         const organisations = await organisationService.getAllOrganisationsByCategory(category);
         return c.json({
-            message: `Get all ${ category }s successfull`,
+            message: `Get all ${category}s successful`,
             organisations: organisations
-        }, 200)
+        }, 200);
     } catch (error) {
-        console.error(error)
-        return c.json({ error: `Get all ${ category }s failes` }, 400)
+        console.error(error);
+        return c.json({ error: `Get all ${category}s failed` }, 400);
+    }
+}
+
+async function getOrganisationById(c) {
+    try {
+        const id = c.req.param('id');
+        const testUrl = c.req.url.match(/restaurant/i);
+        const category = testUrl ? testUrl[0] : 'association';
+        const organisationDetail = await organisationService.getOrganisationById(id);
+        return c.json({
+            message: `get  ${ category } detail successfull`,
+            organisation: organisationDetail
+        }, 201)
+    } catch (error) {
+        console.error(error);
+        return c.json({
+            error: `get  ${ category } detail failed`
+        }, 400)
     }
 }
 
@@ -94,4 +114,4 @@ async function findOrganisationById(c) {
 
 
 export { creationOrganisation  ,updateOrganisation, getAllOrganisationsByCategory,
-    softDeleteOrganisation, getTypesForRestaurant, findOrganisationById }
+    softDeleteOrganisation, getTypesForRestaurant, findOrganisationById, getOrganisationById }
