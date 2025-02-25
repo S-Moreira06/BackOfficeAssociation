@@ -10,4 +10,14 @@ async function getAllRestaurants() {
     }
 }
 
-export { getAllRestaurants }
+async function getRestaurant(id) {
+    try {
+        const response = await instance.get(`/restaurant/${id}`)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+async function updateRestaurant() {}
+
+export { getAllRestaurants, getRestaurant, updateRestaurant }
