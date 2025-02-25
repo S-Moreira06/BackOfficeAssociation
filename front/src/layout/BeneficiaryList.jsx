@@ -45,6 +45,7 @@ export default function BeneficiaryList() {
                     <TableCell>{beneficiary?.lastname}</TableCell>
                     <TableCell>{beneficiary?.phone}</TableCell>
                     <TableCell>{beneficiary?.rgpd}</TableCell>
+                    <TableCell>{beneficiary?.is_archived}</TableCell>
                     <TableCell>
                         <Button onClick={() => navigate("/update-beneficiary",{ state: { beneficiaryId: beneficiary.id }})}>Modifier</Button>
                     </TableCell>

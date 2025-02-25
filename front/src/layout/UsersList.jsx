@@ -42,16 +42,16 @@ export default function UsersList() {
             {data?.users.length > 0 && data.users.map((user)=>{
             return (
                 <TableRow key={user.id}>
-                <TableCell>{user?.firstname}</TableCell>
-                <TableCell>{user?.lastname}</TableCell>
-                <TableCell>{user?.role}</TableCell>
-                <TableCell>{user?.phone}</TableCell>
-                <TableCell>
-                    <Button onClick={() => navigate("/update-user",{ state: { userId: user.id }})}>Modifier</Button>
-                </TableCell>
-                <TableCell>
-                    <Button onClick={() => navigate("/delete-user",{ state: { userId: user.id }})}>Supprimer</Button>
-                </TableCell>
+                    <TableCell>{user?.firstname}</TableCell>
+                    <TableCell>{user?.lastname}</TableCell>
+                    <TableCell>{user?.role}</TableCell>
+                    <TableCell>{user?.phone}</TableCell>
+                    <TableCell>
+                        <Button onClick={() => navigate("/update-user",{ state: { userId: user.id }})}>Modifier</Button>
+                    </TableCell>
+                    <TableCell>
+                        <Button onClick={() => navigate("/delete-user",{ state: { userId: user.id }})}>Supprimer</Button>
+                    </TableCell>
                 </TableRow>
             )
             })}
