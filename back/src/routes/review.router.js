@@ -4,9 +4,10 @@ import { z } from 'zod';
 import {
     addReview,
     editReview,
-    deleteReview
+    deleteReview,
+    getReviewFromId,
+    getAllReviews
 } from "../controllers/review.controller.js";
-import restaurantRouter from "./restaurant.router.js";
 const reviewRouter = new Hono();
 
 reviewRouter.post(
@@ -35,4 +36,11 @@ reviewRouter.delete(
 )
 
 
+reviewRouter.get(
+    "/:id", getReviewFromId
+)
+
+reviewRouter.get(
+    "/", getAllReviews
+)
 export default reviewRouter;
