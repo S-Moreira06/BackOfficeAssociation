@@ -49,7 +49,7 @@ export default function RestaurantsList() {
                 <TableHead>Nom</TableHead>
                 <TableHead>Prénom</TableHead>
                 <TableHead>Téléphone</TableHead>
-                <TableHead>RGPD</TableHead>
+                <TableHead>Repas max.</TableHead>
                 
             </TableRow>
             </TableHeader>
