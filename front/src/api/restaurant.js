@@ -26,5 +26,13 @@ async function updateRestaurant(id, restaurantData) {
         return error;
     }
 }
+async function deleteRestaurant(id) {
+    try {
+        const response = await instance.delete(`/restaurant/${id}`);
+        return response.data;
+    } catch (error) {
+        return error;
+    }
+}
 
-export { getAllRestaurants, getRestaurant, updateRestaurant }
+export { getAllRestaurants, getRestaurant, updateRestaurant,deleteRestaurant }
