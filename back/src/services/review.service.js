@@ -57,8 +57,22 @@ async function updateReview(reviewId, data) {
     }
 }
 
+async function getReviewFromId(id){
+    const query = 'SELECT * FROM review WHERE id = ?';
+    const result = await db.prepare(query).get(id);
+    return result;
+}
+
+async function getAllReviews(){
+    const query = 'SELECT * FROM review';
+    const result = await db.prepare(query).all();
+    return result;
+}
+
 export default {
     addReview,
     softDeleteReview,
-    updateReview
+    updateReview,
+    getReviewFromId,
+    getAllReviews
 };

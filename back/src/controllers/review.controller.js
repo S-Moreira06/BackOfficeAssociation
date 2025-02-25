@@ -44,5 +44,37 @@ async function editReview(c) {
     }
 }
 
+async function getReviewFromId(c) {
+    try {
+        const id = c.req.param('id');
+        const reviewDetail = await reviewService.getReviewFromId(id);
+        return c.json({
+            message: 'Get  review successfull',
+            review: reviewDetail
+        }, 201)
+    } catch (error) {
+        console.error(error);
+        return c.json({
+            error: "Get review failed"
+        }, 400)
+    }
+}
 
-export { addReview, editReview, deleteReview }
+async function getAllReviews(c) {
+    try {
+        const reviews = await reviewService.getAllReviews();
+        return c.json({
+            message: 'Get all reviews successfull',
+            reviews: reviews
+        }, 201)
+    } catch (error) {
+        console.error(error);
+        return c.json({
+            error: "Get all reviews failed"
+        }, 400)
+    }
+}
+
+
+
+export { addReview, editReview, deleteReview, getReviewFromId, getAllReviews }
