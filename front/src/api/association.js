@@ -38,4 +38,4 @@ async function deleteAssociation(id) {
         return error;
     }
 }
-export { createAssociation,getAllAssociation, getAssociation, updateAssociation, deleteAssociation }
+export { createAssociation, getAllAssociation, getAssociation, updateAssociation, deleteAssociation }

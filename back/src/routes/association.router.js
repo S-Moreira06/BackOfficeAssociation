@@ -22,7 +22,9 @@ associationRouter.post(
                 contact: z.string(),
                 email: z.string().email(),
                 phone: z.string(),
-                maxMeal: z.number()
+                maxMeal: z.number(),
+                description: z.string().optional(),
+                image: z.string().optional()
         }
     )),
     creationOrganisation
@@ -42,7 +44,7 @@ associationRouter.put(
             city: z.string().optional(),
             siret: z.string().optional(),
             contact: z.string().optional(),
-            email: z.string().email().optional(),
+            email: z.string().email(),
             phone: z.string().optional(),
             maxMeal: z.number().nullable().optional()
         })), updateOrganisation
