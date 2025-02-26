@@ -17,6 +17,9 @@ import UpdateBeneficiary from "./page/updateBeneficiary";
 import CreateBeneficiary from "./page/createBeneficiary";
 import RestaurantsList from "./layout/RestaurantsList";
 import UpdateRestaurant from "./page/updateRestaurant";
+import AssociationList from "./layout/AssociationList";
+import UpdateAssociation from "./page/updateAssociation";
+import CreateAssociation from "./page/createAssociation";
 
 
 
@@ -48,6 +51,9 @@ ReactDOM.createRoot(root).render(
         <Route path="/create-beneficiary" element={<CreateBeneficiary/>}/>
         <Route path="/restaurants-list" element={<RestaurantsList/>} />
         <Route path="/update-restaurant" element={<UpdateRestaurant/>} />
+        <Route path="/association-list" element={<AssociationList/>}/>
+        <Route path="/update-association" element={<UpdateAssociation/>} />
+        <Route path="/create-association" element={<CreateAssociation/>}/>
 
       </Routes>
       <Footer />
