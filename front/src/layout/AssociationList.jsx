@@ -39,6 +39,9 @@ export default function RestaurantsList() {
     });
     
     return (
+        <>
+        
+        <Button onClick={()=>navigate("/create-association")}>Créer une association</Button>
         <Table>
         <TableCaption className="caption-top">
             Liste des associations
@@ -86,5 +89,6 @@ export default function RestaurantsList() {
             </TableBody>
         
         </Table>
+        </>
     )
 }
