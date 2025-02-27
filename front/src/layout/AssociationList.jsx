@@ -50,10 +50,12 @@ export default function RestaurantsList() {
             <TableHeader>
             <TableRow>
                 <TableHead>Nom</TableHead>
-                <TableHead>Prénom</TableHead>
+                <TableHead>Contact</TableHead>
+                <TableHead>Adresse</TableHead>
                 <TableHead>Téléphone</TableHead>
+                <TableHead>Siret</TableHead>
                 <TableHead>Repas max.</TableHead>
-                
+                <TableHead>Description</TableHead>
             </TableRow>
             </TableHeader>
             <TableBody>
@@ -61,9 +63,12 @@ export default function RestaurantsList() {
             return (
                 <TableRow key={association.id}>
                 <TableCell>{association?.name}</TableCell>
-                <TableCell>{association?.city}</TableCell>
+                <TableCell>{association?.contact}</TableCell>
+                <TableCell>{association?.address}<br/>{association?.zip} {association?.city}</TableCell>
                 <TableCell>{association?.phone}</TableCell>
+                <TableCell>{association?.siret}</TableCell>
                 <TableCell>{association?.max_meal}</TableCell>
+                <TableCell>{association?.description}</TableCell>
                 <TableCell>{association?.is_archived}</TableCell>
                 <TableCell><Button onClick={() => navigate("/update-association",{ state: { associationId: association.id }})}>Modifier</Button></TableCell>
                 <TableCell>
