@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { Button } from '@/components/ui/button'
@@ -22,7 +22,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-  } from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog"
 
 
 import { getAllBeneficiary, deleteBeneficiary } from '@/api/beneficiary'
@@ -38,57 +38,60 @@ export default function BeneficiaryList() {
             queryClient.invalidateQueries(['beneficiaryList']);
         },
     });
-    useEffect(()=>{
-        console.log("DATA", data)
-    }, [data])
+
     return (
-        <Table>
-        <TableCaption className="caption-top">
-            Liste des bénéficiaires
-        </TableCaption>
-        
-            <TableHeader>
-            <TableRow>
-                <TableHead>Nom</TableHead>
-                <TableHead>Prénom</TableHead>
-                <TableHead>Téléphone</TableHead>
-                <TableHead>RGPD</TableHead>
-            </TableRow>
-            </TableHeader>
-            <TableBody>
-            {data?.beneficiary.length > 0 && data.beneficiary.map((beneficiary)=>{
-            return (
-                <TableRow key={beneficiary.id}>
-                    <TableCell>{beneficiary?.firstname}</TableCell>
-                    <TableCell>{beneficiary?.lastname}</TableCell>
-                    <TableCell>{beneficiary?.phone}</TableCell>
-                    <TableCell>{beneficiary?.rgpd}</TableCell>
-                    <TableCell>{beneficiary?.is_archived}</TableCell>
-                    <TableCell>
-                        <Button onClick={() => navigate("/update-beneficiary",{ state: { beneficiaryId: beneficiary.id }})}>Modifier</Button>
-                    </TableCell>
-                    <TableCell>
-                        <AlertDialog>
-                            <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
-                            <AlertDialogContent className="bg-white">
-                                <AlertDialogHeader>
-                                <AlertDialogTitle>Etes vous sure de vouloir supprimer l'utilisateur?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    Souhaitez vous désactiver le compte de cet utilisateur?
-                                </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                <AlertDialogCancel>Annuler</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => mutation.mutate(beneficiary.id)}>Oui</AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                    </TableCell>
+        <>
+            <Button onClick={()=>navigate("/create-beneficiary")}>Créer un bénéficiaire</Button>
+            <Table>
+            <TableCaption className="caption-top">
+                Liste des bénéficiaires
+            </TableCaption>
+            
+                <TableHeader>
+                <TableRow>
+                    <TableHead>Nom</TableHead>
+                    <TableHead>Prénom</TableHead>
+                    <TableHead>Téléphone</TableHead>
+                    <TableHead>Adresse</TableHead>
+                    <TableHead>RGPD</TableHead>
                 </TableRow>
-            )
-            })}
-            </TableBody>
-        
-        </Table>
+                </TableHeader>
+                <TableBody>
+                {data?.beneficiary.length > 0 && data.beneficiary.map((beneficiary)=>{
+                return (
+                    <TableRow key={beneficiary.id}>
+                        <TableCell>{beneficiary?.firstname}</TableCell>
+                        <TableCell>{beneficiary?.lastname}</TableCell>
+                        <TableCell>{beneficiary?.phone}</TableCell>
+                        <TableCell>{beneficiary?.address}<br/>{beneficiary?.zip} {beneficiary?.city}</TableCell>
+                        <TableCell>{beneficiary?.rgpd}</TableCell>
+                        <TableCell>{beneficiary?.is_archived}</TableCell>
+                        <TableCell>
+                            <Button onClick={() => navigate("/update-beneficiary",{ state: { beneficiaryId: beneficiary.id }})}>Modifier</Button>
+                        </TableCell>
+                        <TableCell>
+                            <AlertDialog>
+                                <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
+                                <AlertDialogContent className="bg-white">
+                                    <AlertDialogHeader>
+                                    <AlertDialogTitle>Etes vous sure de vouloir supprimer l'utilisateur?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Souhaitez vous désactiver le compte de cet utilisateur?
+                                    </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                    <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                    <AlertDialogAction onClick={() => mutation.mutate(beneficiary.id)}>Oui</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        </TableCell>
+                    </TableRow>
+                )
+                })}
+                </TableBody>
+            
+            </Table>
+        </>
     )
 }
