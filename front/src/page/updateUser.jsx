@@ -1,5 +1,5 @@
-import { useLocation } from "react-router-dom";
-import { useQuery , useMutation } from '@tanstack/react-query';
+import { useLocation, useNavigate } from "react-router-dom";
+import { useQuery , useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from "react-hook-form";
 import React, { useEffect } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -49,6 +49,8 @@ const userSchema = z.object({
 export default function UpdateUser() {
     const location = useLocation();
     const userId = location.state?.userId; 
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
     
     const form = useForm({
         resolver: zodResolver(userSchema),
@@ -85,8 +87,14 @@ export default function UpdateUser() {
             return await updateUser(userId, newData)
         },
         onSuccess: () => {
-            window.location = "/user-list";
+            queryClient.invalidateQueries(['userList']);
+            setTimeout(() => {
+                navigate("/user-list");
+            }, 500); 
         },
+        onError: (error) => {
+            console.log("Erreur lors de la modification :", error)
+        }
     });
 
     const onSubmit = (formData) => {
