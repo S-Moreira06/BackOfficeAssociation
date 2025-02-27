@@ -13,7 +13,7 @@ import {
 
 import { getAllRequest } from '@/api/request';
 
-export default function RequestsCard() {
+export default function RequestCard() {
     const { isPending, isError, data, error } = useQuery({ queryKey: ['requestList'], queryFn: getAllRequest })
     const navigate = useNavigate()
     console.log(data)

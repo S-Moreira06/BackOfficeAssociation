@@ -10,11 +10,11 @@ import {
     CardHeader, 
     CardTitle 
 } from "@/components/ui/card";
-import UserCard from '@/components/userCard';
-import RequestCard from '@/components/requestCard';
-import BeneficiaryCard from '@/components/beneficiaryCard';
-import RestaurantCard from '@/components/restaurantCard';
-import AssociationCard from '@/components/associationCard';
+import UserCard from '@/components/UserCard';
+import RequestCard from '@/components/RequestCard';
+import BeneficiaryCard from '@/components/BeneficiaryCard';
+import RestaurantCard from '@/components/RestaurantCard';
+import AssociationCard from '@/components/AssociationCard';
 
 
 export default function Stat() {

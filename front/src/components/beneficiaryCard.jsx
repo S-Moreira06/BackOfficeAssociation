@@ -1,14 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { 
     Card, 
     CardContent, 
-    CardDescription, 
-    CardFooter, 
     CardHeader, 
-    CardTitle 
 } from "@/components/ui/card";
 
 import { getAllBeneficiary } from '@/api/beneficiary';

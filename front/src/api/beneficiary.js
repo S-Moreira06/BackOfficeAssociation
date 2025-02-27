@@ -1,5 +1,4 @@
 import instance from "./config";
-import axios from "axios";
 
 async function createBeneficiary(data) {
     return await instance.post("/beneficiary",data)
