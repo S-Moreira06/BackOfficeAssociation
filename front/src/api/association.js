@@ -12,7 +12,6 @@ async function getAllAssociation() {
         return error
     }
 }
-
 async function getAssociation(id) {
     try {
         const response = await instance.get(`/association/${id}`)
@@ -21,7 +20,6 @@ async function getAssociation(id) {
         return error
     }
 }
-
 async function updateAssociation(id, associationData) {
     try {
         const response = await instance.put(`/association/${id}`, associationData);

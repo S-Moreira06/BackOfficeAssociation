@@ -1,9 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { useQuery , useMutation, useQueryClient } from '@tanstack/react-query';
-import { useForm } from "react-hook-form";
-import React, { useEffect } from 'react';
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+'use client'
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,9 +27,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { getAssociation, updateAssociation } from "@/api/association";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
-const associationSchema = z.object({
+import { createRestaurant } from "@/api/restaurant"
+
+const restaurantSchema = z.object({
     name: z.string(),
     address: z.string(),
     zip: z.string(),
@@ -46,76 +47,60 @@ const associationSchema = z.object({
     maxMeal: z.number().nullable().optional(),
     description: z.string().optional(),
     image: z.string().optional()
-})
+});
 
-export default function UpdateAssociation () {
-    const location = useLocation();
-    const associationId = location.state?.associationId; 
+export default function CreateRestaurant() {
+    const form = useForm({
+        resolver: zodResolver(restaurantSchema),
+            defaultValues: {
+            name: "Restau Test",
+            address: "1 rue su test",
+            zip: "06000",
+            city: "Nice",
+            siret: "123456788098",
+            contact: "Jean Test",
+            email: "jeantest@test.fr",
+            phone: "0706060606",
+            maxMeal: 99,
+            description: "Ceci est une restaurant de test",
+            image: "",
+            role: "restaurant"
+        },
+    });
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+    
+    const { handleSubmit, setValue } = form;
 
-
-    const form = useForm({
-        resolver: zodResolver(associationSchema),
-        defaultValues: {
-            name: "",
-            address: "",
-            zip: "",
-            city: "",
-            siret: "",
-            contact: "",
-            email: "",
-            phone: "",
-            maxMeal: "",
-            description: "",
-            image: ""
-        },
-    });
-    const { handleSubmit, setValue, reset } = form;
-    const { isPending, isError, data, error } = useQuery({ 
-        queryKey: ['getAssociation' , associationId], 
-        queryFn: () => getAssociation(associationId),
-        enabled: !!associationId,
-    });
-    console.log("Données recues:", data);
-    useEffect(() => {
-        if (data?.organisation) {
-            console.log("Données chargées dans le formulaire", data.organisation);
-            reset(data.organisation);
-        }
-    }, [data?.organisation, reset]);
-
-    const updateAssociationMutation = useMutation({
+    const restaurantMutation = useMutation({
         mutationFn: async (newData) => {
-            return await updateAssociation(associationId, newData)
+            return await createRestaurant(newData);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(['associationList']);
+            console.log("restaurant is create !");
+            queryClient.invalidateQueries(['restaurantList']);
             setTimeout(() => {
-                navigate("/association-list");
-            }, 500); 
+                navigate("/restaurant-list");
+            }, 500); // Petite pause pour s'assurer que tout est bien exécuté
         },
+        
         onError: (error) => {
-            console.log("Erreur lors de la modification :", error)
+            console.log("Creation failed :", error)
         }
     });
 
-    const onSubmit = (formData) => {
-        console.log("Données mises à jour :", formData);
-        updateAssociationMutation.mutate(formData);
+    const onSubmit = (data) => {
+        console.log(data)
+        restaurantMutation.mutate(data);
     };
 
-    if (isPending) return <div>Chargement...</div>;
-    if (isError) return <div>Erreur : {error.message}</div>;
-
     return (
-        <>
-                    <div>Modifier le association avec ID : {associationId}</div>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Modifier le association</CardTitle>
-                        </CardHeader>
-                        <CardContent>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <Card className="w-full max-w-md bg-white">
+            <CardHeader>
+                <CardTitle className="text-2xl font-bold">Créer une restaurant</CardTitle>
+            </CardHeader>
+                    <CardContent>
                             <Form {...form}>
                                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                                     <FormField
@@ -224,12 +209,20 @@ export default function UpdateAssociation () {
                                             </FormItem>
                                         )}
                                     />
+                                    <FormField
+                                        control={form.control}
+                                        name="role"
+                                        render={({ field }) => (
+                                            <input type="hidden" {...field} value="restaurant" />
+                                        )}
+                                    />
                                     
-                                    <Button type="submit">Mettre à jour</Button>
+                                    <Button type="submit">Créer un restaurant</Button>
                                 </form>
                             </Form>
                         </CardContent>
-                    </Card>
-                </>
-    )
+
+        </Card>
+    </div>
+    );
 }

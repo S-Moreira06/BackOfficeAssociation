@@ -27,7 +27,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -61,7 +61,8 @@ export default function CreateUser() {
             phone: "0606060606"
         },
     });
-
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const { handleSubmit, setValue } = form;
 
     const userMutation = useMutation({
@@ -69,8 +70,16 @@ export default function CreateUser() {
             return await createUser(newData);
         },
         onSuccess: () => {
-            window.location = "/users-list";
+            console.log("association is create !");
+            queryClient.invalidateQueries(['userList']);
+            setTimeout(() => {
+                navigate("/user-list");
+            }, 500); 
         },
+        
+        onError: (error) => {
+            console.log("Erreur lors de la création :", error)
+        }
     });
 
     const onSubmit = (data) => {

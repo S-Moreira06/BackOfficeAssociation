@@ -1,7 +1,9 @@
 import instance from "./config";
-import axios from "axios";
 
-async function getAllRestaurants() {
+async function createRestaurant(data) {
+    return await instance.post("/restaurant",data)
+}
+async function getAllRestaurant() {
     try {
         const response = await instance.get("/restaurant")
         return response.data
@@ -35,4 +37,4 @@ async function deleteRestaurant(id) {
     }
 }
 
-export { getAllRestaurants, getRestaurant, updateRestaurant,deleteRestaurant }
+export { createRestaurant, getAllRestaurant, getRestaurant, updateRestaurant,deleteRestaurant }

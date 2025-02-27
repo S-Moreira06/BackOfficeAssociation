@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { Button } from '@/components/ui/button'
@@ -22,25 +22,28 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-  } from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog"
 
 
-import { getAllRestaurants, deleteRestaurant } from '@/api/restaurant'
+import { getAllRestaurant, deleteRestaurant } from '@/api/restaurant'
 
-export default function RestaurantsList() {
-    const { isPending, isError, data, error } = useQuery({ queryKey: ['restaurantsList'], queryFn: getAllRestaurants })
+export default function RestaurantList() {
+    const { isPending, isError, data, error } = useQuery({ queryKey: ['restaurantList'], queryFn: getAllRestaurant })
     const navigate = useNavigate()
     const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: deleteRestaurant,
         onSuccess: () => {
-            queryClient.invalidateQueries(['retaurantsList']);
+            queryClient.invalidateQueries(['retaurantList']);
         },
     });
     
     return (
+        <>
+        
+        <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-restaurant")}>Créer un restaurant</Button>
         <Table>
-        <TableCaption className="caption-top">
+        <TableCaption className="caption-top text-xl">
             Liste des restaurants
         </TableCaption>
         
@@ -68,9 +71,9 @@ export default function RestaurantsList() {
                         <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
                         <AlertDialogContent className="bg-white">
                             <AlertDialogHeader>
-                            <AlertDialogTitle>Etes vous sure de vouloir supprimer l'utilisateur?</AlertDialogTitle>
+                            <AlertDialogTitle>Etes vous sure de vouloir supprimer le restaurant?</AlertDialogTitle>
                             <AlertDialogDescription>
-                                Souhaitez vous désactiver le beneficiary?
+                                Souhaitez vous désactiver le restaurant?
                             </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
@@ -86,5 +89,6 @@ export default function RestaurantsList() {
             </TableBody>
         
         </Table>
+        </>
     )
 }

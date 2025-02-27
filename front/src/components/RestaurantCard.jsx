@@ -11,15 +11,15 @@ import {
     CardTitle 
 } from "@/components/ui/card";
 
-import { getAllRestaurants } from '@/api/restaurant';
+import { getAllRestaurant } from '@/api/restaurant';
 
-export default function RestaurantsCard() {
-    const { isPending, isError, data, error } = useQuery({ queryKey: ['restaurantsList'], queryFn: getAllRestaurants })
+export default function RestaurantCard() {
+    const { isPending, isError, data, error } = useQuery({ queryKey: ['restaurantList'], queryFn: getAllRestaurant })
     const navigate = useNavigate()
     console.log(data)
 
     return (
-        <Card  onClick={() => navigate("/restaurants-list")}>
+        <Card  onClick={() => navigate("/restaurant-list")}>
             <CardHeader>Nombre de restaurants</CardHeader>
             <CardContent className="">{data?.organisations.length}</CardContent>
         </Card>

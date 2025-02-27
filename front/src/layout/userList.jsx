@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { Button } from '@/components/ui/button'
@@ -22,52 +22,53 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+  } from "@/components/ui/alert-dialog"
 
+import { deleteUser, getAllUser } from '@/api/user';
 
-import { getAllBeneficiary, deleteBeneficiary } from '@/api/beneficiary'
-
-export default function BeneficiaryList() {
-    const { isPending, isError, data, error } = useQuery({ queryKey: ['beneficiaryList'], queryFn: getAllBeneficiary })
+export default function UserList() {
+    const { isPending, isError, data, error } = useQuery({ queryKey: ['userList'], queryFn: getAllUser })
     const navigate = useNavigate()
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: deleteBeneficiary,
+        mutationFn: deleteUser, 
         onSuccess: () => {
-            queryClient.invalidateQueries(['beneficiaryList']);
+            queryClient.invalidateQueries(['userList']); 
         },
     });
-
+    useEffect(()=>{
+        console.log("DATA", data)
+    }, [data])
     return (
         <>
-            <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-beneficiary")}>Créer un bénéficiaire</Button>
+            <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-user")}>Créer un utilisateur</Button>
+            
             <Table>
             <TableCaption className="caption-top text-xl">
-                Liste des bénéficiaires
+                Liste des utilisateurs
             </TableCaption>
             
                 <TableHeader>
                 <TableRow>
                     <TableHead>Nom</TableHead>
                     <TableHead>Prénom</TableHead>
+                    <TableHead>Role</TableHead>
                     <TableHead>Téléphone</TableHead>
-                    <TableHead>Adresse</TableHead>
-                    <TableHead>RGPD</TableHead>
+                    
                 </TableRow>
                 </TableHeader>
                 <TableBody>
-                {data?.beneficiary.length > 0 && data.beneficiary.map((beneficiary)=>{
+                {data?.users.length > 0 && data.users.map((user)=>{
                 return (
-                    <TableRow key={beneficiary.id}>
-                        <TableCell>{beneficiary?.firstname}</TableCell>
-                        <TableCell>{beneficiary?.lastname}</TableCell>
-                        <TableCell>{beneficiary?.phone}</TableCell>
-                        <TableCell>{beneficiary?.address}<br/>{beneficiary?.zip} {beneficiary?.city}</TableCell>
-                        <TableCell>{beneficiary?.rgpd}</TableCell>
-                        <TableCell>{beneficiary?.is_archived}</TableCell>
+                    <TableRow key={user.id}>
+                        <TableCell>{user?.firstname}</TableCell>
+                        <TableCell>{user?.lastname}</TableCell>
+                        <TableCell>{user?.role}</TableCell>
+                        <TableCell>{user?.phone}</TableCell>
+                        <TableCell>{user?.is_archived}</TableCell>
                         <TableCell>
-                            <Button onClick={() => navigate("/update-beneficiary",{ state: { beneficiaryId: beneficiary.id }})}>Modifier</Button>
+                            <Button onClick={() => navigate("/update-user",{ state: { userId: user.id }})}>Modifier</Button>
                         </TableCell>
                         <TableCell>
                             <AlertDialog>
@@ -81,7 +82,7 @@ export default function BeneficiaryList() {
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                     <AlertDialogCancel>Annuler</AlertDialogCancel>
-                                    <AlertDialogAction onClick={() => mutation.mutate(beneficiary.id)}>Oui</AlertDialogAction>
+                                    <AlertDialogAction onClick={() => mutation.mutate(user.id)}>Oui</AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
                             </AlertDialog>

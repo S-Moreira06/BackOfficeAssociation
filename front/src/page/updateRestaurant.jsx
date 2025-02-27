@@ -1,5 +1,5 @@
-import { useLocation,useNavigate } from "react-router-dom";
-import { useQuery , useMutation } from '@tanstack/react-query';
+import { useLocation, useNavigate } from "react-router-dom";
+import { useQuery , useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from "react-hook-form";
 import React, { useEffect } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -52,6 +52,8 @@ export default function UpdateRestaurant () {
     const location = useLocation();
     const restaurantId = location.state?.restaurantId; 
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+    
 
     const form = useForm({
         resolver: zodResolver(restaurantSchema),
@@ -88,7 +90,13 @@ export default function UpdateRestaurant () {
             return await updateRestaurant(restaurantId, newData)
         },
         onSuccess: () => {
-            window.location = "/restaurants-list";
+            queryClient.invalidateQueries(['restaurantList']);
+            setTimeout(() => {
+                navigate("/restaurant-list");
+            }, 500); 
+        },
+        onError: (error) => {
+            console.log("update failed :", error)
         },
     });
 

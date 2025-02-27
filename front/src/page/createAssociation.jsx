@@ -72,16 +72,16 @@ export default function CreateAssociation() {
     
     const { handleSubmit, setValue } = form;
 
-    const beneficiaryMutation = useMutation({
+    const associationMutation = useMutation({
         mutationFn: async (newData) => {
             return await createAssociation(newData);
         },
         onSuccess: () => {
-            console.log("Association créée avec succès !");
+            console.log("association is create !");
             queryClient.invalidateQueries(['associationList']);
             setTimeout(() => {
                 navigate("/association-list");
-            }, 500); // Petite pause pour s'assurer que tout est bien exécuté
+            }, 500); 
         },
         
         onError: (error) => {
@@ -91,7 +91,7 @@ export default function CreateAssociation() {
 
     const onSubmit = (data) => {
         console.log(data)
-        beneficiaryMutation.mutate(data);
+        associationMutation.mutate(data);
     };
 
     return (
