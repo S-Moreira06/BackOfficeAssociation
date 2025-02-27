@@ -19,7 +19,7 @@ export default function RestaurantCard() {
     console.log(data)
 
     return (
-        <Card  onClick={() => navigate("/restaurants-list")}>
+        <Card  onClick={() => navigate("/restaurant-list")}>
             <CardHeader>Nombre de restaurants</CardHeader>
             <CardContent className="">{data?.organisations.length}</CardContent>
         </Card>

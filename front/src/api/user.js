@@ -39,5 +39,4 @@ async function deleteUser(id) {
     }
 }
 
-
 export { getAllUser, createUser, getUser, updateUser, deleteUser }
