@@ -22,7 +22,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-  } from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog"
 
 
 import { getAllRestaurant, deleteRestaurant } from '@/api/restaurant'
@@ -71,9 +71,9 @@ export default function RestaurantList() {
                         <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
                         <AlertDialogContent className="bg-white">
                             <AlertDialogHeader>
-                            <AlertDialogTitle>Etes vous sure de vouloir supprimer l'utilisateur?</AlertDialogTitle>
+                            <AlertDialogTitle>Etes vous sure de vouloir supprimer le restaurant?</AlertDialogTitle>
                             <AlertDialogDescription>
-                                Souhaitez vous désactiver le beneficiary?
+                                Souhaitez vous désactiver le restaurant?
                             </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>

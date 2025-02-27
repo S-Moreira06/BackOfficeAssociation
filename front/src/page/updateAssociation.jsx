@@ -1,5 +1,5 @@
-import { useLocation,useNavigate } from "react-router-dom";
-import { useQuery , useMutation } from '@tanstack/react-query';
+import { useLocation, useNavigate } from "react-router-dom";
+import { useQuery , useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from "react-hook-form";
 import React, { useEffect } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -52,6 +52,8 @@ export default function UpdateAssociation () {
     const location = useLocation();
     const associationId = location.state?.associationId; 
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+
 
     const form = useForm({
         resolver: zodResolver(associationSchema),
@@ -88,9 +90,14 @@ export default function UpdateAssociation () {
             return await updateAssociation(associationId, newData)
         },
         onSuccess: () => {
-            
-            window.location = "/association-list";
+            queryClient.invalidateQueries(['associationList']);
+            setTimeout(() => {
+                navigate("/association-list");
+            }, 500); 
         },
+        onError: (error) => {
+            console.log("Erreur lors de la modification :", error)
+        }
     });
 
     const onSubmit = (formData) => {

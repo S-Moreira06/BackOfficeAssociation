@@ -85,7 +85,7 @@ export default function UpdateUser() {
             return await updateUser(userId, newData)
         },
         onSuccess: () => {
-            window.location = "/users-list";
+            window.location = "/user-list";
         },
     });
 
