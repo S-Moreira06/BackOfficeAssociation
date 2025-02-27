@@ -42,10 +42,10 @@ export default function UserList() {
     }, [data])
     return (
         <>
-            <Button onClick={()=>navigate("/create-user")}>Créer un utilisateur</Button>
+            <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-user")}>Créer un utilisateur</Button>
             
             <Table>
-            <TableCaption className="caption-top">
+            <TableCaption className="caption-top text-xl">
                 Liste des utilisateurs
             </TableCaption>
             

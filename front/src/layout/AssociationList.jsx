@@ -41,9 +41,9 @@ export default function RestaurantsList() {
     return (
         <>
         
-        <Button onClick={()=>navigate("/create-association")}>Créer une association</Button>
+        <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-association")} >Créer une association</Button>
         <Table>
-        <TableCaption className="caption-top">
+        <TableCaption className="caption-top text-xl">
             Liste des associations
         </TableCaption>
         

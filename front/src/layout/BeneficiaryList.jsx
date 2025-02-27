@@ -41,9 +41,9 @@ export default function BeneficiaryList() {
 
     return (
         <>
-            <Button onClick={()=>navigate("/create-beneficiary")}>Créer un bénéficiaire</Button>
+            <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-beneficiary")}>Créer un bénéficiaire</Button>
             <Table>
-            <TableCaption className="caption-top">
+            <TableCaption className="caption-top text-xl">
                 Liste des bénéficiaires
             </TableCaption>
             

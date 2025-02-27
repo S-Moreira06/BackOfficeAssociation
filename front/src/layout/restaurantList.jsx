@@ -41,9 +41,9 @@ export default function RestaurantList() {
     return (
         <>
         
-        <Button onClick={()=>navigate("/create-restaurant")}>Créer un restaurant</Button>
+        <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-restaurant")}>Créer un restaurant</Button>
         <Table>
-        <TableCaption className="caption-top">
+        <TableCaption className="caption-top text-xl">
             Liste des restaurants
         </TableCaption>
         
