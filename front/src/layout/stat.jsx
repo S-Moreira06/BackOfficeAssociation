@@ -10,22 +10,22 @@ import {
     CardHeader, 
     CardTitle 
 } from "@/components/ui/card";
-import UsersCard from '@/components/usersCard';
-import RequestsCard from '@/components/requestsCard';
+import UserCard from '@/components/userCard';
+import RequestCard from '@/components/requestCard';
 import BeneficiaryCard from '@/components/beneficiaryCard';
-import RestaurantsCard from '@/components/restaurantsCard';
+import RestaurantCard from '@/components/restaurantCard';
 import AssociationCard from '@/components/associationCard';
 
 
-export default function Stats() {
+export default function Stat() {
 
 
     return (
         <div className='sm:flex justify-between text-center'>
-            <UsersCard />
-            <RequestsCard />
+            <UserCard />
+            <RequestCard />
             <BeneficiaryCard />
-            <RestaurantsCard />
+            <RestaurantCard />
             <AssociationCard />
         </div>
     )

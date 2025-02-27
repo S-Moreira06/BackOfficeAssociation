@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { 
@@ -11,10 +11,10 @@ import {
     CardTitle 
 } from "@/components/ui/card";
 
-import { getAllRequests } from '@/api/request';
+import { getAllRequest } from '@/api/request';
 
 export default function RequestsCard() {
-    const { isPending, isError, data, error } = useQuery({ queryKey: ['requestsList'], queryFn: getAllRequests })
+    const { isPending, isError, data, error } = useQuery({ queryKey: ['requestList'], queryFn: getAllRequest })
     const navigate = useNavigate()
     console.log(data)
 

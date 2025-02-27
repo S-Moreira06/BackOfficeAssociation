@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { 
@@ -11,11 +11,11 @@ import {
   CardTitle 
 } from "@/components/ui/card";
 import Guest from "../layout/Guest"
-import Stats from "../layout/Stats"
-import { getAllUsers } from '@/api/user'
+import Stat from "../layout/stat"
+import { getAllUser } from '@/api/user'
 
 export default function Home() {
-  const { isPending, isError, data, error } = useQuery({ queryKey: ['usersList'], queryFn: getAllUsers })
+  const { isPending, isError, data, error } = useQuery({ queryKey: ['userList'], queryFn: getAllUser })
 
   const storedData = localStorage.getItem("accessToken")
   const navigate = useNavigate()
@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <div className='px-20 py-5 min-h-screen'>
       {storedData ? (
-        <Stats/>
+        <Stat/>
       ):(
         <>
           <Guest />

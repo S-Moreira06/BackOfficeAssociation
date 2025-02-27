@@ -1,10 +1,9 @@
 import instance from "./config";
-import axios from "axios";
 
 async function createUser(data) {
     return await instance.post("/auth/register",data)
 }
-async function getAllUsers() {
+async function getAllUser() {
     try {
         const response = await instance.get("/auth")
         return response.data
@@ -41,4 +40,4 @@ async function deleteUser(id) {
 }
 
 
-export { getAllUsers, createUser, getUser, updateUser, deleteUser }
+export { getAllUser, createUser, getUser, updateUser, deleteUser }

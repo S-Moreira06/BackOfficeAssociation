@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { 
@@ -11,14 +11,14 @@ import {
     CardTitle 
 } from "@/components/ui/card";
 
-import { getAllUsers } from '@/api/user';
+import { getAllUser } from '@/api/user';
 
-export default function UsersCard() {
-    const { isPending, isError, data, error } = useQuery({ queryKey: ['usersList'], queryFn: getAllUsers })
+export default function UserCard() {
+    const { isPending, isError, data, error } = useQuery({ queryKey: ['userList'], queryFn: getAllUser })
     const navigate = useNavigate()
 
     return (
-        <Card  onClick={() => navigate("/users-list")}>
+        <Card  onClick={() => navigate("/user-list")}>
             <CardHeader>Nombre d'utilisateurs</CardHeader>
             <CardContent className="">{data?.users.length}</CardContent>
         </Card>

@@ -24,17 +24,17 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 
-import { deleteUser, getAllUsers } from '@/api/user';
+import { deleteUser, getAllUser } from '@/api/user';
 
-export default function UsersList() {
-    const { isPending, isError, data, error } = useQuery({ queryKey: ['usersList'], queryFn: getAllUsers })
+export default function UserList() {
+    const { isPending, isError, data, error } = useQuery({ queryKey: ['userList'], queryFn: getAllUser })
     const navigate = useNavigate()
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: deleteUser, // Fonction API de suppression
+        mutationFn: deleteUser, 
         onSuccess: () => {
-            queryClient.invalidateQueries(['usersList']); // Rafraîchir la liste des utilisateurs
+            queryClient.invalidateQueries(['userList']); 
         },
     });
     useEffect(()=>{

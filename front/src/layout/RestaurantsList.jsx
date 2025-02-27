@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { Button } from '@/components/ui/button'
@@ -25,16 +25,16 @@ import {
   } from "@/components/ui/alert-dialog"
 
 
-import { getAllRestaurants, deleteRestaurant } from '@/api/restaurant'
+import { getAllRestaurant, deleteRestaurant } from '@/api/restaurant'
 
-export default function RestaurantsList() {
-    const { isPending, isError, data, error } = useQuery({ queryKey: ['restaurantsList'], queryFn: getAllRestaurants })
+export default function RestaurantList() {
+    const { isPending, isError, data, error } = useQuery({ queryKey: ['restaurantList'], queryFn: getAllRestaurant })
     const navigate = useNavigate()
     const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: deleteRestaurant,
         onSuccess: () => {
-            queryClient.invalidateQueries(['retaurantsList']);
+            queryClient.invalidateQueries(['retaurantList']);
         },
     });
     
