@@ -1,5 +1,5 @@
 import { useLocation,useNavigate } from "react-router-dom";
-import { useQuery , useMutation } from '@tanstack/react-query';
+import { useQuery , useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from "react-hook-form";
 import React, { useEffect } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -47,6 +47,8 @@ export default function UpdateBeneficiary() {
     const location = useLocation();
     const beneficiaryId = location.state?.beneficiaryId; 
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+    
     
     const form = useForm({
         resolver: zodResolver(beneficiarySchema),
@@ -80,8 +82,14 @@ export default function UpdateBeneficiary() {
             return await updateBeneficiary(beneficiaryId, newData)
         },
         onSuccess: () => {
-            window.location = "/beneficiary-list";
+            queryClient.invalidateQueries(['beneficiaryList']);
+            setTimeout(() => {
+                navigate("/beneficiary-list");
+            }, 500); 
         },
+        onError: (error) => {
+            console.log("update failed :", error)
+        }
     });
 
     const onSubmit = (formData) => {

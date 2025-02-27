@@ -27,8 +27,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -55,7 +56,8 @@ export default function CreateBeneficiary() {
                 phone: "0608090765"
         },
     });
-
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const { handleSubmit, setValue } = form;
 
     const beneficiaryMutation = useMutation({
@@ -63,8 +65,15 @@ export default function CreateBeneficiary() {
             return await createBeneficiary(newData);
         },
         onSuccess: () => {
-            window.location = "/beneficiary-list";
+            console.log("beneficiary is create !");
+            queryClient.invalidateQueries(['beneficiaryList']);
+            setTimeout(() => {
+                navigate("/beneficiary-list");
+            }, 500); 
         },
+        onError: (error) => {
+            console.log("Erreur lors de la création :", error)
+        }
     });
 
     const onSubmit = (data) => {
