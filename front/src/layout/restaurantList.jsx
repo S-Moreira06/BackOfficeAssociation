@@ -39,6 +39,9 @@ export default function RestaurantList() {
     });
     
     return (
+        <>
+        
+        <Button onClick={()=>navigate("/create-restaurant")}>Créer un restaurant</Button>
         <Table>
         <TableCaption className="caption-top">
             Liste des restaurants
@@ -86,5 +89,6 @@ export default function RestaurantList() {
             </TableBody>
         
         </Table>
+        </>
     )
 }

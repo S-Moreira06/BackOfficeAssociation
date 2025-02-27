@@ -1,5 +1,8 @@
 import instance from "./config";
 
+async function createRestaurant(data) {
+    return await instance.post("/restaurant",data)
+}
 async function getAllRestaurant() {
     try {
         const response = await instance.get("/restaurant")
@@ -34,4 +37,4 @@ async function deleteRestaurant(id) {
     }
 }
 
-export { getAllRestaurant, getRestaurant, updateRestaurant,deleteRestaurant }
+export { createRestaurant, getAllRestaurant, getRestaurant, updateRestaurant,deleteRestaurant }
