@@ -27,8 +27,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -66,7 +67,9 @@ export default function CreateAssociation() {
             role: "association"
         },
     });
-
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
+    
     const { handleSubmit, setValue } = form;
 
     const beneficiaryMutation = useMutation({
@@ -75,8 +78,12 @@ export default function CreateAssociation() {
         },
         onSuccess: () => {
             console.log("Association créée avec succès !");
-            window.location = "/association-list";
+            queryClient.invalidateQueries(['associationList']);
+            setTimeout(() => {
+                navigate("/association-list");
+            }, 500); // Petite pause pour s'assurer que tout est bien exécuté
         },
+        
         onError: (error) => {
             console.log("Erreur lors de la création :", error)
         }
@@ -210,7 +217,7 @@ export default function CreateAssociation() {
                                         )}
                                     />
                                     
-                                    <Button type="submit">Mettre à jour</Button>
+                                    <Button type="submit">Créer un association</Button>
                                 </form>
                             </Form>
                         </CardContent>
