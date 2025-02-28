@@ -32,7 +32,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { getBeneficiary, updateBeneficiary } from "../api/beneficiary";
+import { getBeneficiary, updateBeneficiary } from "../../api/beneficiary";
 
 const beneficiarySchema = z.object({
     firstname: z.string().min(1, "Prénom requis"),
