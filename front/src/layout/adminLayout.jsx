@@ -18,8 +18,7 @@ export default function AdminLayout({ children }) {
                 <SidebarProvider>
                 <AppSidebar />
                 <main>
-                    <SidebarTrigger />
-                    {children}
+                    {/* <SidebarTrigger /> */}
                     <Outlet/>
                 </main>
                 </SidebarProvider>
