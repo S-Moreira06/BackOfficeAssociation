@@ -32,7 +32,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { getUser, updateUser } from "../api/user";
+import { getUser, updateUser } from "../../api/user";
 
 const userSchema = z.object({
     firstname: z.string().min(1, "Prénom requis"),

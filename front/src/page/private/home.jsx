@@ -10,8 +10,8 @@ import {
   CardHeader, 
   CardTitle 
 } from "@/components/ui/card";
-import Guest from "../layout/Guest"
-import Stat from "../layout/stat"
+import Guest from "../guest"
+import Stat from "../../components/private/stat"
 import { getAllUser } from '@/api/user'
 
 export default function Home() {
