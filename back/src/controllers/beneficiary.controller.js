@@ -1,4 +1,4 @@
-import beneficiaryService from '../services/beneficiary.service.js'
+ import beneficiaryService from '../services/beneficiary.service.js'
 
 async function createBeneficiary(c) {
   try {
@@ -10,6 +10,20 @@ async function createBeneficiary(c) {
   } catch (error) {
     console.error(error)
     return c.json({ error : 'beneficiary adding failed'}, 400)
+  }
+}
+
+async function updateBeneficiary(c) {
+  try {
+    const beneficiaryId = c.req.param('id');
+    const data = c.req.valid('json');
+    await beneficiaryService.update(beneficiaryId, data);
+    return c.json({
+      message: 'Update beneficiary successfull'
+    }, 201)
+  } catch (error) {
+    console.error(error);
+    return c.json({error: 'Update beneficiary failed'}, 400)
   }
 }
 
@@ -58,7 +72,7 @@ async function getBeneficiary(c) {
 
 
 
-  export {createBeneficiary,deleteBeneficiary, getAllBeneficiary,getBeneficiary}
+  export {createBeneficiary,deleteBeneficiary, getAllBeneficiary,getBeneficiary,updateBeneficiary}
 
 
 

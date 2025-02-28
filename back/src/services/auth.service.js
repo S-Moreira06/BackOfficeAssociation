@@ -176,6 +176,49 @@ async function sendEmailVerification(email) {
 }
 
 
+async function getAllUsers() {
+  const query = 'SELECT id,firstname,lastname,email,address,zip,city,phone,role,verified,is_archived,created_at,updated_at,deleted_at FROM user';
+
+  const result = await db.prepare(query).all();
+
+  return result;
+
+}
+
+async function getUserDetail(id) {
+  const query = `SELECT id,firstname,lastname,email,address,zip,city,phone,role,verified,is_archived,created_at,updated_at,deleted_at 
+                FROM user WHERE id = ? `;
+  const result = await db.prepare(query).get(id);
+  return result;
+}
+
+async function update(userId, data) {
+  let today = new Date().toISOString();
+  const setClauses = [];
+  const values = [];
+  function camelToSnakeCase(str) {
+    return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+  }
+  Object.entries(data).forEach(([key, value]) => {
+    const snakeKey = camelToSnakeCase(key);
+    setClauses.push(`${snakeKey} = ?`);
+    values.push(value);
+  });
+  setClauses.push("updated_at = ?");
+  values.push(today);
+  values.push(userId);
+  const query = `UPDATE user SET ${ setClauses.join(', ') } WHERE id = ?`;
+  try {
+    await db.prepare(query).run(values);
+    const updatedRecord = await db.prepare('SELECT * FROM user WHERE id = ?').get(userId);
+    return updatedRecord;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw new Error('Failed to update user');
+  }
+}
+
+
 export default {
   register,
   login,
@@ -185,6 +228,8 @@ export default {
   sendEmailVerification,
   findUserByEmail,
   createUser,
-  updateUser,
-  softDeleteUser
+  softDeleteUser,
+  getAllUsers,
+  getUserDetail,
+  update
 };

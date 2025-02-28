@@ -1,7 +1,8 @@
 import { Hono } from "hono";
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { forgotPassword, login, register, resetPassword, sendVerification, verifyUserEmail, deleteUser } from "../controllers/auth.controller.js";
+import { forgotPassword, login, register, resetPassword, sendVerification, verifyUserEmail, deleteUser, getAllUsers,
+    getUserDetail, updateUser } from "../controllers/auth.controller.js";
 const authRouter = new Hono()
 
 authRouter.post(
@@ -19,6 +20,23 @@ authRouter.post(
     })
   ),
   register
+);
+
+authRouter.put(
+    "/:id", zValidator('json',
+        z.object({
+            email: z.string().email("Invalid email").optional(),
+            password: z.string().min(8).optional(),
+            firstname: z.string().min(2).optional(),
+            lastname: z.string().min(2).optional(),
+            address: z.string().min(6).max(300).optional(),
+            city: z.string().min(3).max(50).optional(),
+            phone: z.string().min(10).max(20).optional(),
+            zip: z.string().min(5).max(5).optional(),
+            role: z.string().min(5).max(20).optional(),
+        })
+    ),
+    updateUser
 );
 
 authRouter.post(
@@ -69,13 +87,19 @@ authRouter.get(
 );
 
 authRouter.delete(
-    "/delete",
-    zValidator('json',
-        z.object({
-            id: z.string()
-        })
-    ),
+    "/:id",
     deleteUser
 );
+
+authRouter.get(
+  "/",
+  getAllUsers
+);
+
+authRouter.get(
+  "/:id",
+  getUserDetail
+);
+
 
 export default authRouter;
