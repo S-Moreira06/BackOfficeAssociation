@@ -1,40 +1,26 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, useRouteError } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-import Home from "../page/private/home";
-import UserList from "../page/private/userList";
-import CreateUser from "../page/private/createUser";
-import UpdateUser from "../page/private/updateUser";
-import BeneficiaryList from "../page/private/beneficiaryList";
-import UpdateBeneficiary from "../page/private/updateBeneficiary";
-import CreateBeneficiary from "../page/private/createBeneficiary";
-import RestaurantList from "../page/private/restaurantList";
-import UpdateRestaurant from "../page/private/updateRestaurant";
-import CreateRestaurant from "../page/private/createRestaurant";
-import AssociationList from "../page/private/associationList";
-import UpdateAssociation from "../page/private/updateAssociation";
-import CreateAssociation from "../page/private/createAssociation";
-
+import { Outlet } from "react-router-dom";
+import Footer from "@/components/private/Footer";
+import Header from "@/components/private/Header";
+import Guest from "@/page/guest";
 
 export default function AdminLayout() {
-    return(
+    const storedData = localStorage.getItem("accessToken")
 
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/user-list" element={<UserList />} />
-            <Route path="/create-user" element={<CreateUser/>}/>
-            <Route path="/update-user" element={<UpdateUser/>} />
-            <Route path="/beneficiary-list" element={<BeneficiaryList/>} />
-            <Route path="/update-beneficiary" element={<UpdateBeneficiary/>} />
-            <Route path="/create-beneficiary" element={<CreateBeneficiary/>}/>
-            <Route path="/restaurant-list" element={<RestaurantList/>} />
-            <Route path="/update-restaurant" element={<UpdateRestaurant/>} />
-            <Route path="/create-restaurant" element={<CreateRestaurant/>}/>
-            <Route path="/association-list" element={<AssociationList/>}/>
-            <Route path="/update-association" element={<UpdateAssociation/>} />
-            <Route path="/create-association" element={<CreateAssociation/>}/>
-        </Routes>
+    return(
+        <>
+            {storedData ? (
+            <>
+                <Header />
+                <Outlet/>
+                <Footer/>
+            </>
+            ):(
+            <>
+                <Header/>
+                <Guest/>
+            </>
+            )}
+        </>
     )
 }
