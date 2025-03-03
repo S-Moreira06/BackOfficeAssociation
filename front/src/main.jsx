@@ -20,6 +20,7 @@ import CreateRestaurant from "./page/private/createRestaurant";
 import AssociationList from "./page/private/associationList";
 import UpdateAssociation from "./page/private/updateAssociation";
 import CreateAssociation from "./page/private/createAssociation";
+import RequestList from "./page/private/requestList";
 
 
 
@@ -56,6 +57,7 @@ ReactDOM.createRoot(root).render(
           <Route path="/association-list" element={<AssociationList/>}/>
           <Route path="/update-association" element={<UpdateAssociation/>} />
           <Route path="/create-association" element={<CreateAssociation/>}/>
+          <Route path="/request-list" element={<RequestList/>} />
         </Route>
       </Routes>
       <ReactQueryDevtools initialIsOpen={false} />
