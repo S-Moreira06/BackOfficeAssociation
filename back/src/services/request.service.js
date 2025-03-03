@@ -3,10 +3,10 @@ import db from '../config/database.js'
 
 async function createRequest(data) {
   const query = `
-    INSERT INTO request (type, name, address, zip, city, firstname, lastname,  email, phone)
+    INSERT INTO request (category, name, address, zip, city, firstname, lastname,  email, phone)
     VALUES (?,?,?,?,?,?,?,?,?)
   `;
-  const values = [data.type,data.name, data.address, data.zip, data.city, data.firstname, data.lastname,  data.email, data.phone];
+  const values = [data.category,data.name, data.address, data.zip, data.city, data.firstname, data.lastname,  data.email, data.phone];
   
   const result = await db.prepare(query).run(values);
   return await db.prepare('SELECT * FROM request WHERE id = ?').get(result.lastInsertRowid); 

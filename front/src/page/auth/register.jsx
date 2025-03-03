@@ -34,7 +34,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
 const requestSchema = z.object({
-  type: z.string().min(1, "Le type est requis"),
+  category: z.string().min(1, "Le type est requis"),
   name: z.string().min(1, "Nom requis"),
   address: z.string().min(1, "Adresse requise"), 
   zip: z.string().min(1, "Code postal requis"), 
@@ -49,7 +49,7 @@ export default function Register() {
   const form = useForm({
     resolver: zodResolver(requestSchema),
     defaultValues: {
-      type: "",
+      category: "",
       name: "asso1", 
       address: "726 Avenue de la rue", 
       zip: "01001", 
@@ -95,7 +95,7 @@ export default function Register() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Type</FormLabel>
-                    <Select onValueChange={(value) => setValue("type", value)} defaultValue={field.value}>
+                    <Select onValueChange={(value) => setValue("category", value)} defaultValue={field.value}>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Type d'organisation" />
                       </SelectTrigger>
