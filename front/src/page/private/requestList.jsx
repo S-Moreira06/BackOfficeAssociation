@@ -54,15 +54,15 @@ export default function RequestList () {
                 {data?.request.length > 0 && data.request.map((request)=>{
                 return (
                     <TableRow key={request.id}>
-                        <TableCell>{request?.type}</TableCell>
+                        <TableCell>{request?.category}</TableCell>
                         <TableCell>{request?.name}</TableCell>
                         <TableCell>{request?.phone}</TableCell>
                         <TableCell>{request?.address}<br/>{request?.zip} {request?.city}</TableCell>
                         <TableCell>{request?.firstname} {request?.lastname}</TableCell>
-                        <TableCell>{request?.is_archived}</TableCell>
+                        <TableCell>{request?.status}</TableCell>
                         <TableCell>{request?.created_at}</TableCell>
                         <TableCell>
-                            <Button onClick={() => navigate("/update-request",{ state: { beneficiaryId: request.id }})}>Modifier</Button>
+                            <Button onClick={() => navigate("/update-request",{ state: { beneficiaryId: request.id }})}>Valider</Button>
                         </TableCell>
                         <TableCell>
                             <AlertDialog>
