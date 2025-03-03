@@ -32,6 +32,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useParams } from "react-router";
 
 const requestSchema = z.object({
   category: z.string().min(1, "Le type est requis"),
@@ -62,6 +63,8 @@ export default function Register() {
   });
 
   const { handleSubmit, setValue } = form;
+  const {cat}=useParams();
+  console.log(useParams(cat))
 
   const requestMutation = useMutation({
     mutationFn: async (newData) => {
@@ -95,7 +98,7 @@ export default function Register() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Type</FormLabel>
-                    <Select onValueChange={(value) => setValue("category", value)} defaultValue={field.value}>
+                    <Select onValueChange={(value) => setValue("category", value)} defaultValue={cat}>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Type d'organisation" />
                       </SelectTrigger>

@@ -41,7 +41,7 @@ ReactDOM.createRoot(root).render(
       
       <Routes>
         <Route path="/auth/login" element={<Login />} />
-        <Route path="/auth/register" element={<Register />} />
+        <Route path="/auth/register/:cat" element={<Register />} />
         
         <Route path="" element={<AdminLayout/>}>
           <Route path="/" element={<Home />} />
