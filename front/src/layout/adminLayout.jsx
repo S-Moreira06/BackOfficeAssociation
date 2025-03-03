@@ -17,12 +17,13 @@ export default function AdminLayout({ children }) {
                 <Header />
                 <SidebarProvider>
                 <AppSidebar />
-                <main>
-                    {/* <SidebarTrigger /> */}
+                <main className="w-[100%]">
+                    <SidebarTrigger />
                     <Outlet/>
+                    <Footer/>
                 </main>
                 </SidebarProvider>
-                <Footer/>
+                
             </>
             ):(
             <>

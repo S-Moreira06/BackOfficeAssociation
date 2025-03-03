@@ -50,7 +50,7 @@ export default function Header() {
                             <NavigationMenuItem key={item.title}>
                                 <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
                                 <NavigationMenuContent className="bg-white">
-                                    <ul className="grid gap-3 p-2 w-[250px]">
+                                    <ul className="grid gap-2 p-2 w-[250px]">
                                         {item.links.map((link) => (
                                             <li key={link.name}>
                                                 <NavigationMenuLink asChild>
