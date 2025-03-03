@@ -5,7 +5,7 @@
 */
 export async function seed(client) {
     await client.execute("DELETE FROM request;");
-    await client.execute(`INSERT INTO request (name, address, zip, city, type, firstname, lastname, email, phone)
+    await client.execute(`INSERT INTO request (name, address, zip, city, category, firstname, lastname, email, phone)
 VALUES
     ('Repas Solidaire', '15 Rue des Alouettes', '75010', 'Paris', 'Association', 'Julien', 'Bernard', 'contact@repas-solidaire.com', '0701020304'),
     ('Gourmandise Express', '40 Avenue des Champs', '69007', 'Lyon', 'Restaurant', 'Camille', 'Dupont', 'contact@gourmandise.com', '0702030405'),
