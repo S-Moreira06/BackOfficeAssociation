@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/alert-dialog"
 
 import { getAllRequest } from '@/api/request';
+import GetDate from "@/hooks/get-date";
 
 export default function RequestList () {
     const { isPending, isError, data, error } = useQuery({ queryKey: ['requestList'], queryFn: getAllRequest })
@@ -41,26 +42,27 @@ export default function RequestList () {
             
                 <TableHeader>
                 <TableRow>
+                    <TableHead>Date</TableHead>
                     <TableHead>Type</TableHead>
                     <TableHead>Nom</TableHead>
                     <TableHead>Téléphone</TableHead>
                     <TableHead>Adresse</TableHead>
                     <TableHead>Contact</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Date</TableHead>
                 </TableRow>
                 </TableHeader>
                 <TableBody>
                 {data?.request.length > 0 && data.request.map((request)=>{
+                    const dateOnly = request?.created_at;
                 return (
                     <TableRow key={request.id}>
+                        <TableCell><GetDate timestamp={request?.created_at}/></TableCell>
                         <TableCell>{request?.category}</TableCell>
                         <TableCell>{request?.name}</TableCell>
                         <TableCell>{request?.phone}</TableCell>
                         <TableCell>{request?.address}<br/>{request?.zip} {request?.city}</TableCell>
                         <TableCell>{request?.firstname} {request?.lastname}</TableCell>
                         <TableCell>{request?.status}</TableCell>
-                        <TableCell>{request?.created_at}</TableCell>
                         <TableCell>
                             <Button onClick={() => navigate("/update-request",{ state: { beneficiaryId: request.id }})}>Valider</Button>
                         </TableCell>

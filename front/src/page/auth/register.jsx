@@ -34,6 +34,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useParams } from "react-router";
 
+
 const requestSchema = z.object({
   category: z.string().min(1, "Le type est requis"),
   name: z.string().min(1, "Nom requis"),
@@ -47,10 +48,11 @@ const requestSchema = z.object({
 });
 
 export default function Register() {
+  const {cat}=useParams();
   const form = useForm({
     resolver: zodResolver(requestSchema),
     defaultValues: {
-      category: "",
+      category: `${cat}`,
       name: "asso1", 
       address: "726 Avenue de la rue", 
       zip: "01001", 
@@ -63,7 +65,7 @@ export default function Register() {
   });
 
   const { handleSubmit, setValue } = form;
-  const {cat}=useParams();
+  
   console.log(useParams(cat))
 
   const requestMutation = useMutation({
