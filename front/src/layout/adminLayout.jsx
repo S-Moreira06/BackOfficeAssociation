@@ -1,10 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/private/Sidebar"
+
 import Footer from "@/components/private/Footer";
 import Header from "@/components/private/Header";
 import Guest from "@/page/guest";
 
-export default function AdminLayout() {
+export default function AdminLayout({ children }) {
     const storedData = localStorage.getItem("accessToken")
 
     return(
@@ -12,8 +15,15 @@ export default function AdminLayout() {
             {storedData ? (
             <>
                 <Header />
-                <Outlet/>
-                <Footer/>
+                <SidebarProvider>
+                <AppSidebar />
+                <main className="w-[100%] overflow-scroll">
+                    <SidebarTrigger />
+                    <Outlet/>
+                    <Footer/>
+                </main>
+                </SidebarProvider>
+                
             </>
             ):(
             <>

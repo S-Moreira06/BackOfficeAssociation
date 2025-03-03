@@ -10,6 +10,7 @@ import {
     CardHeader, 
     CardTitle 
 } from "@/components/ui/card";
+
 import UserCard from '@/components/private/userCard';
 import RequestCard from '@/components/private/requestCard';
 import BeneficiaryCard from '@/components/private/beneficiaryCard';
@@ -21,7 +22,7 @@ export default function Stat() {
 
 
     return (
-        <div className='sm:flex justify-between text-center'>
+        <div className='grid text-center'>
             <UserCard />
             <RequestCard />
             <BeneficiaryCard />
@@ -30,3 +31,4 @@ export default function Stat() {
         </div>
     )
 }
+// sm:flex justify-between text-center
