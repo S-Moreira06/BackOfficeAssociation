@@ -34,7 +34,6 @@ export default function RequestList () {
 
     return (
         <>
-            <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-request")}>Créer un bénéficiaire</Button>
             <Table>
             <TableCaption className="caption-top text-xl">
                 Liste des requetes

@@ -7,7 +7,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-
+import { Button } from '@/components/ui/button'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation, useNavigate } from "react-router-dom";
@@ -28,12 +28,12 @@ export default function RequestDetail () {
     console.log(data)
     return (
         <>
-            <Card className="mx-auto w-[80%] rounded-md">
+            <Card className="mx-auto pb-5 w-[80%] rounded-md shadow-2xl">
                 <CardHeader>
-                    <CardTitle>Requete n° {data?.request.id} <br/> <GetDate timestamp={data?.request.created_at}/></CardTitle>
-                    <CardDescription>{data?.request.category}</CardDescription>
+                    <CardTitle className="mx-5">Requete n° {data?.request.id} <br/> <GetDate timestamp={data?.request.created_at}/></CardTitle>
+                    <CardDescription className="mx-10 text-center">{data?.request.category}</CardDescription>
                 </CardHeader>
-                <CardContent className="mr-10 grid grid-cols-2">
+                <CardContent className="mx-10 grid grid-cols-2">
                     <p>Nom : </p>
                     <p className="text-center">{data?.request.name}</p>
                     <Separator className="border"/><Separator className="border"/>
@@ -53,7 +53,9 @@ export default function RequestDetail () {
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <p>Card Footer</p>
+                    <div className="mx-auto">
+                        <Button variant="secondary">Valider</Button><Button variant="outline">Refuser</Button>
+                    </div>
                 </CardFooter>
             </Card>
 
