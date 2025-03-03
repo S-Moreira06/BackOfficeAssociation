@@ -21,6 +21,7 @@ import AssociationList from "./page/private/associationList";
 import UpdateAssociation from "./page/private/updateAssociation";
 import CreateAssociation from "./page/private/createAssociation";
 import RequestList from "./page/private/requestList";
+import RequestDetail from "./page/private/requestDetail";
 
 
 
@@ -58,6 +59,7 @@ ReactDOM.createRoot(root).render(
           <Route path="/update-association" element={<UpdateAssociation/>} />
           <Route path="/create-association" element={<CreateAssociation/>}/>
           <Route path="/request-list" element={<RequestList/>} />
+          <Route path="/request-detail" element={<RequestDetail/>} />
         </Route>
       </Routes>
       <ReactQueryDevtools initialIsOpen={false} />

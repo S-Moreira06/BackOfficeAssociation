@@ -55,7 +55,7 @@ export default function RequestList () {
                 {data?.request.length > 0 && data.request.map((request)=>{
                     const dateOnly = request?.created_at;
                 return (
-                    <TableRow key={request.id}>
+                    <TableRow key={request.id} onClick={() => navigate("/request-detail",{ state: { requestId: request.id }})}>
                         <TableCell><GetDate timestamp={request?.created_at}/></TableCell>
                         <TableCell>{request?.category}</TableCell>
                         <TableCell>{request?.name}</TableCell>
@@ -64,7 +64,7 @@ export default function RequestList () {
                         <TableCell>{request?.firstname} {request?.lastname}</TableCell>
                         <TableCell>{request?.status}</TableCell>
                         <TableCell>
-                            <Button onClick={() => navigate("/update-request",{ state: { beneficiaryId: request.id }})}>Valider</Button>
+                            <Button>Valider</Button>
                         </TableCell>
                         <TableCell>
                             <AlertDialog>
