@@ -83,7 +83,7 @@ export default function Register() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md bg-white">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Demande d'inscription</CardTitle>
+          <CardTitle className="text-2xl font-bold">Demande d'inscription - {cat}</CardTitle>
           <CardDescription>
             Suite à votre demande, vous serez contacté par un administrateur dans les plus brefs délais.
           </CardDescription>
@@ -96,7 +96,7 @@ export default function Register() {
                 control={form.control}
                 name="type"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem hidden>
                     <FormLabel>Type</FormLabel>
                     <Select onValueChange={(value) => setValue("category", value)} defaultValue={cat}>
                       <SelectTrigger className="w-full">
