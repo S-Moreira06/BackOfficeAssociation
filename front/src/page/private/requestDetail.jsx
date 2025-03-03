@@ -1,7 +1,18 @@
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card"
+  
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { getRequest } from "@/api/request"
+import GetDate from "@/hooks/get-date"
 
 
 export default function RequestDetail () {
@@ -16,7 +27,35 @@ export default function RequestDetail () {
     console.log(data)
     return (
         <>
-            <p>{data?.request.name}</p>
+            <Card className="mx-auto w-[80%]">
+                <CardHeader>
+                    <CardTitle>Requete n° {data?.request.id} <br/> <GetDate timestamp={data?.request.created_at}/></CardTitle>
+                    <CardDescription>{data?.request.category}</CardDescription>
+                </CardHeader>
+                <CardContent className="mr-10 grid grid-cols-2">
+                    
+                    <p>Nom : </p>
+                    <p className="text-center">{data?.request.name}</p>
+                    
+                <p>Localisation : </p>
+                <div className="text-center">
+                    <p>{data?.request.address}</p> 
+                    <p>{data?.request.zip} </p>
+                    <p>{data?.request.city}</p>
+                </div>
+                <p>Contact :</p> 
+                <div className="text-center">
+                    <p>{data?.request.lastname} {data?.request.firstname}</p> 
+                    <p>{data?.request.phone} </p>
+                    <p>{data?.request.email} </p>
+                </div>
+                
+                </CardContent>
+                <CardFooter>
+                    <p>Card Footer</p>
+                </CardFooter>
+            </Card>
+
         </>
     )
 }
