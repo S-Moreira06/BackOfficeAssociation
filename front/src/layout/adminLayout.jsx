@@ -17,9 +17,11 @@ export default function AdminLayout({ children }) {
                 <Header />
                 <SidebarProvider>
                 <AppSidebar />
-                <main className="w-[100%] overflow-scroll">
-                    <SidebarTrigger />
-                    <Outlet/>
+                <main className="w-[100%]  overflow-x-scroll scrollbar-hide">
+                    <div className="min-h-screen">
+                        <SidebarTrigger />
+                        <Outlet/>
+                    </div>
                     <Footer/>
                 </main>
                 </SidebarProvider>
