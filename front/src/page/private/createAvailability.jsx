@@ -32,7 +32,7 @@ export default function CreateAvailability() {
         resolver: zodResolver(availabilitySchema),
         defaultValues: {
 
-            date: "20/08/2025",
+            date: "2025-05-22",
             timeStart: "11:00:00",
             timeEnd: "15:00:00",
             deadlineAccept: "12",
@@ -74,54 +74,55 @@ export default function CreateAvailability() {
     return (
         <>
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <Card className="w-full max-w-md bg-white">
+        <Card className="w-full max-w-xl bg-white">
             <CardHeader>
                 <CardTitle className="text-2xl font-bold">Créer une disponibilité</CardTitle>
             </CardHeader>
                     <CardContent>
+                        
                             <Form {...form}>
-                                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
                                     
-                                <FormField 
-    control={form.control}
-    name="restaurantId"
-    render={({ field }) => {
-        const selectedRestaurant = data?.organisations.find((r) => r.id === Number(field.value));
+                                    <FormField 
+                                        control={form.control}
+                                        name="restaurantId"
+                                        render={({ field }) => {
+                                            const selectedRestaurant = data?.organisations.find((r) => r.id === Number(field.value));
 
-        console.log("Valeur actuelle du champ :", field.value); // Vérifier ce que RHF stocke
-        console.log("Restaurants disponibles :", data?.organisations); // Vérifier la liste des restaurants
-        console.log("Restaurant sélectionné :", selectedRestaurant);
-        console.log("Type de restaurant.id :", typeof data?.organisations[0]?.id);
-        console.log("Type de field.value :", typeof field.value);
+                                            console.log("Valeur actuelle du champ :", field.value); // Vérifier ce que RHF stocke
+                                            console.log("Restaurants disponibles :", data?.organisations); // Vérifier la liste des restaurants
+                                            console.log("Restaurant sélectionné :", selectedRestaurant);
+                                            console.log("Type de restaurant.id :", typeof data?.organisations[0]?.id);
+                                            console.log("Type de field.value :", typeof field.value);
 
-        return (
-            <FormItem>
-                <FormLabel>Restaurant</FormLabel>
-                <Select 
-                    onValueChange={(value) => {
-                        console.log("Nouvelle valeur sélectionnée :", value); // Vérifier la valeur sélectionnée
-                        field.onChange(value);
-                    }} 
-                    value={field.value} // Stocke l'ID du restaurant sélectionné
-                >
-                    <SelectTrigger className="w-full">
-                        <SelectValue  />
-                        {/* Affichage manuel du nom pour voir si le find() fonctionne */}
-                        {selectedRestaurant?.name || "Choisissez un restaurant"}
-                    </SelectTrigger>
-                    <SelectContent>
-                        {data?.organisations?.map((restaurant) => (
-                            <SelectItem key={restaurant.id} value={restaurant.id}>
-                                {restaurant.name}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-                <FormMessage />
-            </FormItem>
-        );
-    }}
-/>
+                                            return (
+                                                <FormItem>
+                                                    <FormLabel>Restaurant</FormLabel>
+                                                    <Select 
+                                                        onValueChange={(value) => {
+                                                            console.log("Nouvelle valeur sélectionnée :", value); // Vérifier la valeur sélectionnée
+                                                            field.onChange(value);
+                                                        }} 
+                                                        value={field.value} // Stocke l'ID du restaurant sélectionné
+                                                    >
+                                                        <SelectTrigger className="w-full">
+                                                            <SelectValue  />
+                                                            {/* Affichage manuel du nom pour voir si le find() fonctionne */}
+                                                            {selectedRestaurant?.name || "Choisissez un restaurant"}
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {data?.organisations?.map((restaurant) => (
+                                                                <SelectItem key={restaurant.id} value={restaurant.id}>
+                                                                    {restaurant.name}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            );
+                                        }}
+                                    />
                                     
                                     
                                     <FormField
@@ -131,12 +132,13 @@ export default function CreateAvailability() {
                                             <FormItem>
                                                 <FormLabel>Date</FormLabel>
                                                 <FormControl>
-                                                    <Input {...field} />
+                                                    <Input {...field} type="date"/>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
                                     />
+                                    <div className="grid grid-cols-2 gap-3">
                                     <FormField
                                         control={form.control}
                                         name="timeStart"
@@ -144,7 +146,7 @@ export default function CreateAvailability() {
                                             <FormItem>
                                                 <FormLabel>Heure de début</FormLabel>
                                                 <FormControl>
-                                                    <Input {...field} />
+                                                    <Input {...field} type="time"/>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -157,7 +159,7 @@ export default function CreateAvailability() {
                                             <FormItem>
                                                 <FormLabel>Heure de fin</FormLabel>
                                                 <FormControl>
-                                                    <Input {...field} />
+                                                    <Input {...field} type="time"/>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -170,7 +172,7 @@ export default function CreateAvailability() {
                                             <FormItem>
                                                 <FormLabel>Delai mini. de réservation</FormLabel>
                                                 <FormControl>
-                                                    <Input {...field} />
+                                                    <Input {...field} type="number"/>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -183,7 +185,7 @@ export default function CreateAvailability() {
                                             <FormItem>
                                                 <FormLabel>Sur place</FormLabel>
                                                 <FormControl>
-                                                    <Input {...field} />
+                                                    <Input {...field} type="number"/>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -196,7 +198,7 @@ export default function CreateAvailability() {
                                             <FormItem>
                                                 <FormLabel>A emporté</FormLabel>
                                                 <FormControl>
-                                                    <Input {...field} />
+                                                    <Input {...field} type="number"/>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -209,7 +211,7 @@ export default function CreateAvailability() {
                                             <FormItem>
                                                 <FormLabel>Nombre de personne max / reservation</FormLabel>
                                                 <FormControl>
-                                                    <Input {...field} />
+                                                    <Input {...field} type="number"/>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -228,6 +230,7 @@ export default function CreateAvailability() {
                                             </FormItem>
                                         )}
                                     />
+                                    </div>
                                     <FormField
                                         control={form.control}
                                         name="commentary"
