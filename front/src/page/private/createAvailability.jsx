@@ -14,14 +14,14 @@ import {createAvailability} from "@/api/availability";
 
 
 const availabilitySchema = z.object({
-    restaurantId: z.number().int(),
+    restaurantId: z.coerce.number().int(),
     date: z.string(),
     timeStart: z.string(),
     timeEnd: z.string(),
     deadlineAccept: z.string(),
-    onSite: z.number().int(),
-    takeAway: z.number().int(),
-    maxPeople: z.number().int(),
+    onSite: z.coerce.number().int(),
+    takeAway: z.coerce.number().int(),
+    maxPeople: z.coerce.number().int(),
     price: z.string(),
     commentary: z.string().max(255).optional()
 })
@@ -29,7 +29,18 @@ const availabilitySchema = z.object({
 export default function CreateAvailability() {
     const form = useForm({
         resolver: zodResolver(availabilitySchema),
-        
+        defaultValues: {
+            restaurantId: 1,
+            date: "20/08/2025",
+            timeStart: "11:00:00",
+            timeEnd: "15:00:00",
+            deadlineAccept: "12",
+            onSite: 15,
+            takeAway: 15,
+            maxPeople: 2,
+            price: "19.90",
+            commentary: "Repas d'aniversaire du patron"
+        },
     });
     const navigate = useNavigate();
     const queryClient = useQueryClient();
@@ -52,14 +63,6 @@ export default function CreateAvailability() {
     });
 
     const onSubmit = (data) => {
-        // const fdata = {
-        //     ...data,
-        //     restaurantId: Number(data.restaurantId),
-        //     onSite: Number(data.onSite),
-        //     takeAway: Number(data.takeAway),
-        //     maxPeople: Number(data.maxPeople),
-            
-        // };
         console.log(data)
         availabilityMutation.mutate(data);
     };
@@ -81,7 +84,7 @@ export default function CreateAvailability() {
                                             <FormItem>
                                                 <FormLabel>Restaurant</FormLabel>
                                                 <FormControl>
-                                                    <Input  type="number" {...field} onChange={(e) => field.onChange(e.target.valueAsNumber)}/>
+                                                    <Input {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -148,7 +151,7 @@ export default function CreateAvailability() {
                                             <FormItem>
                                                 <FormLabel>Sur place</FormLabel>
                                                 <FormControl>
-                                                    <Input  type="number" {...field} onChange={(e) => field.onChange(e.target.valueAsNumber)}/>
+                                                    <Input {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -161,7 +164,7 @@ export default function CreateAvailability() {
                                             <FormItem>
                                                 <FormLabel>A emporté</FormLabel>
                                                 <FormControl>
-                                                    <Input  type="number" {...field} onChange={(e) => field.onChange(e.target.valueAsNumber)}/>
+                                                    <Input {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -174,7 +177,7 @@ export default function CreateAvailability() {
                                             <FormItem>
                                                 <FormLabel>Nombre de personne max / reservation</FormLabel>
                                                 <FormControl>
-                                                    <Input  type="number" {...field} onChange={(e) => field.onChange(e.target.valueAsNumber)}/>
+                                                    <Input {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
