@@ -32,6 +32,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useParams } from "react-router";
+
 
 const requestSchema = z.object({
   category: z.string().min(1, "Le type est requis"),
@@ -46,10 +48,11 @@ const requestSchema = z.object({
 });
 
 export default function Register() {
+  const {cat}=useParams();
   const form = useForm({
     resolver: zodResolver(requestSchema),
     defaultValues: {
-      category: "",
+      category: `${cat}`,
       name: "asso1", 
       address: "726 Avenue de la rue", 
       zip: "01001", 
@@ -62,6 +65,8 @@ export default function Register() {
   });
 
   const { handleSubmit, setValue } = form;
+  
+  console.log(useParams(cat))
 
   const requestMutation = useMutation({
     mutationFn: async (newData) => {
@@ -80,7 +85,7 @@ export default function Register() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-full max-w-md bg-white">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Demande d'inscription</CardTitle>
+          <CardTitle className="text-2xl font-bold">Demande d'inscription - {cat}</CardTitle>
           <CardDescription>
             Suite à votre demande, vous serez contacté par un administrateur dans les plus brefs délais.
           </CardDescription>
@@ -93,9 +98,9 @@ export default function Register() {
                 control={form.control}
                 name="type"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem hidden>
                     <FormLabel>Type</FormLabel>
-                    <Select onValueChange={(value) => setValue("category", value)} defaultValue={field.value}>
+                    <Select onValueChange={(value) => setValue("category", value)} defaultValue={cat}>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Type d'organisation" />
                       </SelectTrigger>

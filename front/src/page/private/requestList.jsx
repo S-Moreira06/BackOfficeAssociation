@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/alert-dialog"
 
 import { getAllRequest } from '@/api/request';
+import GetDate from "@/hooks/get-date";
 
 export default function RequestList () {
     const { isPending, isError, data, error } = useQuery({ queryKey: ['requestList'], queryFn: getAllRequest })
@@ -33,7 +34,6 @@ export default function RequestList () {
 
     return (
         <>
-            <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-request")}>Créer un bénéficiaire</Button>
             <Table>
             <TableCaption className="caption-top text-xl">
                 Liste des requetes
@@ -41,41 +41,42 @@ export default function RequestList () {
             
                 <TableHeader>
                 <TableRow>
+                    <TableHead>Date</TableHead>
                     <TableHead>Type</TableHead>
                     <TableHead>Nom</TableHead>
                     <TableHead>Téléphone</TableHead>
                     <TableHead>Adresse</TableHead>
                     <TableHead>Contact</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Date</TableHead>
                 </TableRow>
                 </TableHeader>
                 <TableBody>
                 {data?.request.length > 0 && data.request.map((request)=>{
+                    const dateOnly = request?.created_at;
                 return (
-                    <TableRow key={request.id}>
+                    <TableRow key={request.id} onClick={() => navigate("/request-detail",{ state: { requestId: request.id }})}>
+                        <TableCell><GetDate timestamp={request?.created_at}/></TableCell>
                         <TableCell>{request?.category}</TableCell>
                         <TableCell>{request?.name}</TableCell>
                         <TableCell>{request?.phone}</TableCell>
                         <TableCell>{request?.address}<br/>{request?.zip} {request?.city}</TableCell>
                         <TableCell>{request?.firstname} {request?.lastname}</TableCell>
                         <TableCell>{request?.status}</TableCell>
-                        <TableCell>{request?.created_at}</TableCell>
                         <TableCell>
-                            <Button onClick={() => navigate("/update-request",{ state: { beneficiaryId: request.id }})}>Valider</Button>
+                            <Button>Valider</Button>
                         </TableCell>
                         <TableCell>
                             <AlertDialog>
-                                <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
+                                <AlertDialogTrigger>Refuser</AlertDialogTrigger>
                                 <AlertDialogContent className="bg-white">
                                     <AlertDialogHeader>
-                                    <AlertDialogTitle>Etes vous sure de vouloir supprimer l'utilisateur?</AlertDialogTitle>
+                                    <AlertDialogTitle>Etes vous sure de vouloir refuser la demande ?</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        Souhaitez vous désactiver le compte de cet utilisateur?
+                                        Un mail automatique sera envoyé a l'organisation.
                                     </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
-                                    <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                    <AlertDialogCancel>Non</AlertDialogCancel>
                                     <AlertDialogAction onClick={() => mutation.mutate(request.id)}>Oui</AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>

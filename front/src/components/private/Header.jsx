@@ -80,7 +80,21 @@ export default function Header() {
                 ) : (
                     <div className="flex items-center ">
                         <Button className="px-2 py-2" onClick={() => navigate("/auth/login")}>Connexion</Button>
-                        <Button className="px-2 py-2" onClick={() => navigate("/auth/register")}>Inscription</Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" className="">
+                                    Inscription
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem>
+                                    <Button className="px-2 py-2" onClick={() => navigate("/auth/register/association")}>Association</Button>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <Button className="px-2 py-2" onClick={() => navigate("/auth/register/restaurant")}>Restaurant</Button>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 )}
                 {token && isMobile && (
