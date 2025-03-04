@@ -14,16 +14,6 @@ import {createAvailability} from "@/api/availability";
 
 
 const availabilitySchema = z.object({
-    // restaurantId: z.string(),
-    // date: z.string(),
-    // timeStart: z.string(),
-    // timeEnd: z.string(),
-    // deadlineAccept: z.string(),
-    // onSite: z.string(),
-    // takeAway: z.string(),
-    // maxPeople: z.string(),
-    // price: z.string(),
-    // commentary: z.string().max(255).optional()
     restaurantId: z.number().int(),
     date: z.string(),
     timeStart: z.string(),
