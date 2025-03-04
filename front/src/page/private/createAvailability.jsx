@@ -4,13 +4,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
 import {createAvailability} from "@/api/availability";
+import {getAllRestaurant} from "@/api/restaurant";
 
 
 const availabilitySchema = z.object({
@@ -30,7 +31,7 @@ export default function CreateAvailability() {
     const form = useForm({
         resolver: zodResolver(availabilitySchema),
         defaultValues: {
-            restaurantId: 1,
+
             date: "20/08/2025",
             timeStart: "11:00:00",
             timeEnd: "15:00:00",
@@ -42,6 +43,9 @@ export default function CreateAvailability() {
             commentary: "Repas d'aniversaire du patron"
         },
     });
+    const { isPending, isError, data, error } = useQuery({ queryKey: ['restaurantSelect'], queryFn: getAllRestaurant })
+
+
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const { handleSubmit, setValue } = form;
@@ -77,20 +81,48 @@ export default function CreateAvailability() {
                     <CardContent>
                             <Form {...form}>
                                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                                    <FormField
-                                        control={form.control}
-                                        name="restaurantId"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Restaurant</FormLabel>
-                                                <FormControl>
-                                                    <Input {...field} />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                                                        
+                                    
+                                <FormField 
+    control={form.control}
+    name="restaurantId"
+    render={({ field }) => {
+        const selectedRestaurant = data?.organisations.find((r) => r.id === Number(field.value));
+
+        console.log("Valeur actuelle du champ :", field.value); // Vérifier ce que RHF stocke
+        console.log("Restaurants disponibles :", data?.organisations); // Vérifier la liste des restaurants
+        console.log("Restaurant sélectionné :", selectedRestaurant);
+        console.log("Type de restaurant.id :", typeof data?.organisations[0]?.id);
+        console.log("Type de field.value :", typeof field.value);
+
+        return (
+            <FormItem>
+                <FormLabel>Restaurant</FormLabel>
+                <Select 
+                    onValueChange={(value) => {
+                        console.log("Nouvelle valeur sélectionnée :", value); // Vérifier la valeur sélectionnée
+                        field.onChange(value);
+                    }} 
+                    value={field.value} // Stocke l'ID du restaurant sélectionné
+                >
+                    <SelectTrigger className="w-full">
+                        <SelectValue  />
+                        {/* Affichage manuel du nom pour voir si le find() fonctionne */}
+                        {selectedRestaurant?.name || "Choisissez un restaurant"}
+                    </SelectTrigger>
+                    <SelectContent>
+                        {data?.organisations?.map((restaurant) => (
+                            <SelectItem key={restaurant.id} value={restaurant.id}>
+                                {restaurant.name}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+                <FormMessage />
+            </FormItem>
+        );
+    }}
+/>
+                                    
                                     
                                     <FormField
                                         control={form.control}
