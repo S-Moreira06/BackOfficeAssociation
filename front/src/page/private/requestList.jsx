@@ -67,16 +67,16 @@ export default function RequestList () {
                         </TableCell>
                         <TableCell>
                             <AlertDialog>
-                                <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
+                                <AlertDialogTrigger>Refuser</AlertDialogTrigger>
                                 <AlertDialogContent className="bg-white">
                                     <AlertDialogHeader>
-                                    <AlertDialogTitle>Etes vous sure de vouloir supprimer l'utilisateur?</AlertDialogTitle>
+                                    <AlertDialogTitle>Etes vous sure de vouloir refuser la demande ?</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        Souhaitez vous désactiver le compte de cet utilisateur?
+                                        Un mail automatique sera envoyé a l'organisation.
                                     </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
-                                    <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                    <AlertDialogCancel>Non</AlertDialogCancel>
                                     <AlertDialogAction onClick={() => mutation.mutate(request.id)}>Oui</AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
