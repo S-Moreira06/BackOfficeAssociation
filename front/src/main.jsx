@@ -23,6 +23,7 @@ import CreateAssociation from "./page/private/createAssociation";
 import RequestList from "./page/private/requestList";
 import RequestDetail from "./page/private/requestDetail";
 import CreateAvailability from "./page/private/createAvailability"
+import AvailabilityList from "./page/private/availabilityList";
 
 
 
@@ -62,6 +63,7 @@ ReactDOM.createRoot(root).render(
           <Route path="/request-list" element={<RequestList/>} />
           <Route path="/request-detail" element={<RequestDetail/>} />
           <Route path="/create-availability" element={<CreateAvailability/>}/>
+          <Route path="/availability-list" element={<AvailabilityList/>} />
         </Route>
       </Routes>
       <ReactQueryDevtools initialIsOpen={false} />
