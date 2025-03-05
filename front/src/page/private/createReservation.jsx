@@ -10,6 +10,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
+import { getAvailabilityById } from "@/api/availability"
+
 const availabilitySchema = z.object({
     id_organisation: z.string(),
     id_availability: z.string(),
@@ -24,11 +26,16 @@ export default function CreateReservation () {
     const location = useLocation();
     const availabilityId = location.state?.availabilityId;
     console.log(availabilityId)
+    const { isPending, isError, data, error } = useQuery({ 
+        queryKey: ['availabilityDetail', availabilityId], 
+        queryFn: () =>getAvailabilityById(availabilityId)
+    })
+    console.log(data)
     const form = useForm({
         resolver: zodResolver(availabilitySchema),
             defaultValues: {
                 id_organisation: "",
-                id_availability: "",
+                id_availability: availabilityId,
                 time: "",
                 email: "",
                 nb_place_setting: "",
