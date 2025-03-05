@@ -3,7 +3,7 @@ import instance from "./config";
 async function createAvailability(data) {
     return await instance.post("/availability",data);
 }
-async function getAllAvailability() {
+async function getAllAvailabilities() {
     try {
         const response = await instance.get("http://localhost:3000/api/availability")
         console.log(response)
@@ -12,5 +12,14 @@ async function getAllAvailability() {
         return error
     }
 }
+async function getAvailabilityById(id) {
+    try {
+        const response = await instance.get(`http://localhost:3000/api/availability/${id}`)
+        console.log(response)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
 
-export { createAvailability, getAllAvailability }
+export { createAvailability, getAllAvailabilities, getAvailabilityById }

@@ -24,11 +24,11 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
-import { getAllAvailability } from '@/api/availability'
+import { getAllAvailabilities } from '@/api/availability'
 import GetDate from "@/hooks/get-date"
 
-export default function AvailabilityList () {
-    const { isPending, isError, data, error } = useQuery({ queryKey: ['availabilityList'], queryFn: getAllAvailability })
+export default function AvailabilitiesList () {
+    const { isPending, isError, data, error } = useQuery({ queryKey: ['availabilitiesList'], queryFn: getAllAvailabilities })
     const navigate = useNavigate()
     const queryClient = useQueryClient();
     console.log(data)
@@ -56,7 +56,7 @@ export default function AvailabilityList () {
             {data?.availabilities.length > 0 && data.availabilities.map((availability)=>{
                 const price = availability?.price/100
             return (
-                <TableRow key={availability.id}>
+                <TableRow key={availability.id} onClick={() => navigate("/availability-detail",{ state: { availabilityId: availability.id }})}>
                 <TableCell>{availability?.restaurant_id}</TableCell>
                 <TableCell><GetDate timestamp={availability?.date}/></TableCell>
                 <TableCell>{availability?.time_start}-{availability?.time_end}</TableCell>
