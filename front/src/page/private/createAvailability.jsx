@@ -89,25 +89,17 @@ export default function CreateAvailability() {
                                         render={({ field }) => {
                                             const selectedRestaurant = data?.organisations.find((r) => r.id === Number(field.value));
 
-                                            console.log("Valeur actuelle du champ :", field.value); // Vérifier ce que RHF stocke
-                                            console.log("Restaurants disponibles :", data?.organisations); // Vérifier la liste des restaurants
-                                            console.log("Restaurant sélectionné :", selectedRestaurant);
-                                            console.log("Type de restaurant.id :", typeof data?.organisations[0]?.id);
-                                            console.log("Type de field.value :", typeof field.value);
-
                                             return (
                                                 <FormItem>
                                                     <FormLabel>Restaurant</FormLabel>
                                                     <Select 
                                                         onValueChange={(value) => {
-                                                            console.log("Nouvelle valeur sélectionnée :", value); // Vérifier la valeur sélectionnée
                                                             field.onChange(value);
                                                         }} 
-                                                        value={field.value} // Stocke l'ID du restaurant sélectionné
+                                                        value={field.value} // Stock l'ID du restau sélectionné
                                                     >
                                                         <SelectTrigger className="w-full">
                                                             <SelectValue  />
-                                                            {/* Affichage manuel du nom pour voir si le find() fonctionne */}
                                                             {selectedRestaurant?.name || "Choisissez un restaurant"}
                                                         </SelectTrigger>
                                                         <SelectContent>
