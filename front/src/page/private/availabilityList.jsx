@@ -65,7 +65,6 @@ export default function AvailabilityList () {
                 <TableCell>{availability?.take_away}</TableCell>
                 <TableCell>{availability?.max_people}</TableCell>
                 <TableCell>{price}€</TableCell>
-                <TableCell>{availability?.is_archived}</TableCell>
                 <TableCell><Button onClick={() => navigate("/update-availability",{ state: { restaurantId: availability.id }})}>Modifier</Button></TableCell>
                 <TableCell>
                     <AlertDialog>
