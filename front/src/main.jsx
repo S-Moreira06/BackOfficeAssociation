@@ -25,6 +25,7 @@ import RequestDetail from "./page/private/requestDetail";
 import CreateAvailability from "./page/private/createAvailability"
 import AvailabilityList from "./page/private/availabilityList";
 import AvailabilityDetail from "./page/private/availabilityDetail";
+import CreateReservation from "./page/private/createReservation";
 
 
 
@@ -66,6 +67,7 @@ ReactDOM.createRoot(root).render(
           <Route path="/create-availability" element={<CreateAvailability/>}/>
           <Route path="/availability-list" element={<AvailabilityList/>} />
           <Route path="/availability-detail" element={<AvailabilityDetail/>} />
+          <Route path="/create-reservation" element={<CreateReservation/>}/>
         </Route>
       </Routes>
       <ReactQueryDevtools initialIsOpen={false} />

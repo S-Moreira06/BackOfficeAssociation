@@ -18,6 +18,7 @@ import GetDate from "@/hooks/get-date"
 export default function AvailabilityDetail () {
     const location = useLocation();
     const availabilityId = location.state?.availabilityId;
+    const navigate = useNavigate()
     console.log("voici l'id ",availabilityId)
     const { isPending, isError, data, error } = useQuery({ 
         queryKey: ['availabilityDetail', availabilityId], 
@@ -50,7 +51,7 @@ export default function AvailabilityDetail () {
                         </CardContent>
                         <CardFooter>
                             <div className="mx-auto">
-                                <Button variant="secondary">Valider</Button><Button variant="outline">Refuser</Button>
+                                <Button variant="secondary" onClick={() => navigate("/create-reservation",{ state: { availabilityId: availabilityId }})}>Reserver</Button>
                             </div>
                         </CardFooter>
                     </Card>
