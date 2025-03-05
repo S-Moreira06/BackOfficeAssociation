@@ -74,7 +74,7 @@ export default function CreateAvailability() {
     return (
         <>
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <Card className="w-full max-w-xl bg-white">
+        <Card className="w-[80%] my-5 max-w-xl bg-white shadow-2xl">
             <CardHeader>
                 <CardTitle className="text-2xl font-bold">Créer une disponibilité</CardTitle>
             </CardHeader>
@@ -102,7 +102,7 @@ export default function CreateAvailability() {
                                                             <SelectValue  />
                                                             {selectedRestaurant?.name || "Choisissez un restaurant"}
                                                         </SelectTrigger>
-                                                        <SelectContent>
+                                                        <SelectContent className="bg-white">
                                                             {data?.organisations?.map((restaurant) => (
                                                                 <SelectItem key={restaurant.id} value={restaurant.id}>
                                                                     {restaurant.name}
@@ -116,7 +116,7 @@ export default function CreateAvailability() {
                                         }}
                                     />
                                     
-                                    
+                                    <div className="grid sm:grid-cols-2 gap-3">
                                     <FormField
                                         control={form.control}
                                         name="date"
@@ -130,7 +130,20 @@ export default function CreateAvailability() {
                                             </FormItem>
                                         )}
                                     />
-                                    <div className="grid grid-cols-2 gap-3">
+                                        <FormField
+                                            control={form.control}
+                                            name="deadlineAccept"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Delai mini. de réservation</FormLabel>
+                                                    <FormControl>
+                                                        <Input {...field} type="number"/>
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    
                                     <FormField
                                         control={form.control}
                                         name="timeStart"
@@ -152,19 +165,6 @@ export default function CreateAvailability() {
                                                 <FormLabel>Heure de fin</FormLabel>
                                                 <FormControl>
                                                     <Input {...field} type="time"/>
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="deadlineAccept"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Delai mini. de réservation</FormLabel>
-                                                <FormControl>
-                                                    <Input {...field} type="number"/>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
