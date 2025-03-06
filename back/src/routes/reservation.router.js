@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { createReservation, deleteReservation, getAllReservation, getReservation } from "../controllers/reservation.controller.js";
+import { createReservation, deleteReservation, getAllReservation, getReservation , getTotal ,getTotalByName} from "../controllers/reservation.controller.js";
 
 const reservationRouter = new Hono();
 
@@ -33,6 +33,7 @@ reservationRouter.delete(
 );
 
 reservationRouter.get('/',getAllReservation);
+reservationRouter.get('/total',getTotal);
 
 reservationRouter.get(
     '/:id',
@@ -42,5 +43,7 @@ reservationRouter.get(
             id: z.string().regex(/^\d+$/),
         })), getReservation
 );
+reservationRouter.get('/total/:name', getTotalByName);
+
 
 export default reservationRouter;

@@ -13,6 +13,7 @@ import optionRouter from "./option.router.js";
 import restaurantRouter from "./restaurant.router.js";
 import associationRouter from "./association.router.js";
 import reviewRouter from "./review.router.js";
+import testRouter from "./test.router.js"
 const app = new Hono()
 
 
