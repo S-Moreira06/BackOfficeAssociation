@@ -12,15 +12,16 @@ import * as z from "zod";
 
 import { getAvailabilityById } from "@/api/availability"
 import { getAllAssociation } from "@/api/association"
+import { createReservation } from "@/api/reservation";
 
 const availabilitySchema = z.object({
-    id_organisation: z.string(),
-    id_availability: z.string(),
+    id_organisation: z.coerce.number().int(),
+    id_availability: z.number().int(),
     time: z.string(),
     email: z.string(),
     nb_place_setting: z.string(),
     status: z.string(),
-    take_away: z.string()
+    take_away: z.coerce.string()
 })
 
 export default function CreateReservation () {
@@ -40,25 +41,39 @@ export default function CreateReservation () {
     const form = useForm({
         resolver: zodResolver(availabilitySchema),
             defaultValues: {
-                id_organisation: "",
                 id_availability: availabilityId,
                 time: "",
                 email: "",
-                nb_place_setting: "",
-                status: "",
-                take_away: ""
+                nb_place_setting: "1",
+                status: "en attente",
+                take_away: 0
             },
         });
     
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const { handleSubmit, setValue } = form;
+    const reservationMutation = useMutation({
+        mutationFn: async (newData) => {
+            return await createReservation(newData);
+        },
+        onSuccess: () => {
+            console.log("reservation is create !");
+            // queryClient.invalidateQueries(['associationList']);
+            setTimeout(() => {
+                navigate("/availability-detail");
+            }, 500); 
+        },
+        
+        onError: (error) => {
+            console.log("Erreur lors de la création :", error)
+        }
+    });
 
     const onSubmit = (data) => {
         console.log("données envoyés:" , data)
+        reservationMutation.mutate(data)
     };
-    if (isAvailabilityLoading) return <p>Loading...</p>;
-    if (isAvailabilityError) return <p>Error loading availability data: {error.message}</p>;
     return (
         <>
         <Card>
