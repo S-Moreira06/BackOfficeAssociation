@@ -9,13 +9,13 @@ reservationRouter.post(
     "/", zValidator('json',
         z.object({
             id_organisation: z.number().int(),
-            id_availability: z.string().min(1),
+            id_availability: z.number().int(),
             time: z.string().min(1),
             email: z.string().email("Invalid email"),
             nb_place_setting: z.string().min(1),
             status: z.string().min(1),
             take_away: z.string().min(1),
-            commentary: z.string().min(1)
+            commentary: z.string().min(1).optional()
         })
     ),
     createReservation
