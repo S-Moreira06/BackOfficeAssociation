@@ -25,21 +25,44 @@ const availabilitySchema = z.object({
 })
 
 export default function CreateReservation () {
+    
     const location = useLocation();
     const availabilityId = location.state?.availabilityId;
-    console.log("id de la dispo:" , availabilityId)
+
     const { isPending: isAvailabilityLoading, isError: isAvailabilityError, data: availabilityData, error: availabilityError } = useQuery({
         queryKey: ['availabilityDetail', availabilityId],
         queryFn: () => getAvailabilityById(availabilityId),
         enabled: !!availabilityId ,
         
     });
-    console.log("detail dispo" , availabilityData)
     const { isPending: isAssociationsLoading, isError: isAssociationsError, data: associationsData, error: associationsError } = useQuery({
         queryKey: ['associationList'], 
         queryFn: getAllAssociation
     });
-    console.log("asso data:" ,associationsData)
+    function getHours(time) {
+        return Number(time.split(':')[0]);    
+    }
+    function getMinutes(time) {
+        return Number(time.split(":")[1]);
+    }
+
+    const timeSlot = [];
+    if (availabilityData?.availability) {
+        let startHour = getHours(availabilityData.availability.time_start);
+        let startMinute = getMinutes(availabilityData.availability.time_start);
+        const endHour = getHours(availabilityData.availability.time_end);
+        const endMinute = getMinutes(availabilityData.availability.time_end);
+
+        while (startHour < endHour || (startHour === endHour && startMinute <= endMinute)) {
+            timeSlot.push(`${String(startHour).padStart(2, "0")}:${String(startMinute).padStart(2, "0")}`);
+            startMinute += 30;
+            if (startMinute === 60) {
+                startMinute = 0;
+                startHour++;
+            }
+        }
+    }
+
     const form = useForm({
         resolver: zodResolver(availabilitySchema),
             defaultValues: {
@@ -53,8 +76,7 @@ export default function CreateReservation () {
         });
     
     const navigate = useNavigate();
-    const queryClient = useQueryClient();
-    const { handleSubmit, setValue } = form;
+
     const reservationMutation = useMutation({
         mutationFn: async (newData) => {
             return await createReservation(newData);
@@ -85,7 +107,7 @@ export default function CreateReservation () {
             </CardHeader>
             <CardContent>
                 <Form {...form}>
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
                     <FormField 
                         control={form.control}
                         name="id_organisation"
@@ -130,21 +152,31 @@ export default function CreateReservation () {
                         )}
                     />
                     <FormField
-                    control={form.control}
-                    name="time"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Heure</FormLabel>
-                            <FormControl>
-                                <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                    /><FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
+                        control={form.control}
+                        name="time"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Heure</FormLabel>
+                                <Select onValueChange={field.onChange} value={field.value}>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Sélectionnez une heure" />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-white">
+                                        {timeSlot.map((time) => (
+                                            <SelectItem key={time} value={time}>
+                                                {time}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
                         <FormItem>
                             <FormLabel>E-mail</FormLabel>
                             <FormControl>
@@ -153,10 +185,11 @@ export default function CreateReservation () {
                             <FormMessage />
                         </FormItem>
                     )}
-                    /><FormField
-                    control={form.control}
-                    name="nb_place_setting"
-                    render={({ field }) => (
+                    />
+                    <FormField
+                        control={form.control}
+                        name="nb_place_setting"
+                        render={({ field }) => (
                         <FormItem>
                             <FormLabel>Nombre de couverts</FormLabel>
                             <FormControl>
@@ -165,10 +198,11 @@ export default function CreateReservation () {
                             <FormMessage />
                         </FormItem>
                     )}
-                    /><FormField
-                    control={form.control}
-                    name="status"
-                    render={({ field }) => (
+                    />
+                    <FormField
+                        control={form.control}
+                        name="status"
+                        render={({ field }) => (
                         <FormItem>
                             <FormLabel>Statut</FormLabel>
                             <FormControl>
