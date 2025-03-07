@@ -31,8 +31,10 @@ export default function CreateReservation () {
     const { isPending: isAvailabilityLoading, isError: isAvailabilityError, data: availabilityData, error: availabilityError } = useQuery({
         queryKey: ['availabilityDetail', availabilityId],
         queryFn: () => getAvailabilityById(availabilityId),
-        enabled: !!availabilityId // Ne lance la requête que si availabilityId existe
+        enabled: !!availabilityId ,
+        
     });
+    console.log("detail dispo" , availabilityData)
     const { isPending: isAssociationsLoading, isError: isAssociationsError, data: associationsData, error: associationsError } = useQuery({
         queryKey: ['associationList'], 
         queryFn: getAllAssociation
@@ -71,7 +73,8 @@ export default function CreateReservation () {
     });
 
     const onSubmit = (data) => {
-        console.log("données envoyés:" , data)
+        data.time = availabilityData.availability.date + " " + data.time;
+        console.log("données envoyés:" , data.time)
         reservationMutation.mutate(data)
     };
     return (
