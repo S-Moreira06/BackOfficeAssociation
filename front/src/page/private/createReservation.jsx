@@ -39,8 +39,9 @@ export default function CreateReservation () {
         queryKey: ['associationList'], 
         queryFn: getAllAssociation
     });
+
     function getHours(time) {
-        return Number(time.split(':')[0]);    
+        return Number(time.split(':')[0]);    // separe chaque element d'un string séparé par la valeur entre parentheses et les placent dans un array
     }
     function getMinutes(time) {
         return Number(time.split(":")[1]);
@@ -52,11 +53,11 @@ export default function CreateReservation () {
         let startMinute = getMinutes(availabilityData.availability.time_start);
         const endHour = getHours(availabilityData.availability.time_end);
         const endMinute = getMinutes(availabilityData.availability.time_end);
-
-        while (startHour < endHour || (startHour === endHour && startMinute <= endMinute)) {
-            timeSlot.push(`${String(startHour).padStart(2, "0")}:${String(startMinute).padStart(2, "0")}`);
-            startMinute += 30;
-            if (startMinute === 60) {
+// dans la boule si dessous , creer notre tableau timeslot qui sera notre liste de valeurs a afficher. 
+        while (startHour < endHour || (startHour === endHour && startMinute <= endMinute)) { // on compare dabord les heures et si elles sont egales on passe aux minutes
+            timeSlot.push(`${String(startHour).padStart(2, "0")}:${String(startMinute).padStart(2, "0")}`); // on ajoute la valeur a notre array en s'assurant que ce soit par exemple 01H00 et pas 1h00
+            startMinute += 30; // ici c'est la durée de nos plages de reservation , a changer si necessaire
+            if (startMinute === 60) {// condition pour passer a l'heure suivante si les minutes sont a 60
                 startMinute = 0;
                 startHour++;
             }
@@ -69,7 +70,7 @@ export default function CreateReservation () {
                 id_availability: availabilityId,
                 time: "",
                 email: "",
-                nb_place_setting: "1",
+                nb_place_setting: 1,
                 status: "en attente",
                 take_away: 0
             },
@@ -83,9 +84,9 @@ export default function CreateReservation () {
         },
         onSuccess: () => {
             console.log("reservation is create !");
-            // queryClient.invalidateQueries(['associationList']);
+            // queryClient.invalidateQueries(['associationList']); a remplacer par reservationList quand ce sera créer
             setTimeout(() => {
-                navigate("/availability-detail");
+                navigate("/availability-detail",{ state: { availabilityId: availabilityId }});
             }, 500); 
         },
         
@@ -193,7 +194,7 @@ export default function CreateReservation () {
                         <FormItem>
                             <FormLabel>Nombre de couverts</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input {...field} type="number" max={availabilityData?.availability.max_people}/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>

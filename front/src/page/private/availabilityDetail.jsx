@@ -45,8 +45,8 @@ export default function AvailabilityDetail () {
                             <Separator className="border"/><Separator className="border"/>
                             <p>couverts :</p> 
                             <div className="text-center">
-                                <p>{data?.availability.on_site} {data?.availability.take_away}</p> 
-                                <p>{data?.availability.max_people} </p>
+                                <p>Sur place: {data?.availability.on_site} / A emporter: {data?.availability.take_away}</p> 
+                                <p>Couverts max.: {data?.availability.max_people} </p>
                             </div>
                         </CardContent>
                         <CardFooter>
