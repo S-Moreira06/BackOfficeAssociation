@@ -15,14 +15,15 @@ import { getAvailabilityById } from "@/api/availability"
 import { getAllAssociation } from "@/api/association"
 import { createReservation } from "@/api/reservation";
 
-const availabilitySchema = z.object({
+const reservationSchema = z.object({
     id_organisation: z.coerce.number().int(),
     id_availability: z.number().int(),
     time: z.string(),
     email: z.string(),
     nb_place_setting: z.coerce.string(),
     status: z.string(),
-    take_away: z.coerce.string()
+    take_away: z.coerce.string(),
+    commentary: z.string().max(255).optional()
 })
 
 export default function CreateReservation () {
@@ -70,7 +71,7 @@ export default function CreateReservation () {
     }
     console.log(sitSlot)
     const form = useForm({
-        resolver: zodResolver(availabilitySchema),
+        resolver: zodResolver(reservationSchema),
             defaultValues: {
                 id_availability: availabilityId,
                 status: "en attente",
@@ -159,42 +160,7 @@ export default function CreateReservation () {
                             )
                         }}
                     />
-                    <FormField
-                        control={form.control}
-                        name="time"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Heure</FormLabel>
-                                <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Sélectionnez une heure" />
-                                    </SelectTrigger>
-                                    <SelectContent className="bg-white">
-                                        {timeSlot.map((time) => (
-                                            <SelectItem key={time} value={time}>
-                                                {time}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>E-mail</FormLabel>
-                            <FormControl>
-                                <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-
+                    <div className="flex justify-around">
                     <FormField
                         control={form.control}
                         name="nb_place_setting"
@@ -219,6 +185,57 @@ export default function CreateReservation () {
                             </FormItem>
                         )}}
                     />
+                        <FormField
+                            control={form.control}
+                            name="time"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Heure</FormLabel>
+                                    <Select onValueChange={field.onChange} value={field.value}>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Sélectionnez une heure" />
+                                        </SelectTrigger>
+                                        <SelectContent className="bg-white">
+                                            {timeSlot.map((time) => (
+                                                <SelectItem key={time} value={time}>
+                                                    {time}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>E-mail</FormLabel>
+                            <FormControl>
+                                <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="commentary"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Commentaire</FormLabel>
+                            <FormControl>
+                                <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+
+                    
                     <Button type="submit">Créer une reservation</Button>
                     </form>
                 </Form>
