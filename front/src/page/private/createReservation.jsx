@@ -71,7 +71,7 @@ export default function CreateReservation () {
                 id_availability: availabilityId,
                 time: "",
                 email: "",
-                nb_place_setting: 1,
+                nb_place_setting: availabilityId,
                 status: "en attente",
                 take_away: 0
             },
@@ -157,19 +157,6 @@ export default function CreateReservation () {
 
                             )
                         }}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="id_availability"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Disponibilité</FormLabel>
-                                <FormControl>
-                                    <Input {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
                     />
                     <FormField
                         control={form.control}
