@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -105,8 +107,10 @@ export default function CreateReservation () {
     };
     return (
         <>
-        <Card>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <Card className="w-[80%] my-5 max-w-xl bg-white shadow-2xl">
             <CardHeader>
+                <CardTitle className="text-2xl font-bold">Créer une réservation</CardTitle>
 
             </CardHeader>
             <CardContent>
@@ -228,7 +232,7 @@ export default function CreateReservation () {
                         <FormItem>
                             <FormLabel>Commentaire</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Textarea {...field}  />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -241,6 +245,7 @@ export default function CreateReservation () {
                 </Form>
             </CardContent>
         </Card>
+        </div>
         </>
     )
 }
