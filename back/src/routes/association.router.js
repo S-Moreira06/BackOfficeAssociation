@@ -5,7 +5,7 @@ import {
     creationOrganisation,
     getAllOrganisationsByCategory,
     findOrganisationById,
-    softDeleteOrganisation, updateOrganisation
+    softDeleteOrganisation, updateOrganisation, getAllAssociationByCity
 } from '../controllers/organisation.controller.js';
 import restaurantRouter from "./restaurant.router.js";
 
@@ -49,5 +49,6 @@ associationRouter.put(
             maxMeal: z.number().nullable().optional()
         })), updateOrganisation
 );
+associationRouter.get('/city/:city', getAllAssociationByCity);
 
 export default associationRouter;

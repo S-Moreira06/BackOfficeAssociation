@@ -36,5 +36,25 @@ async function getReservation(id) {
   const result = await db.prepare(query).get(id)
   return result;
 }
+async function getTotal() {
+  const query = 'SELECT SUM(nb_place_setting) AS total FROM reservation';
+  const result = await db.prepare(query).get();
 
-export default {createReservation, deleteReservation, getAllReservation, getReservation};
+  return result  ;
+}
+async function getTotalByName(name) {
+  const query = `
+    SELECT SUM(nb_place_setting) AS total 
+    FROM reservation 
+    WHERE id_organisation = (
+      SELECT id FROM organisation WHERE name = ?
+    )
+  `;
+
+  const result = await db.prepare(query).get(name);
+
+  return result?.total || 0;
+}
+
+export default { createReservation, deleteReservation, getAllReservation, getReservation, getTotalByName };
+

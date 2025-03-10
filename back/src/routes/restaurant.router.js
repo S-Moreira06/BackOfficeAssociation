@@ -7,8 +7,12 @@ import {
     getAllOrganisationsByCategory,
     updateOrganisation,
     getTypesForRestaurant,
-    getOrganisationById
-} from "../controllers/organisation.controller.js";
+    getOrganisationById,
+    getCountRestaurants,
+    getCountAsso,
+    getAllRestaurantByCity,
+    getAllAssociationByCity} from "../controllers/organisation.controller.js";
+import testRouter from "./test.router.js";
 const restaurantRouter = new Hono();
 
 restaurantRouter.post(
@@ -30,6 +34,10 @@ restaurantRouter.post(
 restaurantRouter.delete('/:id', softDeleteOrganisation );
 
 restaurantRouter.get('/', getAllOrganisationsByCategory);
+restaurantRouter.get('/count', getCountRestaurants);
+restaurantRouter.get('/countasso', getCountAsso);
+
+getCountAsso
 restaurantRouter.get('/:id', getOrganisationById);
 
 restaurantRouter.put(
@@ -52,6 +60,8 @@ restaurantRouter.put(
 );
 
 restaurantRouter.get('/:id/type', getTypesForRestaurant );
+restaurantRouter.get('/city/:city', getAllRestaurantByCity);
+
 
 export default restaurantRouter;
 
