@@ -22,7 +22,7 @@ const availabilitySchema = z.object({
     id_availability: z.number().int(),
     time: z.string(),
     email: z.string(),
-    nb_place_setting: z.string(),
+    nb_place_setting: z.coerce.string(),
     status: z.string(),
     take_away: z.coerce.string()
 })
@@ -100,7 +100,7 @@ export default function CreateReservation () {
 
     const onSubmit = (data) => {
         data.time = availabilityData.availability.date + " " + data.time;
-        console.log("données envoyés:" , data.time)
+        console.log("données envoyés:" , data)
         reservationMutation.mutate(data)
     };
     return (
@@ -112,6 +112,24 @@ export default function CreateReservation () {
             <CardContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
+                    <FormField
+                        control={form.control}
+                        name="take_away"
+                        render={({ field }) => (
+                            <FormItem className=" items-center justify-between">
+                            <FormControl className="justify-center">
+                                <div className="flex items-center  space-x-2 text-gray-700">
+                                <span className={field.value ? 'text-base' : 'text-xl'}>À emporter</span>
+                                <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                                <span className={field.value ? 'text-xl' : 'text-base'}>Sur place</span>
+                                </div>
+                            </FormControl>
+                            </FormItem>
+                        )}
+                    />
                     <FormField 
                         control={form.control}
                         name="id_organisation"
@@ -215,30 +233,6 @@ export default function CreateReservation () {
                             <FormMessage />
                         </FormItem>
                     )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="take_away"
-                        render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                            <div className="space-y-0.5">
-                                <FormLabel className="text-base">SP/AE:</FormLabel>
-                                <FormDescription>
-                                Les repas seront ils récupérés...
-                                </FormDescription>
-                            </div>
-                            <FormControl>
-                                <div className="flex items-center space-x-2">
-                                <span className="text-gray-700">À emporter</span>
-                                <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                />
-                                <span className="text-gray-700">Sur place</span>
-                                </div>
-                            </FormControl>
-                            </FormItem>
-                        )}
                     />
                     <Button type="submit">Créer une reservation</Button>
                     </form>
