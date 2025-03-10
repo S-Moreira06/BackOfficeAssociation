@@ -11,7 +11,7 @@ import {
     SidebarMenuItem,
   } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export function AppSidebar() {
 

@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator"
 import { Button } from '@/components/ui/button'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 import { getAvailabilityById } from "@/api/availability"
 import GetDate from "@/hooks/get-date"

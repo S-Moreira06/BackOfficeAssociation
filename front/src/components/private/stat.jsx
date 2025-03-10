@@ -1,15 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
-import { useNavigate } from "react-router-dom";
-
-import { 
-    Card, 
-    CardContent, 
-    CardDescription, 
-    CardFooter, 
-    CardHeader, 
-    CardTitle 
-} from "@/components/ui/card";
+import React from 'react'
 
 import UserCard from '@/components/private/userCard';
 import RequestCard from '@/components/private/requestCard';
@@ -31,4 +20,3 @@ export default function Stat() {
         </div>
     )
 }
-// sm:flex justify-between text-center
