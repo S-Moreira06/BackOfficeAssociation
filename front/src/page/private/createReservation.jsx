@@ -71,7 +71,7 @@ export default function CreateReservation () {
     for (let sit = 0; sit < availabilityData.availability.max_people; sit++) {
         sitSlot.push(sit +1);
     }
-    console.log(sitSlot)
+    
     const form = useForm({
         resolver: zodResolver(reservationSchema),
             defaultValues: {
