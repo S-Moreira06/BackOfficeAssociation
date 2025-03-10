@@ -64,7 +64,11 @@ export default function CreateReservation () {
             }
         }
     }
-
+    const sitSlot = []
+    for (let sit = 0; sit < availabilityData.availability.max_people; sit++) {
+        sitSlot.push(sit +1);
+    }
+    console.log(sitSlot)
     const form = useForm({
         resolver: zodResolver(availabilitySchema),
             defaultValues: {
@@ -197,16 +201,24 @@ export default function CreateReservation () {
                         control={form.control}
                         name="nb_place_setting"
                         render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Nombre de couverts</FormLabel>
-                            <FormControl>
-                                <Input {...field} type="number" max={availabilityData?.availability.max_people}/>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+                            <FormItem>
+                                <FormLabel>Nombre de couverts</FormLabel>
+                                <Select onValueChange={field.onChange} value={field.value}>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Nombre de couverts" />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-white">
+                                        {sitSlot.map((sit) => (
+                                            <SelectItem key={sit} value={sit}>
+                                                {sit}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
                     />
-                    
                     <Button type="submit">Créer une reservation</Button>
                     </form>
                 </Form>
