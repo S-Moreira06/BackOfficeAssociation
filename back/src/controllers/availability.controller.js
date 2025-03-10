@@ -48,13 +48,13 @@ async function getAvailabilityById(c) {
         const id = c.req.param('id');
         const availability = await availabilityService.getAvailabilityById(id);
         return c.json({
-            message: 'get  availabilities done',
+            message: 'get availability details done',
             availability: availability
         }, 201)
     } catch (error) {
         console.error(error);
         return c.json({
-            error: "get availability failed"
+            error: "get availability details failed"
         }, 400)
     }
 }
