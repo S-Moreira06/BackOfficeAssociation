@@ -2,7 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
+import { Switch } from "@/components/ui/switch";
+
+
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -217,12 +220,23 @@ export default function CreateReservation () {
                         control={form.control}
                         name="take_away"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>A emporté</FormLabel>
-                                <FormControl>
-                                    <Input {...field} />
-                                </FormControl>
-                                <FormMessage />
+                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                            <div className="space-y-0.5">
+                                <FormLabel className="text-base">SP/AE:</FormLabel>
+                                <FormDescription>
+                                Les repas seront ils récupérés...
+                                </FormDescription>
+                            </div>
+                            <FormControl>
+                                <div className="flex items-center space-x-2">
+                                <span className="text-gray-700">À emporter</span>
+                                <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                                <span className="text-gray-700">Sur place</span>
+                                </div>
+                            </FormControl>
                             </FormItem>
                         )}
                     />
