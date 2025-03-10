@@ -6,7 +6,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDes
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
-
+import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -28,8 +28,24 @@ const reservationSchema = z.object({
     commentary: z.string().max(255).optional()
 })
 
+const devBene = [
+    { name: "Jean Bon", mail: "jeanbon@devBene.fr" },
+    { name: "Alice Code", mail: "alicecode@devBene.fr" },
+    { name: "Bob Dev", mail: "bobdev@devBene.fr" },
+    { name: "Charlie Script", mail: "charlie@devBene.fr" },
+    { name: "Diane Algo", mail: "diane@devBene.fr" },
+    { name: "Evan Stack", mail: "evan@devBene.fr" },
+    { name: "Fanny Debug", mail: "fanny@devBene.fr" },
+    { name: "Georges Syntax", mail: "georges@devBene.fr" },
+    { name: "Hugo Compile", mail: "hugo@devBene.fr" },
+    { name: "Isabelle Function", mail: "isabelle@devBene.fr" }
+];
+
+
 export default function CreateReservation () {
-    
+    const [selectedBeneficiary, setSelectedBeneficiary] = useState(null);
+    const [selectedBeneficiaries, setSelectedBeneficiaries] = useState([]);
+
     const location = useLocation();
     const availabilityId = location.state?.availabilityId;
 
@@ -57,7 +73,7 @@ export default function CreateReservation () {
         let startMinute = getMinutes(availabilityData.availability.time_start);
         const endHour = getHours(availabilityData.availability.time_end);
         const endMinute = getMinutes(availabilityData.availability.time_end);
-// dans la boule si dessous , creer notre tableau timeslot qui sera notre liste de valeurs a afficher. 
+
         while (startHour < endHour || (startHour === endHour && startMinute <= endMinute)) { // on compare dabord les heures et si elles sont egales on passe aux minutes
             timeSlot.push(`${String(startHour).padStart(2, "0")}:${String(startMinute).padStart(2, "0")}`); // on ajoute la valeur a notre array en s'assurant que ce soit par exemple 01H00 et pas 1h00
             startMinute += 30; // ici c'est la durée de nos plages de reservation , a changer si necessaire
@@ -165,30 +181,30 @@ export default function CreateReservation () {
                         }}
                     />
                     <div className="flex justify-around">
-                    <FormField
-                        control={form.control}
-                        name="nb_place_setting"
-                        render={({ field }) => {
-                            const selectedSit = associationsData?.organisations.find((r) => r.id === Number(field.value));
-                            return (
-                            <FormItem>
-                                <FormLabel>Nombre de couverts</FormLabel>
-                                <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Nombre de couverts" />
-                                    </SelectTrigger>
-                                    <SelectContent className="bg-white">
-                                        {sitSlot.map((sit) => (
-                                            <SelectItem key={sit} value={sit.toString()}>
-                                                {sit}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}}
-                    />
+                        <FormField
+                            control={form.control}
+                            name="nb_place_setting"
+                            render={({ field }) => {
+                                const selectedSit = associationsData?.organisations.find((r) => r.id === Number(field.value));
+                                return (
+                                <FormItem>
+                                    <FormLabel>Nombre de couverts</FormLabel>
+                                    <Select onValueChange={field.onChange} value={field.value}>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Nombre de couverts" />
+                                        </SelectTrigger>
+                                        <SelectContent className="bg-white">
+                                            {sitSlot.map((sit) => (
+                                                <SelectItem key={sit} value={sit.toString()}>
+                                                    {sit}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}}
+                        />
                         <FormField
                             control={form.control}
                             name="time"
@@ -212,6 +228,59 @@ export default function CreateReservation () {
                             )}
                         />
                     </div>
+                    <FormField
+                        control={form.control}
+                        name="beneficiary"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Beneficiaires</FormLabel>
+                                <Select
+                                    onValueChange={(value) => {
+                                        const selected = devBene.find((bene) => bene.name === value);
+                                        if (selected && !selectedBeneficiaries.some(bene => bene.name === selected.name)) {
+                                            setSelectedBeneficiaries([...selectedBeneficiaries, selected]); // ajouter sans doublons
+                                        }
+                                    }}
+                                >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Sélectionnez un bénéficiaire" />
+                                </SelectTrigger>
+                                <SelectContent className="bg-white">
+                                    {devBene
+                                        .filter((bene) => !selectedBeneficiaries.some((selected) => selected.name === bene.name)) // filtre les bénéficiaires déjà sélectionnés
+                                        .map((bene) => (
+                                            <SelectItem key={bene.name} value={bene.name}>
+                                                {bene.name}
+                                            </SelectItem>
+                                        ))}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                    {/* affichage des beneficiaires selectionés */}
+                    {selectedBeneficiaries.length > 0 && (
+                        <div className="mt-2 p-2 border rounded-lg bg-gray-50">
+                            {selectedBeneficiaries.map((bene, index) => (
+                                <div key={index} className="flex justify-between items-center p-1 border-b">
+                                    <p><strong>Nom :</strong> {bene.name}</p>
+                                    <p><strong>Email :</strong> {bene.mail}</p>
+                                    <Button
+                                        variant="outline"
+                                        className="ml-2 text-red-500"
+                                        onClick={() => {
+                                            setSelectedBeneficiaries(
+                                                selectedBeneficiaries.filter((b) => b.name !== bene.name)
+                                            );
+                                        }}
+                                    >
+                                        Supprimer
+                                    </Button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                     <FormField
                         control={form.control}
                         name="email"
@@ -238,7 +307,6 @@ export default function CreateReservation () {
                         </FormItem>
                     )}
                     />
-
                     
                     <Button type="submit">Créer une reservation</Button>
                     </form>
