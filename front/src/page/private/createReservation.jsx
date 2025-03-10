@@ -117,12 +117,12 @@ export default function CreateReservation () {
                             <FormItem className=" items-center justify-between">
                             <FormControl className="justify-center">
                                 <div className="flex items-center  space-x-2 text-gray-700">
-                                <span className={field.value ? 'text-base' : 'text-xl'}>À emporter</span>
+                                <span className={field.value ? 'text-base' : 'text-xl'}>Sur place</span>
                                 <Switch
                                     checked={field.value}
                                     onCheckedChange={field.onChange}
                                 />
-                                <span className={field.value ? 'text-xl' : 'text-base'}>Sur place</span>
+                                <span className={field.value ? 'text-xl' : 'text-base'}>À emporter</span>
                                 </div>
                             </FormControl>
                             </FormItem>
