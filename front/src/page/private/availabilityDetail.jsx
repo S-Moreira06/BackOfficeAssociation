@@ -116,7 +116,7 @@ export default function AvailabilityDetail () {
                         <TableBody>
                         {reservationData?.reservations.reservationsByAvailability.length > 0 && reservationData.reservations.reservationsByAvailability.map((reservation)=>{
                         return (
-                            <TableRow key={reservation.id} onClick={() => navigate("/reservation-detail",{ state: { reservationId: reservation.id }})}>
+                            <TableRow key={reservation.id}>
                             <TableCell>{reservation?.id_organisation}</TableCell>
                             <TableCell>{reservation?.id_availability}</TableCell>
                             <TableCell>{reservation?.time}</TableCell>
