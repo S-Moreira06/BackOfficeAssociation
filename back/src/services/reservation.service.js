@@ -56,5 +56,12 @@ async function getTotalByName(name) {
   return result?.total || 0;
 }
 
-export default { createReservation, deleteReservation, getAllReservation, getReservation, getTotalByName };
+async function getAllReservationByAvailability(id_availability) {
+  const query = 'SELECT * FROM reservation WHERE id_availability = ?';
+  const result = await db.prepare(query).all(id_availability);
+  console.log('Type de id_availability:', typeof id_availability, id_availability);
+  return result;
+}
+
+export default { createReservation, deleteReservation, getAllReservation, getReservation, getTotalByName, getAllReservationByAvailability };
 
