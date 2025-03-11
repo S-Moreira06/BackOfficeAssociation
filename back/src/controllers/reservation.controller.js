@@ -87,6 +87,17 @@ async function getTotalByName(c) {
         return c.json({ error: 'Erreur serveur', details: error.message }, 500);
     }
 }
+async function getAllReservationByAvailability(c) {
+    try {
+        const id_availability = c.req.query('id_availability');
+        const reservationsByAvailability = await reservationService.getAllReservationByAvailability(id_availability);
 
-export { createReservation, deleteReservation, getAllReservation, getReservation, getTotalByName ,getTotal };
+        return c.json({ reservationsByAvailability }, 200);
+    } catch (error) {
+        console.error(error);
+        return c.json({ error: 'Erreur serveur', details: error.message }, 500);
+    }
+}
+
+export { createReservation, deleteReservation, getAllReservation, getReservation, getTotalByName ,getTotal ,getAllReservationByAvailability };
 

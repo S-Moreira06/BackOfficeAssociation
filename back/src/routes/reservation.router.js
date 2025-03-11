@@ -1,9 +1,10 @@
 import { Hono } from "hono";
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { createReservation, deleteReservation, getAllReservation, getReservation , getTotal ,getTotalByName} from "../controllers/reservation.controller.js";
+import { createReservation, deleteReservation, getAllReservation, getReservation , getTotal , getTotalByName, getAllReservationByAvailability } from "../controllers/reservation.controller.js";
 
 const reservationRouter = new Hono();
+
 
 reservationRouter.post(
     "/", zValidator('json',
@@ -31,7 +32,14 @@ reservationRouter.delete(
     )), 
     deleteReservation
 );
-
+reservationRouter.get('/', async (c) => {
+    const availability = c.req.query('id_availability');
+    if (!availability) {
+        return c.json({ error: "Le paramètre 'id_availability' est requis" }, 400);
+    }
+    return getAllReservationByAvailability(c);
+    
+});
 reservationRouter.get('/',getAllReservation);
 reservationRouter.get('/total',getTotal);
 
@@ -44,6 +52,9 @@ reservationRouter.get(
         })), getReservation
 );
 reservationRouter.get('/total/:name', getTotalByName);
+
+
+
 
 
 export default reservationRouter;
