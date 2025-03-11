@@ -96,8 +96,6 @@ export default function CreateReservation ({ availabilityId, closeSheet }) {
                 take_away: 0
             },
         });
-    
-    const navigate = useNavigate();
 
     const reservationMutation = useMutation({
         mutationFn: async (newData) => {
@@ -105,7 +103,7 @@ export default function CreateReservation ({ availabilityId, closeSheet }) {
         },
         onSuccess: () => {
             console.log("reservation is create !");
-            // queryClient.invalidateQueries(['associationList']); a remplacer par reservationList quand ce sera créer
+            //queryClient.invalidateQueries(['associationList']); a remplacer par reservationList quand ce sera créer
             //queryClient.invalidateQueries(["availabilityDetail", availabilityId]);
             closeSheet(); 
         },
