@@ -1,9 +1,10 @@
 import { Hono } from "hono";
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { createReservation, deleteReservation, getAllReservation, getReservation , getTotal ,getTotalByName} from "../controllers/reservation.controller.js";
+import { createReservation, deleteReservation, getAllReservation, getReservation , getTotal , getTotalByName, getAllReservationByAvailability } from "../controllers/reservation.controller.js";
 
 const reservationRouter = new Hono();
+
 
 reservationRouter.post(
     "/", zValidator('json',
@@ -20,7 +21,11 @@ reservationRouter.post(
     ),
     createReservation
 );
-
+reservationRouter.get('/test', (c) => {
+    console.log('Requête reçue');
+    return c.text('Réponse envoyée !');
+  });
+  
 reservationRouter.delete(
     "/:id", 
     zValidator('param', 
@@ -31,8 +36,10 @@ reservationRouter.delete(
     )), 
     deleteReservation
 );
+reservationRouter.get('/', async (c) => {
+    return getAllReservation(c);
+});
 
-reservationRouter.get('/',getAllReservation);
 reservationRouter.get('/total',getTotal);
 
 reservationRouter.get(
@@ -44,6 +51,9 @@ reservationRouter.get(
         })), getReservation
 );
 reservationRouter.get('/total/:name', getTotalByName);
+
+
+
 
 
 export default reservationRouter;
