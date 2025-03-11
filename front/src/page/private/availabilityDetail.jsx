@@ -124,10 +124,10 @@ export default function AvailabilityDetail () {
                             <TableCell>{reservation?.take_away}</TableCell>
                             <TableCell>{reservation?.status}</TableCell>
                             <TableCell>{reservation?.commentary}</TableCell>
-                            <TableCell><Button onClick={() => navigate("/update-reservation",{ state: { restaurantId: reservation.id }})}>Modifier</Button></TableCell>
+                            <TableCell><Button onClick={() => navigate("/update-reservation",{ state: { restaurantId: reservation.id }})}>Valider</Button></TableCell>
                             <TableCell>
                                 <AlertDialog>
-                                    <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
+                                    <AlertDialogTrigger>Refuser</AlertDialogTrigger>
                                     <AlertDialogContent className="bg-white">
                                         <AlertDialogHeader>
                                         <AlertDialogTitle>Etes vous sure de vouloir supprimer la disponibilité?</AlertDialogTitle>
