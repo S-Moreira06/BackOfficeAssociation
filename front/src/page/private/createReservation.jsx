@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { X } from "lucide-react";
 
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -42,12 +43,11 @@ const devBene = [
 ];
 
 
-export default function CreateReservation () {
-    const [selectedBeneficiary, setSelectedBeneficiary] = useState(null);
+export default function CreateReservation ({ availabilityId, closeSheet }) {
     const [selectedBeneficiaries, setSelectedBeneficiaries] = useState([]);
-
+    const queryClient = useQueryClient();
     const location = useLocation();
-    const availabilityId = location.state?.availabilityId;
+
 
     const { isPending: isAvailabilityLoading, isError: isAvailabilityError, data: availabilityData, error: availabilityError } = useQuery({
         queryKey: ['availabilityDetail', availabilityId],
@@ -106,9 +106,8 @@ export default function CreateReservation () {
         onSuccess: () => {
             console.log("reservation is create !");
             // queryClient.invalidateQueries(['associationList']); a remplacer par reservationList quand ce sera créer
-            setTimeout(() => {
-                navigate("/availability-detail",{ state: { availabilityId: availabilityId }});
-            }, 500); 
+            //queryClient.invalidateQueries(["availabilityDetail", availabilityId]);
+            closeSheet(); 
         },
         
         onError: (error) => {
@@ -123,11 +122,14 @@ export default function CreateReservation () {
     };
     return (
         <>
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <Card className="w-[80%] my-5 max-w-xl bg-white shadow-2xl">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+            {/* <Button variant="ghost" size="icon" onClick={closeSheet}>
+                <X className="w-5 h-5" />
+            </Button> */}
+        <Card className="w-[95%] sm:w-[80%] my-5 max-w-2xl bg-white shadow-2xl">
             <CardHeader>
                 <CardTitle className="text-2xl font-bold">Créer une réservation</CardTitle>
-
+                
             </CardHeader>
             <CardContent>
                 <Form {...form}>
@@ -281,7 +283,7 @@ export default function CreateReservation () {
                             ))}
                         </div>
                     )}
-                    <FormField
+                    {/* <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
@@ -293,7 +295,7 @@ export default function CreateReservation () {
                             <FormMessage />
                         </FormItem>
                     )}
-                    />
+                    /> */}
                     <FormField
                         control={form.control}
                         name="commentary"
