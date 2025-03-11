@@ -33,7 +33,7 @@ import ReservationList from "./page/private/reservationList";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
+      staleTime: 0,
     },
   },
 })
