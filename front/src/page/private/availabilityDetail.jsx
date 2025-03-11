@@ -6,6 +6,26 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Separator } from "@/components/ui/separator"
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
@@ -14,43 +34,55 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation, useNavigate } from "react-router";
 import { useState } from "react";
 
-import GetDate from "@/hooks/get-date"
-import { getAvailabilityById } from "@/api/availability"
+import GetDate from "@/hooks/get-date";
+import { getAvailabilityById } from "@/api/availability";
+import { getAllReservationByAvailability} from '@/api/reservation';
 import CreateReservation from "@/page/private/createReservation";
 
 export default function AvailabilityDetail () {
     const location = useLocation();
+    const navigate = useNavigate()
     const availabilityId = location.state?.availabilityId;
     const [open, setOpen] = useState(false);
     
-    console.log("voici l'id ",availabilityId)
-    const { isPending, isError, data, error } = useQuery({ 
-        queryKey: ['availabilityDetail', availabilityId], 
-        queryFn: () =>getAvailabilityById(availabilityId)
+    const { isPending: isReservationLoading, isError: isReservationError, data: reservationData, error: reservationError } = useQuery({ 
+        queryKey: ['reservationByAvailabilityList'], 
+        queryFn: () =>getAllReservationByAvailability(availabilityId),
+        enabled: !!availabilityId 
     })
+    console.log(isReservationLoading)
+    console.log(isReservationError)
+    console.log(reservationData)
+    console.log(reservationError)
+
+    const { isPending: isAvailabilityLoading, isError: isAvailabilityError, data: availabilityData, error: availabilityError  } = useQuery({ 
+        queryKey: ['availabilityDetail', availabilityId], 
+        queryFn: () =>getAvailabilityById(availabilityId),
+        enabled: !!availabilityId
+    })
+
     return (
         <>
         <Card className="mx-auto pb-5 rounded-md shadow-2xl w-3/4">
                         <CardHeader>
-                            <CardTitle className="mx-5">Disponibilité n° {data?.availability.id} <br/> <GetDate timestamp={data?.availability.created_at}/></CardTitle>
-                            <CardDescription className="mx-10 text-center">{data?.availability.category}</CardDescription>
+                            <CardTitle className="mx-5">Disponibilité n° {availabilityData?.availability.id} <br/> <GetDate timestamp={availabilityData?.availability.created_at}/></CardTitle>
+                            <CardDescription className="mx-10 text-center">{availabilityData?.availability.category}</CardDescription>
                         </CardHeader>
                         <CardContent className="mx-10 grid grid-cols-2">
                             <p>Date : </p>
-                            <p className="text-center">{data?.availability.date}</p>
+                            <p className="text-center">{availabilityData?.availability.date}</p>
                             <Separator className="border"/><Separator className="border"/>
-        
                             <p>Heures : </p>
                             <div className="text-center">
-                                <p>{data?.availability.time_start}</p> 
-                                <p>{data?.availability.time_end} </p>
-                                <p>{data?.availability.deadline_accept}</p>
+                                <p>{availabilityData?.availability.time_start}</p> 
+                                <p>{availabilityData?.availability.time_end} </p>
+                                <p>{availabilityData?.availability.deadline_accept}</p>
                             </div>
                             <Separator className="border"/><Separator className="border"/>
                             <p>Couverts :</p> 
                             <div className="text-center">
-                                <p>Sur place: {data?.availability.on_site} / A emporter: {data?.availability.take_away}</p> 
-                                <p>Couverts max.: {data?.availability.max_people} </p>
+                                <p>Sur place: {availabilityData?.availability.on_site} / A emporter: {availabilityData?.availability.take_away}</p> 
+                                <p>Couverts max.: {availabilityData?.availability.max_people} </p>
                             </div>
                         </CardContent>
                         <CardFooter>
@@ -66,7 +98,56 @@ export default function AvailabilityDetail () {
                             </div>
                         </CardFooter>
                     </Card>
-        
+                    <Table>
+                        <TableCaption className="caption-top text-xl">
+                            Liste des réservations
+                        </TableCaption>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Association</TableHead>
+                                <TableHead>Disponibilité</TableHead>
+                                <TableHead>Horraires</TableHead>
+                                <TableHead>Nombre de couverts</TableHead>
+                                <TableHead>A emporté?</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Commentaire</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                        {reservationData?.reservations.reservationsByAvailability.length > 0 && reservationData.reservations.reservationsByAvailability.map((reservation)=>{
+                        return (
+                            <TableRow key={reservation.id} onClick={() => navigate("/reservation-detail",{ state: { reservationId: reservation.id }})}>
+                            <TableCell>{reservation?.id_organisation}</TableCell>
+                            <TableCell>{reservation?.id_availability}</TableCell>
+                            <TableCell>{reservation?.time}</TableCell>
+                            <TableCell>{reservation?.nb_place_setting}</TableCell>
+                            <TableCell>{reservation?.take_away}</TableCell>
+                            <TableCell>{reservation?.status}</TableCell>
+                            <TableCell>{reservation?.commentary}</TableCell>
+                            <TableCell><Button onClick={() => navigate("/update-reservation",{ state: { restaurantId: reservation.id }})}>Modifier</Button></TableCell>
+                            <TableCell>
+                                <AlertDialog>
+                                    <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
+                                    <AlertDialogContent className="bg-white">
+                                        <AlertDialogHeader>
+                                        <AlertDialogTitle>Etes vous sure de vouloir supprimer la disponibilité?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Souhaitez vous désactiver la disponibilité?
+                                        </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                        <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                        <AlertDialogAction onClick={() => mutation.mutate(reservation.id)}>Oui</AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+                            </TableCell>
+                            </TableRow>
+                        )
+                        })}
+                        </TableBody>
+                    
+                    </Table>
                 </>
     )
 }
