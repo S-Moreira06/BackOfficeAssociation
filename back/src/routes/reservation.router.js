@@ -21,7 +21,11 @@ reservationRouter.post(
     ),
     createReservation
 );
-
+reservationRouter.get('/test', (c) => {
+    console.log('Requête reçue');
+    return c.text('Réponse envoyée !');
+  });
+  
 reservationRouter.delete(
     "/:id", 
     zValidator('param', 
@@ -33,14 +37,9 @@ reservationRouter.delete(
     deleteReservation
 );
 reservationRouter.get('/', async (c) => {
-    const availability = c.req.query('id_availability');
-    if (!availability) {
-        return c.json({ error: "Le paramètre 'id_availability' est requis" }, 400);
-    }
-    return getAllReservationByAvailability(c);
-    
+    return getAllReservation(c);
 });
-reservationRouter.get('/',getAllReservation);
+
 reservationRouter.get('/total',getTotal);
 
 reservationRouter.get(

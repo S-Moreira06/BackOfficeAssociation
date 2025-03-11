@@ -6,12 +6,12 @@ async function createReservation(c) {
         const reservation = await reservationService.createReservation(data);
 
         return c.json({
-            message: 'Votre réservation a bien été envoyée.',
+            message: "Your reservation has been successfully submitted.",
             reservation
         }, 201);
     } catch (error) {
         console.error(error);
-        return c.json({ error: 'Échec de la réservation' }, 400);
+        return c.json({ error: "Reservation failed" }, 400);
     }
 }
 
@@ -21,30 +21,44 @@ async function deleteReservation(c) {
         const success = await reservationService.deleteReservation(id);
 
         if (!success) {
-            return c.json({ error: 'Échec de l’archivage' }, 400);
+            return c.json({ error: "Failed to archive reservation" }, 400);
         }
 
         return c.json({
-            message: 'Réservation archivée'
+            message: "Reservation archived successfully"
         }, 200);
     } catch (error) {
         console.error(error);
-        return c.json({ error: 'Erreur serveur' }, 500);
+        return c.json({ error: 'Server error' }, 500);
     }
 }
 
 async function getAllReservation(c) {
     try {
-        const reservations = await reservationService.getAllReservation();
-        return c.json({
-            message: 'Liste des réservations disponibles',
-            reservations
-        }, 200);
+        let reservations;
+        const availability = c.req.query('id_availability');
+        
+        if (availability) {
+            const response = await getAllReservationByAvailability(c);
+            reservations = await response.json();
+            console.log("Données reçues de getAllReservationByAvailability :", reservations);
+            return c.json({ 
+                message: "Filtered reservations by availability",
+                reservations
+            }, 200);
+        } else {
+            reservations = await reservationService.getAllReservation();
+            return c.json({
+                message: "List of all reservations",
+                reservations
+            }, 200);
+        }
     } catch (error) {
         console.error(error);
-        return c.json({ error: 'Échec du chargement des réservations' }, 400);
+        return c.json({ error: "Failed to load reservations" }, 400);
     }
 }
+
 
 async function getReservation(c) {
     try {
@@ -52,16 +66,16 @@ async function getReservation(c) {
         const reservation = await reservationService.getReservation(id);
 
         if (!reservation) {
-            return c.json({ error: 'Réservation introuvable' }, 404);
+            return c.json({ error: "Reservation not found" }, 404);
         }
 
         return c.json({
-            message: "Informations de la réservation",
+            message: "Reservation details",
             reservation
         }, 200);
     } catch (error) {
         console.error(error);
-        return c.json({ error: 'Échec du chargement des informations' }, 400);
+        return c.json({ error: "Failed to load reservation details" }, 400);
     }
 }
 
@@ -73,7 +87,7 @@ async function getTotal(c) {
         return c.json({ total }, 200);
     } catch (error) {
         console.error(error);
-        return c.json({ error: 'Erreur serveur', details: error.message }, 500);
+        return c.json({ error: "server error", details: error.message }, 500);
     }
 }
 async function getTotalByName(c) {
@@ -84,7 +98,7 @@ async function getTotalByName(c) {
         return c.json({ total }, 200);
     } catch (error) {
         console.error(error);
-        return c.json({ error: 'Erreur serveur', details: error.message }, 500);
+        return c.json({ error: 'server error', details: error.message }, 500);
     }
 }
 async function getAllReservationByAvailability(c) {
@@ -95,7 +109,7 @@ async function getAllReservationByAvailability(c) {
         return c.json({ reservationsByAvailability }, 200);
     } catch (error) {
         console.error(error);
-        return c.json({ error: 'Erreur serveur', details: error.message }, 500);
+        return c.json({ error: 'server error', details: error.message }, 500);
     }
 }
 
