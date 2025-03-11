@@ -1,4 +1,5 @@
 import reservationService from '../services/reservation.service.js';
+import availabilityService from '../services/availability.service.js';
 
 async function createReservation(c) {
     try {
@@ -115,8 +116,11 @@ async function getAllReservationByAvailability(c) {
 
 async function isAcceptedReservation(c) {
     try {
-        const id_reservation = c.req.param('id');
+        const id_reservation = c.req.param('id_reservation');
+        const id_availability = c.req.param('id_availability');
+        const slot = c.req.param('slot');
         await reservationService.valid(id_reservation);
+        await availabilityService.valid(id_availability,slot)
         return c.json({
             message: 'Reservation validated'
           }, 201)
