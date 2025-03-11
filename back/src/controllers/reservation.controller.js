@@ -113,5 +113,28 @@ async function getAllReservationByAvailability(c) {
     }
 }
 
-export { createReservation, deleteReservation, getAllReservation, getReservation, getTotalByName ,getTotal ,getAllReservationByAvailability };
+async function isAcceptedReservation(c) {
+    try {
+        const id_reservation = c.req.param('id');
+        await reservationService.valid(id_reservation);
+        return c.json({
+            message: 'Reservation validated'
+          }, 201)
+    } catch (error) {
+        console.error(error);
+        return c.json({error: 'validation failed'}, 400)
+    }
+    
+}
+
+export { 
+    createReservation, 
+    deleteReservation, 
+    getAllReservation, 
+    getReservation, 
+    getTotalByName,
+    getTotal,
+    getAllReservationByAvailability,
+    isAcceptedReservation 
+};
 
