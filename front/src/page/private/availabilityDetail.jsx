@@ -169,7 +169,7 @@ export default function AvailabilityDetail () {
                             <TableCell>{reservation?.organisation_name}</TableCell>
                             <TableCell><GetDateTime timestamp={reservation?.time}/></TableCell>
                             <TableCell>{reservation?.nb_place_setting}</TableCell>
-                            <TableCell>{reservation?.take_away}</TableCell>
+                            <TableCell>{reservation?.take_away === 0 || reservation?.take_away === false ? "Sur place":"A emporter" }</TableCell>
                             <TableCell>{reservation?.status}</TableCell>
                             <TableCell>{reservation?.commentary}</TableCell>
                             {reservation.status === "accepted" ?(
@@ -190,7 +190,7 @@ export default function AvailabilityDetail () {
                                                     reservationId: reservation.id,
                                                     availabilityId: reservation.id_availability,
                                                     nbPlaceSetting: reservation.nb_place_setting,
-                                                    loc: reservation.take_away === 0 ? "on_site" : "take_away"
+                                                    loc: reservation.take_away === 0 || reservation?.take_away === false ? "on_site" : "take_away"
                                                 })}
                                             >
                                                     Oui
