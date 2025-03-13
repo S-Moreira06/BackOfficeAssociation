@@ -39,6 +39,7 @@ import { getAvailabilityById } from "@/api/availability";
 import { getAllReservationByAvailability, isAcceptedReservation, isRefusedReservation} from '@/api/reservation';
 import CreateReservation from "@/page/private/createReservation";
 
+
 export default function AvailabilityDetail () {
     const location = useLocation();
     //const navigate = useNavigate();
@@ -55,7 +56,7 @@ export default function AvailabilityDetail () {
     console.log(isReservationError)
     console.log(reservationData)
     console.log(reservationError)
-
+    
     const { isPending: isAvailabilityLoading, isError: isAvailabilityError, data: availabilityData, error: availabilityError  } = useQuery({ 
         queryKey: ['availabilityDetail', availabilityId], 
         queryFn: () =>getAvailabilityById(availabilityId),
@@ -157,28 +158,51 @@ export default function AvailabilityDetail () {
                             <TableCell>{reservation?.take_away}</TableCell>
                             <TableCell>{reservation?.status}</TableCell>
                             <TableCell>{reservation?.commentary}</TableCell>
-                            <TableCell>
+                            {reservation.status === "accepted" ?(
+                                <TableCell>
+                                    <AlertDialog>
+                                        <AlertDialogTrigger>Annuler</AlertDialogTrigger>
+                                        <AlertDialogContent className="bg-white">
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Etes vous sure de vouloir annuler la réservation?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    Souhaitez vous annuler la réservation?
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Non</AlertDialogCancel>
+                                                <AlertDialogAction>
+                                                    Oui
+                                                </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                </TableCell>
+                            ):reservation.status === "refused" ?(
+                                <TableCell></TableCell>
+                            ):(
+                            <><TableCell>
                                 <AlertDialog>
                                     <AlertDialogTrigger>Accepter</AlertDialogTrigger>
                                     <AlertDialogContent className="bg-white">
                                         <AlertDialogHeader>
-                                        <AlertDialogTitle>Etes vous sure de vouloir accepter la réservation?</AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            Souhaitez vous accepter la réservation?
-                                        </AlertDialogDescription>
+                                            <AlertDialogTitle>Etes vous sure de vouloir accepter la réservation?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                Souhaitez vous accepter la réservation?
+                                            </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
-                                        <AlertDialogCancel>Annuler</AlertDialogCancel>
-                                        <AlertDialogAction 
-                                            onClick={() => acceptedReservationMutation.mutate({
-                                                reservationId: reservation.id,
-                                                availabilityId: reservation.id_availability,
-                                                nbPlaceSetting: reservation.nb_place_setting,
-                                                loc: reservation.take_away === 0 ? "on_site" : "take_away"
-                                            })}
-                                        >
-                                            Oui
-                                        </AlertDialogAction>
+                                            <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                            <AlertDialogAction
+                                                onClick={() => acceptedReservationMutation.mutate({
+                                                    reservationId: reservation.id,
+                                                    availabilityId: reservation.id_availability,
+                                                    nbPlaceSetting: reservation.nb_place_setting,
+                                                    loc: reservation.take_away === 0 ? "on_site" : "take_away"
+                                                })}
+                                            >
+                                                Oui
+                                            </AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
                                 </AlertDialog>
@@ -188,18 +212,19 @@ export default function AvailabilityDetail () {
                                     <AlertDialogTrigger>Refuser</AlertDialogTrigger>
                                     <AlertDialogContent className="bg-white">
                                         <AlertDialogHeader>
-                                        <AlertDialogTitle>Etes vous sure de vouloir refuser la réservation?</AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            Souhaitez vous refuser la réservation?
-                                        </AlertDialogDescription>
+                                            <AlertDialogTitle>Etes vous sure de vouloir refuser la réservation?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                Souhaitez vous refuser la réservation?
+                                            </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
-                                        <AlertDialogCancel>Annuler</AlertDialogCancel>
-                                        <AlertDialogAction onClick={() => refusedReservationMutation.mutate(reservation.id)}>Oui</AlertDialogAction>
+                                            <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                            <AlertDialogAction onClick={() => refusedReservationMutation.mutate(reservation.id)}>Oui</AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
                                 </AlertDialog>
-                            </TableCell>
+                            </TableCell></>
+                            )}
                             </TableRow>
                         )
                         })}

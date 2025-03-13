@@ -63,7 +63,7 @@ async function getAllReservationByAvailability(id_availability) {
   return result;
 }
 async function valid(id_reservation) {
-  const query= `UPDATE reservation SET status = 'confirmed', updated_at = CURRENT_TIMESTAMP WHERE id= ?`;
+  const query= `UPDATE reservation SET status = 'accepted', updated_at = CURRENT_TIMESTAMP WHERE id= ?`;
   const result = await db.prepare(query).get(id_reservation);
   return result;
 }
