@@ -155,7 +155,6 @@ export default function AvailabilityDetail () {
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Association</TableHead>
-                                <TableHead>Disponibilité</TableHead>
                                 <TableHead>Horraires</TableHead>
                                 <TableHead>Nombre de couverts</TableHead>
                                 <TableHead>A emporté?</TableHead>
@@ -168,7 +167,6 @@ export default function AvailabilityDetail () {
                         return (
                             <TableRow key={reservation.id}>
                             <TableCell>{reservation?.organisation_name}</TableCell>
-                            <TableCell>{reservation?.id_availability}</TableCell>
                             <TableCell><GetDateTime timestamp={reservation?.time}/></TableCell>
                             <TableCell>{reservation?.nb_place_setting}</TableCell>
                             <TableCell>{reservation?.take_away}</TableCell>
