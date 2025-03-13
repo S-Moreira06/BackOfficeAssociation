@@ -32,4 +32,13 @@ async function getReservationById(id) {
     }
 }
 
-export {createReservation, getAllReservationByAvailability, getAllReservation, getReservationById}
+async function isAcceptedReservation(id,id_availability,slot,type) {
+    try {
+        const response = await instance.put(`/reservation/accepted/${id}/${id_availability}/${slot}/${type}`)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+
+export {createReservation, getAllReservationByAvailability, getAllReservation, getReservationById, isAcceptedReservation}

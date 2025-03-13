@@ -105,7 +105,7 @@ export default function CreateReservation ({ availabilityId, closeSheet }) {
         onSuccess: () => {
             console.log("reservation is create !");
             queryClient.invalidateQueries(['reservationByAvailabilityList']);
-            //queryClient.invalidateQueries(["availabilityDetail", availabilityId]);
+            queryClient.invalidateQueries(["reservationList"]);
             closeSheet(); 
         },
         
