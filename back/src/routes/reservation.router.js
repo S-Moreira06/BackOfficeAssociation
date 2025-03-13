@@ -51,6 +51,6 @@ reservationRouter.get(
         })), getReservation
 );
 reservationRouter.get('/total/:name', getTotalByName);
-reservationRouter.put('/accepted/:id_reservation/:id_availability/:slot', isAcceptedReservation )
+reservationRouter.put('/accepted/:id_reservation/:id_availability/:slot/:type', isAcceptedReservation )
 
 export default reservationRouter;

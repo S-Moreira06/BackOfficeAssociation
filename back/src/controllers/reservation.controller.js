@@ -119,8 +119,9 @@ async function isAcceptedReservation(c) {
         const id_reservation = c.req.param('id_reservation');
         const id_availability = c.req.param('id_availability');
         const slot = c.req.param('slot');
+        const type = c.req.param('type')
         await reservationService.valid(id_reservation);
-        await availabilityService.valid(id_availability,slot)
+        await availabilityService.valid(id_availability,slot,type)
         return c.json({
             message: 'Reservation validated'
           }, 201)
