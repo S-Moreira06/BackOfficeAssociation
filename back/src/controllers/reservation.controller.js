@@ -1,4 +1,5 @@
 import reservationService from '../services/reservation.service.js';
+import availabilityService from '../services/availability.service.js';
 
 async function createReservation(c) {
     try {
@@ -113,5 +114,46 @@ async function getAllReservationByAvailability(c) {
     }
 }
 
-export { createReservation, deleteReservation, getAllReservation, getReservation, getTotalByName ,getTotal ,getAllReservationByAvailability };
+async function isAcceptedReservation(c) {
+    try {
+        const id_reservation = c.req.param('id_reservation');
+        const id_availability = c.req.param('id_availability');
+        const slot = c.req.param('slot');
+        const type = c.req.param('type')
+        await reservationService.valid(id_reservation);
+        await availabilityService.valid(id_availability,slot,type)
+        return c.json({
+            message: 'Reservation validated'
+          }, 201)
+    } catch (error) {
+        console.error(error);
+        return c.json({error: 'validation failed'}, 400)
+    }
+    
+}
+
+async function isRefusedReservation(c) {
+    try {
+        const id_reservation = c.req.param('id_reservation');
+        await reservationService.refuse(id_reservation);
+        return c.json({
+            message: 'Reservation refused'
+        }, 201)
+    } catch (error) {
+        console.error(error);
+        return c.json({error: 'refuse failed'}, 400)
+    }
+}
+
+export { 
+    createReservation, 
+    deleteReservation, 
+    getAllReservation, 
+    getReservation, 
+    getTotalByName,
+    getTotal,
+    getAllReservationByAvailability,
+    isAcceptedReservation,
+    isRefusedReservation 
+};
 
