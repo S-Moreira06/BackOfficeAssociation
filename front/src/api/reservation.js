@@ -40,5 +40,13 @@ async function isAcceptedReservation(id,id_availability,slot,type) {
         return error
     }
 }
+async function isRefusedReservation(id) {
+    try {
+        const response = await instance.put(`/reservation/refused/${id}`)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
 
-export {createReservation, getAllReservationByAvailability, getAllReservation, getReservationById, isAcceptedReservation}
+export {createReservation, getAllReservationByAvailability, getAllReservation, getReservationById, isAcceptedReservation, isRefusedReservation}

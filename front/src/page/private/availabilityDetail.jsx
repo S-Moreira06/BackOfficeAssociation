@@ -36,7 +36,7 @@ import { useState } from "react";
 
 import GetDate from "@/hooks/get-date";
 import { getAvailabilityById } from "@/api/availability";
-import { getAllReservationByAvailability, isAcceptedReservation} from '@/api/reservation';
+import { getAllReservationByAvailability, isAcceptedReservation, isRefusedReservation} from '@/api/reservation';
 import CreateReservation from "@/page/private/createReservation";
 
 export default function AvailabilityDetail () {
@@ -62,20 +62,34 @@ export default function AvailabilityDetail () {
         enabled: !!availabilityId
     })
     const acceptedReservationMutation = useMutation({
-            mutationFn: async ({ reservationId, availabilityId, nbPlaceSetting, loc }) => {
-                return await isAcceptedReservation(reservationId, availabilityId, nbPlaceSetting, loc);
-            },
-            onSuccess: () => {
-                console.log("reservation is accepted !");
-                queryClient.invalidateQueries(['reservationByAvailabilityList']);
-                queryClient.invalidateQueries(["reservationList"]);
-                queryClient.invalidateQueries(['availabilityDetail', availabilityId]);
-            },
-            
-            onError: (error) => {
-                console.log("Erreur lors de la validation :", error)
-            }
-        });
+        mutationFn: async ({ reservationId, availabilityId, nbPlaceSetting, loc }) => {
+            return await isAcceptedReservation(reservationId, availabilityId, nbPlaceSetting, loc);
+        },
+        onSuccess: () => {
+            console.log("reservation is accepted !");
+            queryClient.invalidateQueries(['reservationByAvailabilityList']);
+            queryClient.invalidateQueries(["reservationList"]);
+            queryClient.invalidateQueries(['availabilityDetail', availabilityId]);
+        },
+        
+        onError: (error) => {
+            console.log("Erreur lors de la validation :", error)
+        }
+    });
+    const refusedReservationMutation = useMutation({
+        mutationFn: async (id) => {
+            return await isRefusedReservation(id);
+        },
+        onSuccess: () => {
+            console.log("reservation is refused !");
+            queryClient.invalidateQueries(['reservationByAvailabilityList']);
+            queryClient.invalidateQueries(["reservationList"]);
+        },
+        
+        onError: (error) => {
+            console.log("Erreur lors du refus de la réservation :", error)
+        }
+    });
 
     return (
         <>
@@ -169,23 +183,23 @@ export default function AvailabilityDetail () {
                                     </AlertDialogContent>
                                 </AlertDialog>
                             </TableCell>
-                            {/* <TableCell>
+                            <TableCell>
                                 <AlertDialog>
                                     <AlertDialogTrigger>Refuser</AlertDialogTrigger>
                                     <AlertDialogContent className="bg-white">
                                         <AlertDialogHeader>
-                                        <AlertDialogTitle>Etes vous sure de vouloir supprimer la disponibilité?</AlertDialogTitle>
+                                        <AlertDialogTitle>Etes vous sure de vouloir refuser la réservation?</AlertDialogTitle>
                                         <AlertDialogDescription>
-                                            Souhaitez vous désactiver la disponibilité?
+                                            Souhaitez vous refuser la réservation?
                                         </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
                                         <AlertDialogCancel>Annuler</AlertDialogCancel>
-                                        <AlertDialogAction onClick={() => mutation.mutate(reservation.id)}>Oui</AlertDialogAction>
+                                        <AlertDialogAction onClick={() => refusedReservationMutation.mutate(reservation.id)}>Oui</AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
                                 </AlertDialog>
-                            </TableCell> */}
+                            </TableCell>
                             </TableRow>
                         )
                         })}
