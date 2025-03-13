@@ -35,6 +35,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useState } from "react";
 
 import GetDate from "@/hooks/get-date";
+import GetDateTime from "@/hooks/get-date-time";
 import { getAvailabilityById } from "@/api/availability";
 import { getAllReservationByAvailability, isAcceptedReservation, isRefusedReservation} from '@/api/reservation';
 import CreateReservation from "@/page/private/createReservation";
@@ -153,7 +154,7 @@ export default function AvailabilityDetail () {
                             <TableRow key={reservation.id}>
                             <TableCell>{reservation?.id_organisation}</TableCell>
                             <TableCell>{reservation?.id_availability}</TableCell>
-                            <TableCell>{reservation?.time}</TableCell>
+                            <TableCell><GetDateTime timestamp={reservation?.time}/></TableCell>
                             <TableCell>{reservation?.nb_place_setting}</TableCell>
                             <TableCell>{reservation?.take_away}</TableCell>
                             <TableCell>{reservation?.status}</TableCell>
