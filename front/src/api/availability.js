@@ -5,7 +5,7 @@ async function createAvailability(data) {
 }
 async function getAllAvailabilities() {
     try {
-        const response = await instance.get("http://localhost:3000/api/availability")
+        const response = await instance.get("/availability")
         console.log(response)
         return response.data
     } catch (error) {
@@ -14,7 +14,7 @@ async function getAllAvailabilities() {
 }
 async function getAvailabilityById(id) {
     try {
-        const response = await instance.get(`http://localhost:3000/api/availability/${id}`)
+        const response = await instance.get(`/availability/${id}`)
         console.log(response)
         return response.data
     } catch (error) {

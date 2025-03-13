@@ -31,7 +31,6 @@ export default function CreateAvailability() {
     const form = useForm({
         resolver: zodResolver(availabilitySchema),
         defaultValues: {
-
             date: "2025-05-22",
             timeStart: "11:00:00",
             timeEnd: "15:00:00",
@@ -78,7 +77,7 @@ export default function CreateAvailability() {
             <CardHeader>
                 <CardTitle className="text-2xl font-bold">Créer une disponibilité</CardTitle>
             </CardHeader>
-                    <CardContent>
+                <CardContent>
                         
                             <Form {...form}>
                                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
@@ -240,7 +239,7 @@ export default function CreateAvailability() {
                                     <Button type="submit">Créer une disponibilité</Button>
                                 </form>
                             </Form>
-                        </CardContent>
+                </CardContent>
 
         </Card>
     </div>

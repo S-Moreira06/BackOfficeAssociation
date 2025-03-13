@@ -9,7 +9,8 @@ import {
     getTotal, 
     getTotalByName, 
     isAcceptedReservation,
-    isRefusedReservation
+    isRefusedReservation,
+    isCanceledReservation
 } from "../controllers/reservation.controller.js";
 
 const reservationRouter = new Hono();
@@ -19,13 +20,13 @@ reservationRouter.post(
     "/", zValidator('json',
         z.object({
             id_organisation: z.number().int(),
-            id_availability: z.string().min(1),
+            id_availability: z.number().int(),
             time: z.string().min(1),
             email: z.string().email("Invalid email"),
             nb_place_setting: z.string().min(1),
             status: z.string().min(1),
             take_away: z.string().min(1),
-            commentary: z.string().min(1)
+            commentary: z.string().min(1).optional()
         })
     ),
     createReservation
@@ -62,4 +63,5 @@ reservationRouter.get(
 reservationRouter.get('/total/:name', getTotalByName);
 reservationRouter.put('/accepted/:id_reservation/:id_availability/:slot/:type', isAcceptedReservation )
 reservationRouter.put('/refused/:id_reservation', isRefusedReservation)
+reservationRouter.put('/canceled/:id_reservation/:id_availability/:slot/:type', isCanceledReservation)
 export default reservationRouter;

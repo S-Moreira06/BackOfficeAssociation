@@ -57,13 +57,19 @@ async function getTotalByName(name) {
 }
 
 async function getAllReservationByAvailability(id_availability) {
-  const query = 'SELECT * FROM reservation WHERE id_availability = ?';
+  const query = `
+    SELECT r.*, o.name AS organisation_name
+    FROM reservation r
+    INNER JOIN organisation o ON r.id_organisation = o.id
+    WHERE r.id_availability = ?;
+  `;
+
   const result = await db.prepare(query).all(id_availability);
-  console.log('Type de id_availability:', typeof id_availability, id_availability);
+  console.log('resultat:', result);
   return result;
 }
 async function valid(id_reservation) {
-  const query= `UPDATE reservation SET status = 'confirmed', updated_at = CURRENT_TIMESTAMP WHERE id= ?`;
+  const query= `UPDATE reservation SET status = 'accepted', updated_at = CURRENT_TIMESTAMP WHERE id= ?`;
   const result = await db.prepare(query).get(id_reservation);
   return result;
 }

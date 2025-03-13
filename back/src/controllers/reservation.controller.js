@@ -145,6 +145,24 @@ async function isRefusedReservation(c) {
     }
 }
 
+async function isCanceledReservation(c) {
+    try {
+        const id_reservation = c.req.param('id_reservation');
+        const id_availability = c.req.param('id_availability');
+        const slot = c.req.param('slot');
+        const type = c.req.param('type')
+        await reservationService.refuse(id_reservation);
+        await availabilityService.cancel(id_availability,slot,type)
+        return c.json({
+            message: 'Reservation canceled and refused'
+          }, 201)
+    } catch (error) {
+        console.error(error);
+        return c.json({error: 'cancel failed'}, 400)
+    }
+    
+}
+
 export { 
     createReservation, 
     deleteReservation, 
@@ -154,6 +172,7 @@ export {
     getTotal,
     getAllReservationByAvailability,
     isAcceptedReservation,
-    isRefusedReservation 
+    isRefusedReservation,
+    isCanceledReservation
 };
 
