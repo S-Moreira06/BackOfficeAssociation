@@ -31,14 +31,14 @@ export function AppSidebar() {
             <SidebarContent className="gap-0">
 
               {menuItems.map((item) => (
-                <SidebarGroup>
-                    <SidebarGroupLabel key={item.title} >{item.title}</SidebarGroupLabel>
+                <SidebarGroup key={item.title}>
+                    <SidebarGroupLabel  >{item.title}</SidebarGroupLabel>
                     <SidebarGroupContent> 
                         <SidebarMenu>
                             <SidebarMenuItem >
                                 {item.links.map((link) => (
-                                <SidebarMenuButton>
-                                            <li key={link.name}>
+                                <SidebarMenuButton key={link.name}>
+                                            <li >
                                                 <div>
                                                     <p onClick={() => navigate(link.path)} className="">
                                                         {link.name}
