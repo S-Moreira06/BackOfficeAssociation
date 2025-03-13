@@ -92,6 +92,7 @@ export default function CreateReservation ({ availabilityId, closeSheet }) {
         resolver: zodResolver(reservationSchema),
             defaultValues: {
                 id_availability: availabilityId,
+                email: "moi@moi.test",
                 status: "en attente",
                 take_away: 0
             },
@@ -103,7 +104,7 @@ export default function CreateReservation ({ availabilityId, closeSheet }) {
         },
         onSuccess: () => {
             console.log("reservation is create !");
-            //queryClient.invalidateQueries(['associationList']); a remplacer par reservationList quand ce sera créer
+            queryClient.invalidateQueries(['reservationByAvailabilityList']);
             //queryClient.invalidateQueries(["availabilityDetail", availabilityId]);
             closeSheet(); 
         },
