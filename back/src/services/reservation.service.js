@@ -68,6 +68,12 @@ async function valid(id_reservation) {
   return result;
 }
 
+async function refuse(id_reservation) {
+  const query= `UPDATE reservation SET status = 'refused', updated_at = CURRENT_TIMESTAMP WHERE id= ?`;
+  const result = await db.prepare(query).get(id_reservation);
+  return result;  
+}
+
 export default { 
   createReservation, 
   deleteReservation, 
@@ -75,6 +81,7 @@ export default {
   getReservation, 
   getTotalByName, 
   getAllReservationByAvailability,
-  valid
+  valid, 
+  refuse
  };
 

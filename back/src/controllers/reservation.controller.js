@@ -132,6 +132,19 @@ async function isAcceptedReservation(c) {
     
 }
 
+async function isRefusedReservation(c) {
+    try {
+        const id_reservation = c.req.param('id_reservation');
+        await reservationService.refuse(id_reservation);
+        return c.json({
+            message: 'Reservation refused'
+        }, 201)
+    } catch (error) {
+        console.error(error);
+        return c.json({error: 'refuse failed'}, 400)
+    }
+}
+
 export { 
     createReservation, 
     deleteReservation, 
@@ -140,6 +153,7 @@ export {
     getTotalByName,
     getTotal,
     getAllReservationByAvailability,
-    isAcceptedReservation 
+    isAcceptedReservation,
+    isRefusedReservation 
 };
 
