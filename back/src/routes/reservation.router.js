@@ -9,7 +9,8 @@ import {
     getTotal, 
     getTotalByName, 
     isAcceptedReservation,
-    isRefusedReservation
+    isRefusedReservation,
+    isCanceledReservation
 } from "../controllers/reservation.controller.js";
 
 const reservationRouter = new Hono();
@@ -62,4 +63,5 @@ reservationRouter.get(
 reservationRouter.get('/total/:name', getTotalByName);
 reservationRouter.put('/accepted/:id_reservation/:id_availability/:slot/:type', isAcceptedReservation )
 reservationRouter.put('/refused/:id_reservation', isRefusedReservation)
+reservationRouter.put('/canceled/:id_reservation/:id_availability/:slot/:type', isCanceledReservation)
 export default reservationRouter;
