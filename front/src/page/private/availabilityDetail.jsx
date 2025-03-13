@@ -167,7 +167,7 @@ export default function AvailabilityDetail () {
                         {reservationData?.reservations.reservationsByAvailability.length > 0 && reservationData.reservations.reservationsByAvailability.map((reservation)=>{
                         return (
                             <TableRow key={reservation.id}>
-                            <TableCell>{reservation?.id_organisation}</TableCell>
+                            <TableCell>{reservation?.organisation_name}</TableCell>
                             <TableCell>{reservation?.id_availability}</TableCell>
                             <TableCell><GetDateTime timestamp={reservation?.time}/></TableCell>
                             <TableCell>{reservation?.nb_place_setting}</TableCell>
