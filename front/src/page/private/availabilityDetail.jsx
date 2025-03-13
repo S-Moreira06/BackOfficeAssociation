@@ -37,7 +37,7 @@ import { useState } from "react";
 import GetDate from "@/hooks/get-date";
 import GetDateTime from "@/hooks/get-date-time";
 import { getAvailabilityById } from "@/api/availability";
-import { getAllReservationByAvailability, isAcceptedReservation, isRefusedReservation} from '@/api/reservation';
+import { getAllReservationByAvailability, isAcceptedReservation, isRefusedReservation, isCanceledReservation} from '@/api/reservation';
 import CreateReservation from "@/page/private/createReservation";
 
 
@@ -90,6 +90,21 @@ export default function AvailabilityDetail () {
         
         onError: (error) => {
             console.log("Erreur lors du refus de la réservation :", error)
+        }
+    });
+    const canceledReservationMutation = useMutation({
+        mutationFn: async ({ reservationId, availabilityId, nbPlaceSetting, loc }) => {
+            return await isCanceledReservation(reservationId, availabilityId, nbPlaceSetting, loc);
+        },
+        onSuccess: () => {
+            console.log("reservation is canceled !");
+            queryClient.invalidateQueries(['reservationByAvailabilityList']);
+            queryClient.invalidateQueries(["reservationList"]);
+            queryClient.invalidateQueries(['availabilityDetail', availabilityId]);
+        },
+        
+        onError: (error) => {
+            console.log("Erreur lors de l'annulation :", error)
         }
     });
 
@@ -172,7 +187,14 @@ export default function AvailabilityDetail () {
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
                                                 <AlertDialogCancel>Non</AlertDialogCancel>
-                                                <AlertDialogAction>
+                                                <AlertDialogAction
+                                                onClick={() => canceledReservationMutation.mutate({
+                                                    reservationId: reservation.id,
+                                                    availabilityId: reservation.id_availability,
+                                                    nbPlaceSetting: reservation.nb_place_setting,
+                                                    loc: reservation.take_away === 0 ? "on_site" : "take_away"
+                                                })}
+                                            >
                                                     Oui
                                                 </AlertDialogAction>
                                             </AlertDialogFooter>
@@ -180,7 +202,32 @@ export default function AvailabilityDetail () {
                                     </AlertDialog>
                                 </TableCell>
                             ):reservation.status === "refused" ?(
-                                <TableCell></TableCell>
+                                <TableCell>
+                                    <AlertDialog>
+                                    <AlertDialogTrigger>Accepter</AlertDialogTrigger>
+                                    <AlertDialogContent className="bg-white">
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle>Etes vous sure de vouloir accepter la réservation?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                Souhaitez vous accepter la réservation?
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                            <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                            <AlertDialogAction
+                                                onClick={() => acceptedReservationMutation.mutate({
+                                                    reservationId: reservation.id,
+                                                    availabilityId: reservation.id_availability,
+                                                    nbPlaceSetting: reservation.nb_place_setting,
+                                                    loc: reservation.take_away === 0 ? "on_site" : "take_away"
+                                                })}
+                                            >
+                                                Oui
+                                            </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+                            </TableCell>
                             ):(
                             <><TableCell>
                                 <AlertDialog>
