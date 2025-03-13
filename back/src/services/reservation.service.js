@@ -62,6 +62,26 @@ async function getAllReservationByAvailability(id_availability) {
   console.log('Type de id_availability:', typeof id_availability, id_availability);
   return result;
 }
+async function valid(id_reservation) {
+  const query= `UPDATE reservation SET status = 'confirmed', updated_at = CURRENT_TIMESTAMP WHERE id= ?`;
+  const result = await db.prepare(query).get(id_reservation);
+  return result;
+}
 
-export default { createReservation, deleteReservation, getAllReservation, getReservation, getTotalByName, getAllReservationByAvailability };
+async function refuse(id_reservation) {
+  const query= `UPDATE reservation SET status = 'refused', updated_at = CURRENT_TIMESTAMP WHERE id= ?`;
+  const result = await db.prepare(query).get(id_reservation);
+  return result;  
+}
+
+export default { 
+  createReservation, 
+  deleteReservation, 
+  getAllReservation, 
+  getReservation, 
+  getTotalByName, 
+  getAllReservationByAvailability,
+  valid, 
+  refuse
+ };
 

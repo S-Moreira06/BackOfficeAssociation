@@ -75,10 +75,18 @@ async function softDeleteAvailability(availabilityId){
         }
 }
 
+async function valid(id_availability,slot,type) {
+    const query= `UPDATE availability SET ${type} = ${type} - ? WHERE id = ?`;
+    const result= await db.prepare(query).run(slot, id_availability);
+    return result;
+    
+}
+
 export default {
     createAvailability,
     getAllAvailabilities,
     getAvailabilityById,
     softDeleteAvailability,
-    updateAvailability
+    updateAvailability,
+    valid
 };
