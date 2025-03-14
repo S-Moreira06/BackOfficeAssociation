@@ -57,7 +57,7 @@ export default function AvailabilitiesList () {
                 const price = availability?.price/100
             return (
                 <TableRow key={availability.id} onClick={() => navigate("/availability-detail",{ state: { availabilityId: availability.id }})}>
-                <TableCell>{availability?.restaurant_id}</TableCell>
+                <TableCell>{availability?.name}</TableCell>
                 <TableCell><GetDate timestamp={availability?.date}/></TableCell>
                 <TableCell>{availability?.time_start}-{availability?.time_end}</TableCell>
                 <TableCell>{availability?.deadline_accept} heures</TableCell>
