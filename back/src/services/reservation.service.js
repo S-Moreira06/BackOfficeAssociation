@@ -65,7 +65,6 @@ async function getAllReservationByAvailability(id_availability) {
   `;
 
   const result = await db.prepare(query).all(id_availability);
-  console.log('resultat:', result);
   return result;
 }
 async function valid(id_reservation) {

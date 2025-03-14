@@ -104,6 +104,41 @@ async function getAllAssociationByCity(city) {
   return result.length > 0 ? result : [];
 }
 
+async function valid(id_availability,id_reservation, slot) {
+  console.log("valeur dans le orgaService.valid:" + id_availability + id_reservation + slot)
+  const query1 = `
+      UPDATE organisation
+      SET remaining_meal = remaining_meal - ?
+      WHERE id = (
+          SELECT restaurant_id
+          FROM availability
+          WHERE id = ?
+          LIMIT 1
+      );
+  `;
+  const query2 = `
+      UPDATE organisation
+      SET remaining_meal = remaining_meal - ?
+      WHERE id = (
+          SELECT id_organisation
+          FROM reservation
+          WHERE id = ?
+          LIMIT 1
+      );
+  `;
+
+  const dbTransaction = db.transaction(() => {  // CORRECTION ICI
+    db.prepare(query1).run(slot, id_availability);
+    db.prepare(query2).run(slot, id_reservation);
+});
+
+// Exécute la transaction
+dbTransaction();
+
+return { success: true };
+}
+
+
 
 
 
@@ -117,5 +152,6 @@ export default {
   getCountRestaurants,
   getCountAsso ,
   getAllRestaurantByCity,
-  getAllAssociationByCity
+  getAllAssociationByCity,
+  valid
 };

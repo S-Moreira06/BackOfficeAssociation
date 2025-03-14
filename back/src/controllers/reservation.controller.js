@@ -1,5 +1,6 @@
 import reservationService from '../services/reservation.service.js';
 import availabilityService from '../services/availability.service.js';
+import organisationService from '../services/organisation.service.js';
 
 async function createReservation(c) {
     try {
@@ -42,7 +43,6 @@ async function getAllReservation(c) {
         if (availability) {
             const response = await getAllReservationByAvailability(c);
             reservations = await response.json();
-            console.log("Données reçues de getAllReservationByAvailability :", reservations);
             return c.json({ 
                 message: "Filtered reservations by availability",
                 reservations
@@ -122,6 +122,7 @@ async function isAcceptedReservation(c) {
         const type = c.req.param('type')
         await reservationService.valid(id_reservation);
         await availabilityService.valid(id_availability,slot,type)
+        await organisationService.valid(id_availability,id_reservation,slot)
         return c.json({
             message: 'Reservation validated'
           }, 201)
