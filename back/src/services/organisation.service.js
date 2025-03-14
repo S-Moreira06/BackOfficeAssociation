@@ -3,10 +3,10 @@ import db from '../config/database.js';
 async function createOrganisation(data) {
   console.error(data);
   const query = `
-      INSERT INTO organisation (name, address, zip, city, siret, category, contact, email ,phone ,max_meal ,description ,image)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO organisation (name, address, zip, city, siret, category, contact, email ,phone ,max_meal ,description ,image, remaining_meal)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
     `;
-  const values = [data.name, data.address, data.zip, data.city , data.siret ,data.category, data.contact, data.email, data.phone , data.max_meal, data.description, data.image , data.created_at, data.updated_at, data.deleted_at];
+  const values = [data.name, data.address, data.zip, data.city , data.siret ,data.category, data.contact, data.email, data.phone , data.max_meal, data.description, data.image , data.max_meal];
   const result = await db.prepare(query).run(values);
   return await db.prepare('SELECT * FROM organisation WHERE id = ?').get(result.lastInsertRowid);
 }
@@ -104,6 +104,41 @@ async function getAllAssociationByCity(city) {
   return result.length > 0 ? result : [];
 }
 
+async function valid(id_availability,id_reservation, slot) {
+  console.log("valeur dans le orgaService.valid:" + id_availability + id_reservation + slot)
+  const query1 = `
+      UPDATE organisation
+      SET remaining_meal = remaining_meal - ?
+      WHERE id = (
+          SELECT restaurant_id
+          FROM availability
+          WHERE id = ?
+          LIMIT 1
+      );
+  `;
+  const query2 = `
+      UPDATE organisation
+      SET remaining_meal = remaining_meal - ?
+      WHERE id = (
+          SELECT id_organisation
+          FROM reservation
+          WHERE id = ?
+          LIMIT 1
+      );
+  `;
+
+  const dbTransaction = db.transaction(() => {  // CORRECTION ICI
+    db.prepare(query1).run(slot, id_availability);
+    db.prepare(query2).run(slot, id_reservation);
+});
+
+// Exécute la transaction
+dbTransaction();
+
+return { success: true };
+}
+
+
 
 
 
@@ -117,5 +152,6 @@ export default {
   getCountRestaurants,
   getCountAsso ,
   getAllRestaurantByCity,
-  getAllAssociationByCity
+  getAllAssociationByCity,
+  valid
 };

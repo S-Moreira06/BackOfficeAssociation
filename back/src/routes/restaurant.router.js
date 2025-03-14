@@ -53,7 +53,7 @@ restaurantRouter.put(
             contact: z.string().optional(),
             email: z.string().email().optional(),
             phone: z.string().optional(),
-            maxMeal: z.number().nullable().optional(),
+            max_meal: z.number().nullable().optional(),
             description: z.string().optional(),
             image: z.string().optional()
         })), updateOrganisation

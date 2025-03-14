@@ -44,7 +44,7 @@ const associationSchema = z.object({
     contact: z.string(),
     email: z.string().email(),
     phone: z.string(),
-    maxMeal: z.number().nullable().optional(),
+    max_meal: z.number().nullable().optional(),
     description: z.string().optional(),
     image: z.string().optional()
 });
@@ -61,7 +61,7 @@ export default function CreateAssociation() {
             contact: "Jean Test",
             email: "jeantest@test.fr",
             phone: "0706060606",
-            maxMeal: 99,
+            max_meal: 99,
             description: "Ceci est une association de test",
             image: "",
             role: "association"
