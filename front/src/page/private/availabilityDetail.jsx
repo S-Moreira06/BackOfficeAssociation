@@ -53,10 +53,6 @@ export default function AvailabilityDetail () {
         queryFn: () =>getAllReservationByAvailability(availabilityId),
         enabled: !!availabilityId 
     })
-    console.log(isReservationLoading)
-    console.log(isReservationError)
-    console.log(reservationData)
-    console.log(reservationError)
     
     const { isPending: isAvailabilityLoading, isError: isAvailabilityError, data: availabilityData, error: availabilityError  } = useQuery({ 
         queryKey: ['availabilityDetail', availabilityId], 
@@ -107,14 +103,13 @@ export default function AvailabilityDetail () {
             console.log("Erreur lors de l'annulation :", error)
         }
     });
-
+    console.log("data :" , availabilityData)
     return (
         <>
         <Card className="mx-auto pb-5 rounded-md shadow-2xl w-3/4">
                         <CardHeader>
                             <CardTitle className="mx-5">
-                                Disponibilité n° {availabilityData?.availability.id} <br/> 
-                                <GetDate timestamp={availabilityData?.availability.created_at}/>
+                                Restaurant {availabilityData?.availability.name} - Disponibilité du <GetDate timestamp={availabilityData?.availability.date}/> 
                             </CardTitle>
                             <CardDescription className="mx-10 text-center">{availabilityData?.availability.category}</CardDescription>
                         </CardHeader>
