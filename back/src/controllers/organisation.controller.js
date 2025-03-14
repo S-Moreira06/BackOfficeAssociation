@@ -29,17 +29,20 @@ async function softDeleteOrganisation(c) {
 }
 
 async function getAllOrganisationsByCategory(c) {
+    let category = 'association'; // Déclaration de category avant le try
     try {
-        const category = c.req.param('category') || 'association';
+        const testUrl = c.req.url.match(/restaurant/i);
+        category = testUrl ? testUrl[0] : 'association';
+
         const organisations = await organisationService.getAllOrganisationsByCategory(category);
 
         return c.json({
             message: `Get all ${category}s successful`,
-            organisations
+            organisations: organisations
         }, 200);
     } catch (error) {
         console.error(error);
-        return c.json({ error: `Failed to get ${category}s` }, 400);
+        return c.json({error: `Failed to get ${category}s`}, 400);
     }
 }
 
@@ -169,4 +172,5 @@ export {
     getCountRestaurants,
     getCountAsso,
     getAllRestaurantByCity,
-    getAllAssociationByCity};
+    getAllAssociationByCity
+};
