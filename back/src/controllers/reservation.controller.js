@@ -154,6 +154,7 @@ async function isCanceledReservation(c) {
         const type = c.req.param('type')
         await reservationService.refuse(id_reservation);
         await availabilityService.cancel(id_availability,slot,type)
+        await organisationService.cancel(id_availability,id_reservation,slot)
         return c.json({
             message: 'Reservation canceled and refused'
           }, 201)
