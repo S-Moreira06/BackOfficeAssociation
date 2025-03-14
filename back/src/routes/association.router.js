@@ -22,7 +22,7 @@ associationRouter.post(
                 contact: z.string(),
                 email: z.string().email(),
                 phone: z.string(),
-                maxMeal: z.number(),
+                max_meal: z.number(),
                 description: z.string().optional(),
                 image: z.string().optional()
         }

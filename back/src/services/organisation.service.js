@@ -3,10 +3,10 @@ import db from '../config/database.js';
 async function createOrganisation(data) {
   console.error(data);
   const query = `
-      INSERT INTO organisation (name, address, zip, city, siret, category, contact, email ,phone ,max_meal ,description ,image)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO organisation (name, address, zip, city, siret, category, contact, email ,phone ,max_meal ,description ,image, remaining_meal)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
     `;
-  const values = [data.name, data.address, data.zip, data.city , data.siret ,data.category, data.contact, data.email, data.phone , data.max_meal, data.description, data.image , data.created_at, data.updated_at, data.deleted_at];
+  const values = [data.name, data.address, data.zip, data.city , data.siret ,data.category, data.contact, data.email, data.phone , data.max_meal, data.description, data.image , data.max_meal];
   const result = await db.prepare(query).run(values);
   return await db.prepare('SELECT * FROM organisation WHERE id = ?').get(result.lastInsertRowid);
 }
