@@ -5,5 +5,5 @@ export default function GetDate({ timestamp }) {
     const date = new Date(timestamp.replace(" ", "T")); // evite certain bug , format iso valide
     const formattedDate = date.toLocaleDateString("fr-FR");
 
-    return <p>{formattedDate}</p>;
+    return `${formattedDate}`;
 }
