@@ -54,8 +54,24 @@ export default function AvailabilitiesList () {
             </TableHeader>
             <TableBody>
             {data?.availabilities.length > 0 && data.availabilities.map((availability)=>{
-                const price = availability?.price/100
-            return (
+                const price = availability?.price / 100;
+                //Vérification et conversion du format de la date (invalid date)
+                const [year, month, day] = availability.date.split("-");
+                const [hours, minutes] = availability.time_start.split(":");
+                //Création de la date avec le bon fuseau horaire
+                const dateToCompare = new Date(Date.UTC(year, month - 1, day, hours, minutes));
+                //Conversion de deadline_accept en millisecondes
+                const deadlineInMs = availability.deadline_accept * 60 * 60 * 1000;
+                const adjustedDateToCompare = new Date(dateToCompare.getTime() - deadlineInMs);
+                const currentTimestamp = Date.now();
+                const showItem = adjustedDateToCompare.getTime() >= currentTimestamp;
+                const formattedDate = adjustedDateToCompare.toLocaleString("fr-FR", {
+                    timeZone: "Europe/Paris",
+                });
+                console.log(
+                    `ID: ${availability.id}, Date ajustée: ${formattedDate}, Affiché: ${showItem}`
+                );
+                return showItem ?(
                 <TableRow key={availability.id} onClick={() => navigate("/availability-detail",{ state: { availabilityId: availability.id }})}>
                 <TableCell>{availability?.name}</TableCell>
                 <TableCell><GetDate timestamp={availability?.date}/></TableCell>
@@ -84,7 +100,7 @@ export default function AvailabilitiesList () {
                     </AlertDialog>
                 </TableCell>
                 </TableRow>
-            )
+            ) : null
             })}
             </TableBody>
         
