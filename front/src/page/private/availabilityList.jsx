@@ -23,6 +23,14 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardFooter, 
+  CardHeader, 
+  CardTitle 
+} from "@/components/ui/card";
 
 import { getAllAvailabilities } from '@/api/availability'
 import GetDate from "@/hooks/get-date"
@@ -36,7 +44,7 @@ export default function AvailabilitiesList () {
     return (
         <>
         <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-availability")}>Créer une disponibilité</Button>
-        <Table>
+        {/* <Table>
             <TableCaption className="caption-top text-xl">
                 Liste des disponibilités
             </TableCaption>
@@ -52,7 +60,7 @@ export default function AvailabilitiesList () {
                     <TableHead>Valeur</TableHead>
                 </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody> */}
             {data?.availabilities.length > 0 && data.availabilities.map((availability)=>{
                 const price = availability?.price / 100;
                 //Vérification et conversion du format de la date (invalid date)
@@ -72,7 +80,35 @@ export default function AvailabilitiesList () {
                     `ID: ${availability.id}, Date ajustée: ${formattedDate}, Affiché: ${showItem}`
                 );
                 return showItem ?(
-                <TableRow key={availability.id} onClick={() => navigate("/availability-detail",{ state: { availabilityId: availability.id }})}>
+                    <>
+                    <Card key={availability.id}>
+                        <CardHeader>
+                            <CardTitle>{availability?.name}</CardTitle>
+                            <CardDescription>Card Description</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <p>Card Content</p>
+                        </CardContent>
+                        <CardFooter>
+                            <Button onClick={() => navigate("/update-availability",{ state: { restaurantId: availability.id }})}>Modifier</Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
+                                <AlertDialogContent className="bg-white">
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Etes vous sure de vouloir supprimer la disponibilité?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Souhaitez vous désactiver la disponibilité?
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                        <AlertDialogAction onClick={() => mutation.mutate(availability.id)}>Oui</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        </CardFooter>
+                    </Card>
+                {/* <TableRow key={availability.id} onClick={() => navigate("/availability-detail",{ state: { availabilityId: availability.id }})}>
                 <TableCell>{availability?.name}</TableCell>
                 <TableCell><GetDate timestamp={availability?.date}/></TableCell>
                 <TableCell>{availability?.time_start}-{availability?.time_end}</TableCell>
@@ -99,12 +135,13 @@ export default function AvailabilitiesList () {
                         </AlertDialogContent>
                     </AlertDialog>
                 </TableCell>
-                </TableRow>
+                </TableRow> */}
+                </>
             ) : null
             })}
-            </TableBody>
+            {/* </TableBody>
         
-        </Table>
+        </Table> */}
         </>
     )
 
