@@ -24,13 +24,14 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardFooter, 
-  CardHeader, 
-  CardTitle 
+    Card, 
+    CardContent, 
+    CardDescription, 
+    CardFooter, 
+    CardHeader, 
+    CardTitle 
 } from "@/components/ui/card";
+import { Users } from 'lucide-react';
 
 import { getAllAvailabilities } from '@/api/availability'
 import GetDate from "@/hooks/get-date"
@@ -44,23 +45,7 @@ export default function AvailabilitiesList () {
     return (
         <>
         <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-availability")}>Créer une disponibilité</Button>
-        {/* <Table>
-            <TableCaption className="caption-top text-xl">
-                Liste des disponibilités
-            </TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead>Restaurant</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Horraires</TableHead>
-                    <TableHead>Delai de reservation</TableHead>
-                    <TableHead>Sur place</TableHead>
-                    <TableHead>A emporter</TableHead>
-                    <TableHead>Max par resa</TableHead>
-                    <TableHead>Valeur</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody> */}
+        <div className='sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-1 p-1'>
             {data?.availabilities.length > 0 && data.availabilities.map((availability)=>{
                 const price = availability?.price / 100;
                 //Vérification et conversion du format de la date (invalid date)
@@ -80,19 +65,41 @@ export default function AvailabilitiesList () {
                     `ID: ${availability.id}, Date ajustée: ${formattedDate}, Affiché: ${showItem}`
                 );
                 return showItem ?(
-                    <>
-                    <Card key={availability.id}>
+                    <div className="">
+                    <Card key={availability.id} onClick={() => navigate("/availability-detail",{ state: { availabilityId: availability.id }})}>
                         <CardHeader>
-                            <CardTitle>{availability?.name}</CardTitle>
-                            <CardDescription>Card Description</CardDescription>
+                            <CardTitle className="text-center">{availability?.name}</CardTitle>
+                            <CardDescription>
+                                Le <GetDate timestamp={availability?.date}/> de {availability?.time_start} à {availability?.time_end}
+                                <p className='italic'>Delai de réservation: {availability?.deadline_accept} heures</p>
+                            </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <p>Card Content</p>
+                            <div className='flex justify-between'>
+                                <p>Places disponibles:</p>
+                                <p className='flex justify-between italic'>max {availability?.max_people}<Users size={22} className='self-center pl-1'/></p>
+                            </div>
+                            
+                            <div className='flex justify-around text-center'>
+                                <div className=''>
+                                    <p>{availability?.on_site}</p>
+                                    <p>Sur place</p>
+                                </div>
+                                <div>
+                                    <p>{availability?.take_away}</p>
+                                    <p>A emporter</p>
+                                </div>
+                            </div>
                         </CardContent>
                         <CardFooter>
-                            <Button onClick={() => navigate("/update-availability",{ state: { restaurantId: availability.id }})}>Modifier</Button>
+                            <Button onClick={(event) => {
+                                event.stopPropagation(); // Empêche l'événement de remonter à la card, ici le click
+                                navigate("/update-availability", { state: { restaurantId: availability.id } });
+                            }}>
+                                Modifier
+                            </Button>
                             <AlertDialog>
-                                <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
+                                <AlertDialogTrigger  onClick={(event) => event.stopPropagation()}>Supprimer</AlertDialogTrigger>
                                 <AlertDialogContent className="bg-white">
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>Etes vous sure de vouloir supprimer la disponibilité?</AlertDialogTitle>
@@ -101,47 +108,17 @@ export default function AvailabilitiesList () {
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
-                                        <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                        <AlertDialogCancel  onClick={(event) => event.stopPropagation()}>Annuler</AlertDialogCancel>
                                         <AlertDialogAction onClick={() => mutation.mutate(availability.id)}>Oui</AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
                             </AlertDialog>
                         </CardFooter>
                     </Card>
-                {/* <TableRow key={availability.id} onClick={() => navigate("/availability-detail",{ state: { availabilityId: availability.id }})}>
-                <TableCell>{availability?.name}</TableCell>
-                <TableCell><GetDate timestamp={availability?.date}/></TableCell>
-                <TableCell>{availability?.time_start}-{availability?.time_end}</TableCell>
-                <TableCell>{availability?.deadline_accept} heures</TableCell>
-                <TableCell>{availability?.on_site}</TableCell>
-                <TableCell>{availability?.take_away}</TableCell>
-                <TableCell>{availability?.max_people}</TableCell>
-                <TableCell>{price}€</TableCell>
-                <TableCell><Button onClick={() => navigate("/update-availability",{ state: { restaurantId: availability.id }})}>Modifier</Button></TableCell>
-                <TableCell>
-                    <AlertDialog>
-                        <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
-                        <AlertDialogContent className="bg-white">
-                            <AlertDialogHeader>
-                            <AlertDialogTitle>Etes vous sure de vouloir supprimer la disponibilité?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                                Souhaitez vous désactiver la disponibilité?
-                            </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                            <AlertDialogCancel>Annuler</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => mutation.mutate(availability.id)}>Oui</AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-                </TableCell>
-                </TableRow> */}
-                </>
+                </div>
             ) : null
             })}
-            {/* </TableBody>
-        
-        </Table> */}
+        </div>
         </>
     )
 
