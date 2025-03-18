@@ -1,6 +1,6 @@
 import organisationService from '../services/organisation.service.js';
 import typeOrganisationService from "../services/typeOrganisation.service.js";
-
+import restaurantsStatsService from "../services/restaurantStats.service.js";
 async function creationOrganisation(c) {
     try {
         const data = c.req.valid('json');
@@ -136,6 +136,15 @@ async function getAllAssociationByCity(c) {
         return c.json({ error: 'Erreur serveur', details: error.message }, 500);
     }
 }
+
+async function getRestaurantsStats(c) {
+    const restaurantsStats = await restaurantsStatsService.getRestaurantsStats();
+    return c.json({
+        message: "restaurant's stats available",
+        restaurantsStats: restaurantsStats
+    }, 200)
+    
+}
 export {
     creationOrganisation,
     updateOrganisation,
@@ -147,5 +156,6 @@ export {
     getCountRestaurants,
     getCountAsso,
     getAllRestaurantByCity,
-    getAllAssociationByCity
+    getAllAssociationByCity,
+    getRestaurantsStats
 };
