@@ -47,7 +47,25 @@ async function getMealGiftedForAsso(id_orga) {
     `).get(id_orga);
     const mealGiftedForAsso = mealGiftedForAssoResult?.total || 0;
 
-    return mealGiftedForAsso;
+    const mealGiftedForAssoResultHere = await db.prepare(`
+        SELECT SUM(nb_place_setting) AS total
+        FROM reservation
+        WHERE status = 'accepted' AND id_organisation = ? AND take_away= 0 ;
+    `).get(id_orga);
+    const mealGiftedForAssoHere = mealGiftedForAssoResultHere?.total || 0;
+
+    const mealGiftedForAssoResultAway = await db.prepare(`
+        SELECT SUM(nb_place_setting) AS total
+        FROM reservation
+        WHERE status = 'accepted' AND id_organisation = ? AND take_away= 1 ;
+    `).get(id_orga);
+    const mealGiftedForAssoAway = mealGiftedForAssoResultAway?.total || 0;
+
+    return {
+        mealGiftedForAsso,
+        mealGiftedForAssoHere,
+        mealGiftedForAssoAway
+    };
 }
 
 export default {
