@@ -32,17 +32,17 @@ export default function Header() {
     }
 
     const menuItems = [
-        { title: "Utilisateurs", links: [{ name: "Liste des Utilisateurs", path: "/user-list" }, { name: "Créer un utilisateur", path: "/create-user" }] },
-        { title: "Restaurants", links: [{ name: "Liste des restaurants", path: "/restaurant-list" }, { name: "Créer un restaurant", path: "/create-restaurant" }] },
-        { title: "Associations", links: [{ name: "Liste des associations", path: "/association-list" }, { name: "Créer une association", path: "/create-association" }] },
-        { title: "Bénéficiaires", links: [{ name: "Liste des bénéficiaires", path: "/beneficiary-list" }, { name: "Créer un bénéficiaire", path: "/create-beneficiary" }] },
-        { title: "Disponibilités", links: [{ name: "Liste des disponibilités", path: "/availability-list" }, { name: "Créer une disponibilité", path: "/create-availability" }] },
-        { title: "Réservations", links: [{ name: "Liste des réservations", path: "/reservation-list" }, { name: "Créer une réservation", path: "/create-reservation" }] },
+        // { title: "Utilisateurs", links: [{ name: "Liste des Utilisateurs", path: "/user-list" }, { name: "Créer un utilisateur", path: "/create-user" }] },
+        // { title: "Restaurants", links: [{ name: "Liste des restaurants", path: "/restaurant-list" }, { name: "Créer un restaurant", path: "/create-restaurant" }] },
+        // { title: "Associations", links: [{ name: "Liste des associations", path: "/association-list" }, { name: "Créer une association", path: "/create-association" }] },
+        // { title: "Bénéficiaires", links: [{ name: "Liste des bénéficiaires", path: "/beneficiary-list" }, { name: "Créer un bénéficiaire", path: "/create-beneficiary" }] },
+        // { title: "Disponibilités", links: [{ name: "Liste des disponibilités", path: "/availability-list" }, { name: "Créer une disponibilité", path: "/create-availability" }] },
+        // { title: "Réservations", links: [{ name: "Liste des réservations", path: "/reservation-list" }, { name: "Créer une réservation", path: "/create-reservation" }] },
     ];
 
     return (
         <div className="sticky top-0 bg-white z-40 flex justify-between items-center border-b px-8 py-2">
-            <img src={logo} alt="La petite Lili" className="w-[5%] min-w-[50px]" onClick={() => navigate("/")}/>
+            <img src={logo} alt="La petite Lili" className="w-[5%] min-w-[50px] max-w-16" onClick={() => navigate("/")}/>
             {token && !isMobile && (
                 <NavigationMenu>
                     <NavigationMenuList>
@@ -97,7 +97,7 @@ export default function Header() {
                         </DropdownMenu>
                     </div>
                 )}
-                {token && isMobile && (
+                {/* {token && isMobile && (
                     <DropdownMenu className="">
                         <DropdownMenuTrigger asChild>
                             <Button variant="outline" className="w-[10%]">
@@ -117,7 +117,7 @@ export default function Header() {
                             ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
-                )}
+                )} */}
             </div>
         </div>
     );
