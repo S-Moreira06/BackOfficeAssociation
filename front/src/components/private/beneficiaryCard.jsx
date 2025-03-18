@@ -15,7 +15,7 @@ export default function BeneficiaryCard() {
     const navigate = useNavigate()
 
     return (
-        <Card  onClick={() => navigate("/beneficiary-list")}>
+        <Card>
             <CardHeader>Nombre de bénéficiaires</CardHeader>
             <CardContent className="">{data?.beneficiary.length}</CardContent>
         </Card>
