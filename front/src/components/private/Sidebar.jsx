@@ -16,12 +16,11 @@ import { useNavigate } from "react-router";
 export function AppSidebar() {
 
     const menuItems = [
-        { title: "Utilisateurs", links: [{ name: "Liste des Utilisateurs", path: "/user-list" }, { name: "Créer un utilisateur", path: "/create-user" }] },
-        { title: "Restaurants", links: [{ name: "Liste des restaurants", path: "/restaurant-list" }, { name: "Créer un restaurant", path: "/create-restaurant" }] },
-        { title: "Associations", links: [{ name: "Liste des associations", path: "/association-list" }, { name: "Créer une association", path: "/create-association" }] },
-        { title: "Bénéficiaires", links: [{ name: "Liste des bénéficiaires", path: "/beneficiary-list" }, { name: "Créer un bénéficiaire", path: "/create-beneficiary" }] },
-        { title: "Disponibilités", links: [{ name: "Liste des disponibilités", path: "/availability-list" }, { name: "Créer une disponibilité", path: "/create-availability" }] },
-        { title: "Réservations", links: [{ name: "Liste des réservations", path: "/reservation-list" }, { name: "Créer une réservation", path: "/create-reservation" }] },
+        { title: "ADMIN", links: [{ name: "Liste des Utilisateurs", path: "/user-list" }, { name: "Créer un utilisateur", path: "/create-user" },{ name: "Liste des restaurants", path: "/restaurant-list" }, { name: "Créer un restaurant", path: "/create-restaurant" },{ name: "Liste des associations", path: "/association-list" }, { name: "Créer une association", path: "/create-association" }] },
+        { title: "Restaurants", links: [{ name: "Créer une disponibilité", path: "/create-availability" }, {name: "Mes disponibilités"},{name: "Mes réservations"}, {name: "Profil du restaurant"}] },
+        { title: "Associations", links: [{ name: "Liste des bénéficiaires", path: "/beneficiary-list" }, { name: "Créer un bénéficiaire", path: "/create-beneficiary" },{ name: "Liste des disponibilités", path: "/availability-list" }, {name: "Mes agents de réservation"},{name: "Mes disponibilités"}] },
+        // { title: "Disponibilités", links: [{ name: "Liste des disponibilités", path: "/availability-list" }, { name: "Créer une disponibilité", path: "/create-availability" }] },
+        // { title: "Réservations", links: [{ name: "Liste des réservations", path: "/reservation-list" }, { name: "Créer une réservation", path: "/create-reservation" }] },
     ];
     const navigate = useNavigate()
 
