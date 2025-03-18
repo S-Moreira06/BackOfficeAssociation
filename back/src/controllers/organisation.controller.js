@@ -145,6 +145,16 @@ async function getRestaurantsStats(c) {
     }, 200)
     
 }
+
+async function getMealGiftedForAsso(c) {
+    const id_orga = c.req.param('id_orga')
+    const mealGiftedForAsso = await restaurantsStatsService.getMealGiftedForAsso(id_orga);
+    return c.json({
+        message: "meal gifted by asso stat is available",
+        mealGiftedForAsso: mealGiftedForAsso
+    }, 200)
+}
+
 export {
     creationOrganisation,
     updateOrganisation,
@@ -157,5 +167,6 @@ export {
     getCountAsso,
     getAllRestaurantByCity,
     getAllAssociationByCity,
-    getRestaurantsStats
+    getRestaurantsStats,
+    getMealGiftedForAsso
 };

@@ -1,6 +1,6 @@
 import db from '../config/database.js';
 
-async function getRestaurantsStats() {
+async function getRestaurantsStats(id_orga) {
     try {
         const totalMealGiftedResult = await db.prepare(`
             SELECT SUM(nb_place_setting) AS total
@@ -8,6 +8,8 @@ async function getRestaurantsStats() {
             WHERE status = 'accepted';
         `).get();
         const totalMealGifted = totalMealGiftedResult?.total || 0;
+
+        
 
         const totalRemainingMealResult = await db.prepare(`
             SELECT SUM(max_meal) AS total
@@ -27,7 +29,8 @@ async function getRestaurantsStats() {
         const restaurantsStats = {
             totalMealGifted,
             totalRemainingMeal,
-            totalValueMealGifted
+            totalValueMealGifted,
+            mealGiftedByAsso
         };
         return restaurantsStats;
     } catch (error) {
@@ -36,6 +39,18 @@ async function getRestaurantsStats() {
     }
 }
 
+async function getMealGiftedForAsso(id_orga) {
+    const mealGiftedForAssoResult = await db.prepare(`
+        SELECT SUM(nb_place_setting) AS total
+        FROM reservation
+        WHERE status = 'accepted' AND id_organisation = ?;
+    `).get(id_orga);
+    const mealGiftedForAsso = mealGiftedForAssoResult?.total || 0;
+
+    return mealGiftedForAsso;
+}
+
 export default {
-    getRestaurantsStats
+    getRestaurantsStats,
+    getMealGiftedForAsso
 }
