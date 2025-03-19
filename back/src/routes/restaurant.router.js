@@ -11,15 +11,13 @@ import {
     getCountRestaurants,
     getCountAsso,
     getAllRestaurantByCity,
-    getAllAssociationByCity,
-    getRestaurantsStats,
-    getMealGiftedForAsso
+    getRestaurantsStats
 } from "../controllers/organisation.controller.js";
 
 const restaurantRouter = new Hono();
 
 restaurantRouter.get('/stats', getRestaurantsStats)
-restaurantRouter.get('/stats/:id_orga', getMealGiftedForAsso)
+restaurantRouter.get('/stats/:id', getRestaurantsStats)
 
 restaurantRouter.post(
     "/", zValidator('json', z.object({

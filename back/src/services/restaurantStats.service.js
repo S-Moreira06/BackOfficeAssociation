@@ -1,68 +1,72 @@
 import db from '../config/database.js';
 
-async function getRestaurantsStats() {
+async function getRestaurantsStats(id = null) {
     try {
-        const totalMealGiftedResult = await db.prepare(`
+        const params = id ? [id] : [];
+        const totalMealGiftedQuery = `
             SELECT SUM(nb_place_setting) AS total
             FROM reservation
-            WHERE status = 'accepted';
-        `).get();
+            WHERE status = 'accepted'
+            ${id ? 'AND id_availability IN (SELECT id FROM availability WHERE restaurant_id = ?)' : ''}
+        `;
+        const totalMealGiftedResult = await db.prepare(totalMealGiftedQuery).get(...params);
         const totalMealGifted = totalMealGiftedResult?.total || 0;
 
-        
-
-        const totalRemainingMealResult = await db.prepare(`
+        const totalRemainingMealQuery = `
             SELECT SUM(max_meal) AS total
             FROM organisation
-            WHERE category = 'restaurant';
-        `).get();
-        const totalRemainingMeal = (totalRemainingMealResult?.total || 0)-totalMealGifted;
-        
-        const totalValueMealGiftedResult = await db.prepare(`
+            WHERE category = 'restaurant' ${id ? "AND id = ?" : ""};
+        `;
+        const totalRemainingMealResult = await db.prepare(totalRemainingMealQuery).get(...params);
+        const totalRemainingMeal = (totalRemainingMealResult?.total || 0) - totalMealGifted;
+
+        const totalValueMealGiftedQuery = `
             SELECT SUM(a.price * r.nb_place_setting) AS total
             FROM reservation r
             JOIN availability a ON r.id_availability = a.id
-            WHERE r.status = 'accepted';;
-        `).get();
+            WHERE r.status = 'accepted' ${id ? "AND r.id = ?" : ""};
+        `;
+        const totalValueMealGiftedResult = await db.prepare(totalValueMealGiftedQuery).get(...params);
         const totalValueMealGifted = totalValueMealGiftedResult?.total || 0;
 
         const mealGiftedGrowth = [];
         for (let i = 5; i >= 0; i--) {
-        const date = new Date();
-        date.setMonth(date.getMonth() - i);
+            const date = new Date();
+            date.setMonth(date.getMonth() - i);
 
-        const startDate = new Date(date.getFullYear(), date.getMonth(), 1, 0, 0, 0, 0);
-        const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
-        
-        const startDateIso = startDate.toISOString();
-        const endDateIso = endDate.toISOString();
+            const startDate = new Date(date.getFullYear(), date.getMonth(), 1, 0, 0, 0, 0);
+            const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
 
-        const monthlyMealGifted = `SELECT SUM(nb_place_setting) as count FROM reservation WHERE created_at >= ? AND created_at <= ? AND status = 'accepted'`;
-        const monthlyMealGiftedResult = await db.prepare(monthlyMealGifted).all(startDateIso, endDateIso);
+            const startDateIso = startDate.toISOString();
+            const endDateIso = endDate.toISOString();
 
-        const monthLabel = startDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });//format final, a modifier si besoin 
+            const monthlyMealGiftedQuery = `
+                SELECT SUM(nb_place_setting) AS count
+                FROM reservation
+                WHERE created_at >= ? AND created_at <= ? AND status = 'accepted'
+                ${id ? 'AND id_availability IN (SELECT id FROM availability WHERE restaurant_id = ?)' : ''}
+            `;
 
-        mealGiftedGrowth.push({
-            date: monthLabel,
-            count: monthlyMealGiftedResult[0].count
-        });
+            const monthlyMealGiftedParams = id ? [startDateIso, endDateIso, id] : [startDateIso, endDateIso];
+            const monthlyMealGiftedResult = await db.prepare(monthlyMealGiftedQuery).all(...monthlyMealGiftedParams);
+            const monthLabel = startDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+
+            mealGiftedGrowth.push({
+                date: monthLabel,
+                count: monthlyMealGiftedResult[0]?.count || 0
+            });
         }
-        
-        const restaurantsStats = {
+
+        return {
             totalMealGifted,
             totalRemainingMeal,
             totalValueMealGifted,
             mealGiftedGrowth
         };
-        return restaurantsStats;
     } catch (error) {
-        console.log(error);
+        console.error('Erreur dans getRestaurantsStats:', error);
         throw error;
     }
 }
 
-
-
-export default {
-    getRestaurantsStats
-}
+export default {getRestaurantsStats}

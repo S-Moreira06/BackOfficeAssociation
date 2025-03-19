@@ -138,11 +138,18 @@ async function getAllAssociationByCity(c) {
 }
 
 async function getRestaurantsStats(c) {
-    const restaurantsStats = await restaurantsStatsService.getRestaurantsStats();
-    return c.json({
-        message: "restaurant's stats available",
-        restaurantsStats: restaurantsStats
-    }, 200)
+    try {
+        const id = c.req.param('id');
+        const restaurantsStats = await restaurantsStatsService.getRestaurantsStats(id);
+        return c.json({
+            message: "restaurant's stats available",
+            restaurantsStats: restaurantsStats
+        }, 200)
+
+    } catch (error) {
+        console.error('Erreur lors de la récupération des stats:', error);
+        return c.json({ error: 'Erreur interne du serveur' }, 500);
+    }
     
 }
 
