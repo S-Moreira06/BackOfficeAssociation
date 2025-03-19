@@ -1,100 +1,100 @@
-import organisationService from '../services/organisation.service.js';
-import typeOrganisationService from "../services/typeOrganisation.service.js";
+import organizationService from '../services/organization.service.js';
+import typeOrganizationService from "../services/typeOrganization.service.js";
 
-async function creationOrganisation(c) {
+async function creationOrganization(c) {
     try {
         const data = c.req.valid('json');
         const parts = c.req.path.split("/api/");
         data.category = parts[1];
-        await organisationService.createOrganisation(data);
+        await organizationService.createOrganization(data);
         return c.json({ message: `${data.category} created successfully.` }, 201);
     } catch (error) {
         console.error(error);
         return c.json({ error: `Failed to create ${data.category}.` }, 400);
     }
 }
-async function softDeleteOrganisation(c) {
+async function softDeleteOrganization(c) {
     try {
         const id = c.req.param('id');
-        await organisationService.softDeleteOrganisation(id);
-        return c.json({ message: `Organisation deleted successfully.` }, 200);
+        await organizationService.softDeleteOrganization(id);
+        return c.json({ message: `Organization deleted successfully.` }, 200);
     } catch (error) {
         console.error(error);
-        return c.json({ error: `Failed to delete organisation.` }, 400);
+        return c.json({ error: `Failed to delete organization.` }, 400);
     }
 }
 
-async function getAllOrganisationsByCategory(c) {
+async function getAllOrganizationsByCategory(c) {
     let category = 'association'; // Déclaration de category avant le try
     try {
         const testUrl = c.req.url.match(/restaurant/i);
         category = testUrl ? testUrl[0] : 'association';
-        const organisations = await organisationService.getAllOrganisationsByCategory(category);
+        const organizations = await organizationService.getAllOrganizationsByCategory(category);
         return c.json({
             message: `Get all ${category}s successful`,
-            organisations: organisations
+            organizations: organizations
         }, 200);
     } catch (error) {
         console.error(error);
         return c.json({error: `Failed to get ${category}s`}, 400);
     }
 }
-async function getOrganisationById(c) {
+async function getOrganizationById(c) {
     try {
         const id = c.req.param('id');
-        const organisation = await organisationService.getOrganisationById(id);
-        if (!organisation) {
-            return c.json({ error: "Organisation not found" }, 404);
+        const organization = await organizationService.getOrganizationById(id);
+        if (!organization) {
+            return c.json({ error: "Organization not found" }, 404);
         }
         return c.json({
-            message: `Organisation details retrieved successfully`,
-            organisation
+            message: `Organization details retrieved successfully`,
+            organization
         }, 200);
     } catch (error) {
         console.error(error);
-        return c.json({ error: "Failed to retrieve organisation details" }, 400);
+        return c.json({ error: "Failed to retrieve organization details" }, 400);
     }
 }
-async function updateOrganisation(c) {
+async function updateOrganization(c) {
     try {
         const id = c.req.param('id');
         const data = c.req.valid('json');
-        await organisationService.updateOrganisation(id, data);
-        return c.json({ message: `Organisation updated successfully` }, 200);
+        await organizationService.updateOrganization(id, data);
+        return c.json({ message: `Organization updated successfully` }, 200);
     } catch (error) {
         console.error(error);
-        return c.json({ error: "Failed to update organisation" }, 400);
+        return c.json({ error: "Failed to update organization" }, 400);
     }
 }
 async function getTypesForRestaurant(c) {
     try {
         const id = c.req.param('id');
-        const types = await typeOrganisationService.getTypesForRestaurant(id);
+        const types = await typeOrganizationService.getTypesForRestaurant(id);
         return c.json({ message: "Restaurant types retrieved successfully", types }, 200);
     } catch (error) {
         console.error(error);
         return c.json({ error: "Failed to retrieve restaurant types" }, 400);
     }
 }
-async function findOrganisationById(c) {
+async function findOrganizationById(c) {
     try {
         const id = c.req.param('id');
-        const organisation = await organisationService.findOrganisationById(id);
-        if (!organisation) {
-            return c.json({ error: "Organisation not found" }, 404);
+        const organization = await organizationService.findOrganizationById(id);
+        if (!organization) {
+            return c.json({ error: "Organization not found" }, 404);
         }
         return c.json({
-            message: "Organisation details retrieved successfully",
-            organisation
+            message: "Organization details retrieved successfully",
+            organization
         }, 200);
     } catch (error) {
         console.error(error);
-        return c.json({ error: "Failed to retrieve organisation details" }, 400);
+        return c.json({ error: "Failed to retrieve organization details" }, 400);
     }
 }
 async function getCountRestaurants(c) {
     try {
-        const count = await organisationService.getCountRestaurants();
+        const count = await organizationService.getCountRestaurants();
         return c.json({ count }, 200);
     } catch (error) {
         console.error('Error retrieving restaurant count:', error);
@@ -103,7 +103,7 @@ async function getCountRestaurants(c) {
 }
 async function getCountAsso(c) {
     try {
-        const count = await organisationService.getCountAsso();
+        const count = await organizationService.getCountAsso();
         return c.json({ count }, 200);
     } catch (error) {
         console.error('Error retrieving association count:', error);
@@ -113,7 +113,7 @@ async function getCountAsso(c) {
 async function getAllRestaurantByCity(c) {
     try {
         const city = c.req.param('city');
-        const restaurants = await organisationService.getAllRestaurantByCity(city);
+        const restaurants = await organizationService.getAllRestaurantByCity(city);
         return c.json({
             message: `Liste des restaurants à ${city}`,
             restaurants
@@ -126,7 +126,7 @@ async function getAllRestaurantByCity(c) {
 async function getAllAssociationByCity(c) {
     try {
         const city = c.req.param('city');
-        const association = await organisationService.getAllAssociationByCity(city);
+        const association = await organizationService.getAllAssociationByCity(city);
         return c.json({
             message: `Liste des association à ${city}`,
             association
@@ -137,13 +137,13 @@ async function getAllAssociationByCity(c) {
     }
 }
 export {
-    creationOrganisation,
-    updateOrganisation,
-    getAllOrganisationsByCategory,
-    softDeleteOrganisation,
+    creationOrganization,
+    updateOrganization,
+    getAllOrganizationsByCategory,
+    softDeleteOrganization,
     getTypesForRestaurant,
-    findOrganisationById,
-    getOrganisationById,
+    findOrganizationById,
+    getOrganizationById,
     getCountRestaurants,
     getCountAsso,
     getAllRestaurantByCity,

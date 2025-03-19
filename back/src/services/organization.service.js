@@ -1,19 +1,19 @@
 import db from '../config/database.js';
 
-async function createOrganisation(data) {
+async function createOrganization(data) {
   console.error(data);
   const query = `
-      INSERT INTO organisation (name, address, zip, city, siret, category, contact, email ,phone ,max_meal ,description ,image, remaining_meal)
+      INSERT INTO organization (name, address, zip, city, siret, category, contact, email ,phone ,max_meal ,description ,image, remaining_meal)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
     `;
   const values = [data.name, data.address, data.zip, data.city , data.siret ,data.category, data.contact, data.email, data.phone , data.max_meal, data.description, data.image , data.max_meal];
   const result = await db.prepare(query).run(values);
-  return await db.prepare('SELECT * FROM organisation WHERE id = ?').get(result.lastInsertRowid);
+  return await db.prepare('SELECT * FROM organization WHERE id = ?').get(result.lastInsertRowid);
 }
-async function softDeleteOrganisation(id){
+async function softDeleteOrganization(id){
   try {
     let today = new Date().toISOString();
-    const query = `UPDATE organisation SET is_archived = ?,
+    const query = `UPDATE organization SET is_archived = ?,
                                            deleted_at = ?
                    WHERE id = ?`;
     const values = [1, today, id];
@@ -24,8 +24,8 @@ async function softDeleteOrganisation(id){
     throw err;
   }
 }
-async function getAllOrganisationsByCategory(category) {
-  const query = 'SELECT * FROM organisation where category = ?';
+async function getAllOrganizationsByCategory(category) {
+  const query = 'SELECT * FROM organization where category = ?';
   const result = await db.prepare(query).all(category);
   if (result.length < 1) {
     throw new Error("No result");
@@ -33,13 +33,13 @@ async function getAllOrganisationsByCategory(category) {
   return result;
 }
 
-async function findOrganisationById(id) {
-  const query = 'SELECT * FROM organisation WHERE id = ?';
+async function findOrganizationById(id) {
+  const query = 'SELECT * FROM organization WHERE id = ?';
   const result = await db.prepare(query).get(id);
   return result;
 }
 
-async function updateOrganisation(organisationId, data) {
+async function updateOrganization(organizationId, data) {
   let today = new Date().toISOString();
   const setClauses = [];
   const values = [];
@@ -54,36 +54,36 @@ async function updateOrganisation(organisationId, data) {
   });
   setClauses.push("updated_at = ?");
   values.push(today);
-  values.push(organisationId);
-  const query = `UPDATE organisation SET ${ setClauses.join(', ') } WHERE id = ?`;
+  values.push(organizationId);
+  const query = `UPDATE organization SET ${ setClauses.join(', ') } WHERE id = ?`;
   try {
     await db.prepare(query).run(values);
-    const updatedRecord = await db.prepare('SELECT * FROM organisation WHERE id = ?').get(organisationId);
+    const updatedRecord = await db.prepare('SELECT * FROM organization WHERE id = ?').get(organizationId);
     return updatedRecord;
   } catch (error) {
     console.error(error);
-    throw new Error('Uppdate organisation table failed');
+    throw new Error('Uppdate organization table failed');
   }
 }
 
-async function getOrganisationById(id){
-  const query = 'SELECT * FROM organisation WHERE id = ?';
+async function getOrganizationById(id){
+  const query = 'SELECT * FROM organization WHERE id = ?';
   const result = await db.prepare(query).get(id);
   return result;
 }
 async function getCountRestaurants() {
-  const query = 'SELECT COUNT(*) AS count FROM organisation WHERE category = ?';
+  const query = 'SELECT COUNT(*) AS count FROM organization WHERE category = ?';
   const result = await db.prepare(query).get("restaurant");
   return result.count;
 }
 async function getCountAsso() {
-  const query = 'SELECT COUNT(*) AS count FROM organisation WHERE category = ?';
+  const query = 'SELECT COUNT(*) AS count FROM organization WHERE category = ?';
   const result = await db.prepare(query).get("Association");
   return result.count;
 }
 async function getAllRestaurantByCity(city) {
   const query = `
-        SELECT * FROM organisation 
+        SELECT * FROM organization 
         WHERE category = 'restaurant' 
         AND city = ?`;
 
@@ -94,7 +94,7 @@ async function getAllRestaurantByCity(city) {
 }
 async function getAllAssociationByCity(city) {
   const query = `
-    SELECT * FROM organisation
+    SELECT * FROM organization
     WHERE category = 'association'
       AND city = ?`;
 
@@ -107,7 +107,7 @@ async function getAllAssociationByCity(city) {
 async function valid(id_availability,id_reservation, slot) {
   console.log("valeur dans le orgaService.valid:" + id_availability + id_reservation + slot)
   const query1 = `
-      UPDATE organisation
+      UPDATE organization
       SET remaining_meal = remaining_meal - ?
       WHERE id = (
           SELECT restaurant_id
@@ -117,10 +117,10 @@ async function valid(id_availability,id_reservation, slot) {
       );
   `;
   const query2 = `
-      UPDATE organisation
+      UPDATE organization
       SET remaining_meal = remaining_meal - ?
       WHERE id = (
-          SELECT id_organisation
+          SELECT id_organization
           FROM reservation
           WHERE id = ?
           LIMIT 1
@@ -140,7 +140,7 @@ return { success: true };
 async function cancel(id_availability,id_reservation, slot) {
   console.log("valeur dans le orgaService.valid:" + id_availability + id_reservation + slot)
   const query1 = `
-      UPDATE organisation
+      UPDATE organization
       SET remaining_meal = remaining_meal + ?
       WHERE id = (
           SELECT restaurant_id
@@ -150,10 +150,10 @@ async function cancel(id_availability,id_reservation, slot) {
       );
   `;
   const query2 = `
-      UPDATE organisation
+      UPDATE organization
       SET remaining_meal = remaining_meal + ?
       WHERE id = (
-          SELECT id_organisation
+          SELECT id_organization
           FROM reservation
           WHERE id = ?
           LIMIT 1
@@ -176,12 +176,12 @@ return { success: true };
 
 
 export default {
-  createOrganisation,
-  softDeleteOrganisation ,
-  getAllOrganisationsByCategory,
-  findOrganisationById,
-  updateOrganisation,
-  getOrganisationById,
+  createOrganization,
+  softDeleteOrganization ,
+  getAllOrganizationsByCategory,
+  findOrganizationById,
+  updateOrganization,
+  getOrganizationById,
   getCountRestaurants,
   getCountAsso ,
   getAllRestaurantByCity,

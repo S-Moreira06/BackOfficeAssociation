@@ -19,7 +19,7 @@ const reservationRouter = new Hono();
 reservationRouter.post(
     "/", zValidator('json',
         z.object({
-            id_organisation: z.number().int(),
+            id_organization: z.number().int(),
             id_availability: z.number().int(),
             time: z.string().min(1),
             email: z.string().email("Invalid email"),

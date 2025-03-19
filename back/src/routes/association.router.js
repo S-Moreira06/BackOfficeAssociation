@@ -2,11 +2,11 @@ import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
 import {
-    creationOrganisation,
-    getAllOrganisationsByCategory,
-    findOrganisationById,
-    softDeleteOrganisation, updateOrganisation, getAllAssociationByCity
-} from '../controllers/organisation.controller.js';
+    creationOrganization,
+    getAllOrganizationsByCategory,
+    findOrganizationById,
+    softDeleteOrganization, updateOrganization, getAllAssociationByCity
+} from '../controllers/organization.controller.js';
 import restaurantRouter from "./restaurant.router.js";
 
 const associationRouter = new Hono();
@@ -27,12 +27,12 @@ associationRouter.post(
                 image: z.string().optional()
         }
     )),
-    creationOrganisation
+    creationOrganization
 )
 
-associationRouter.get('/', getAllOrganisationsByCategory);
-associationRouter.get('/:id', findOrganisationById);
-associationRouter.delete('/:id', softDeleteOrganisation);
+associationRouter.get('/', getAllOrganizationsByCategory);
+associationRouter.get('/:id', findOrganizationById);
+associationRouter.delete('/:id', softDeleteOrganization);
 associationRouter.put(
     '/:id',
     zValidator(
@@ -47,7 +47,7 @@ associationRouter.put(
             email: z.string().email(),
             phone: z.string().optional(),
             maxMeal: z.number().nullable().optional()
-        })), updateOrganisation
+        })), updateOrganization
 );
 associationRouter.get('/city/:city', getAllAssociationByCity);
 
