@@ -1,6 +1,6 @@
 import db from '../config/database.js';
 
-async function getRestaurantsStats(id_orga) {
+async function getRestaurantsStats() {
     try {
         const totalMealGiftedResult = await db.prepare(`
             SELECT SUM(nb_place_setting) AS total
@@ -25,12 +25,41 @@ async function getRestaurantsStats(id_orga) {
             WHERE r.status = 'accepted';;
         `).get();
         const totalValueMealGifted = totalValueMealGiftedResult?.total || 0;
+
+        const mealGiftedGrowth = [];
+        for (let i = 5; i >= 0; i--) {
+        const date = new Date();
+        date.setMonth(date.getMonth() - i); // Reculer de 'i' mois
+
+        // Début du mois
+        const startDate = new Date(date.getFullYear(), date.getMonth(), 1, 0, 0, 0, 0);
+        
+        // Fin du mois
+        const endDate = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
+        
+        const startDateIso = startDate.toISOString();
+        const endDateIso = endDate.toISOString();
+
+        const monthlyMealGifted = `SELECT SUM(nb_place_setting) as count FROM reservation WHERE created_at >= ? AND created_at <= ? AND status = 'accepted'`;
+        const monthlyMealGiftedResult = await db.prepare(monthlyMealGifted).all(startDateIso, endDateIso);
+
+        // Format du mois (ex: "Janvier 2024")
+        const monthLabel = startDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+
+        mealGiftedGrowth.push({
+            date: monthLabel,
+            count: monthlyMealGiftedResult[0].count
+        });
+        }
+
+console.log(mealGiftedGrowth);
+
         
         const restaurantsStats = {
             totalMealGifted,
             totalRemainingMeal,
             totalValueMealGifted,
-            mealGiftedByAsso
+            mealGiftedGrowth
         };
         return restaurantsStats;
     } catch (error) {

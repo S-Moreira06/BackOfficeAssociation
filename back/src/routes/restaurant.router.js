@@ -15,10 +15,12 @@ import {
     getRestaurantsStats,
     getMealGiftedForAsso
 } from "../controllers/organisation.controller.js";
-import testRouter from "./test.router.js";
+
 const restaurantRouter = new Hono();
+
 restaurantRouter.get('/stats', getRestaurantsStats)
 restaurantRouter.get('/stats/:id_orga', getMealGiftedForAsso)
+
 restaurantRouter.post(
     "/", zValidator('json', z.object({
             name: z.string(),
