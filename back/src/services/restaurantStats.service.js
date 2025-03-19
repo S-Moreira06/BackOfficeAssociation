@@ -12,6 +12,24 @@ async function getRestaurantsStats(id = null) {
         const totalMealGiftedResult = await db.prepare(totalMealGiftedQuery).get(...params);
         const totalMealGifted = totalMealGiftedResult?.total || 0;
 
+        const totalMealHereGiftedQuery = `
+            SELECT SUM(nb_place_setting) AS total
+            FROM reservation
+            WHERE status = 'accepted' AND take_away = 0 
+            ${id ? 'AND id_availability IN (SELECT id FROM availability WHERE restaurant_id = ?)' : ''}
+        `;
+        const totalMealHereGiftedResult = await db.prepare(totalMealHereGiftedQuery).get(...params);
+        const totalMealHereGifted = totalMealHereGiftedResult?.total || 0;
+
+        const totalMealAwayGiftedQuery = `
+            SELECT SUM(nb_place_setting) AS total
+            FROM reservation
+            WHERE status = 'accepted' AND take_away = 1
+            ${id ? 'AND id_availability IN (SELECT id FROM availability WHERE restaurant_id = ?)' : ''}
+        `;
+        const totalMealAwayGiftedResult = await db.prepare(totalMealAwayGiftedQuery).get(...params);
+        const totalMealAwayGifted = totalMealAwayGiftedResult?.total || 0;
+
         const totalRemainingMealQuery = `
             SELECT SUM(max_meal) AS total
             FROM organisation
@@ -24,7 +42,7 @@ async function getRestaurantsStats(id = null) {
             SELECT SUM(a.price * r.nb_place_setting) AS total
             FROM reservation r
             JOIN availability a ON r.id_availability = a.id
-            WHERE r.status = 'accepted' ${id ? "AND r.id = ?" : ""};
+            WHERE r.status = 'accepted' ${id ? 'AND r.id_availability IN (SELECT id FROM availability WHERE restaurant_id = ?)' : ''};
         `;
         const totalValueMealGiftedResult = await db.prepare(totalValueMealGiftedQuery).get(...params);
         const totalValueMealGifted = totalValueMealGiftedResult?.total || 0;
@@ -59,9 +77,11 @@ async function getRestaurantsStats(id = null) {
 
         return {
             totalMealGifted,
+            totalMealHereGifted,
+            totalMealAwayGifted,
             totalRemainingMeal,
             totalValueMealGifted,
-            mealGiftedGrowth
+            mealGiftedGrowth            
         };
     } catch (error) {
         console.error('Erreur dans getRestaurantsStats:', error);
