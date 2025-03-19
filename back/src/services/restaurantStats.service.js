@@ -45,7 +45,7 @@ async function getRestaurantsStats(id = null) {
             WHERE r.status = 'accepted' ${id ? 'AND r.id_availability IN (SELECT id FROM availability WHERE restaurant_id = ?)' : ''};
         `;
         const totalValueMealGiftedResult = await db.prepare(totalValueMealGiftedQuery).get(...params);
-        const totalValueMealGifted = totalValueMealGiftedResult?.total || 0;
+        const totalValueMealGifted = totalValueMealGiftedResult?.total / 100 || 0;
 
         const mealGiftedGrowth = [];
         for (let i = 5; i >= 0; i--) {
