@@ -1,6 +1,6 @@
 import organisationService from '../services/organisation.service.js';
 import typeOrganisationService from "../services/typeOrganisation.service.js";
-import restaurantsStatsService from "../services/restaurantStats.service.js";
+
 async function creationOrganisation(c) {
     try {
         const data = c.req.valid('json');
@@ -140,7 +140,7 @@ async function getAllAssociationByCity(c) {
 async function getRestaurantsStats(c) {
     try {
         const id = c.req.param('id');
-        const restaurantsStats = await restaurantsStatsService.getRestaurantsStats(id);
+        const restaurantsStats = await organisationService.getRestaurantsStats(id);
         return c.json({
             message: "restaurant's stats available",
             restaurantsStats: restaurantsStats
@@ -153,14 +153,6 @@ async function getRestaurantsStats(c) {
     
 }
 
-async function getMealGiftedForAsso(c) {
-    const id_orga = c.req.param('id_orga')
-    const mealGiftedForAsso = await restaurantsStatsService.getMealGiftedForAsso(id_orga);
-    return c.json({
-        message: "meal gifted by asso stat is available",
-        mealGiftedForAsso: mealGiftedForAsso
-    }, 200)
-}
 
 export {
     creationOrganisation,
@@ -174,6 +166,5 @@ export {
     getCountAsso,
     getAllRestaurantByCity,
     getAllAssociationByCity,
-    getRestaurantsStats,
-    getMealGiftedForAsso
+    getRestaurantsStats
 };
