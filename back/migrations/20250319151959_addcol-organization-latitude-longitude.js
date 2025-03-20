@@ -10,10 +10,25 @@ export async function up(client) {
     ADD COLUMN latitude FLOAT DEFAULT 0;
     `
 );
+
 await client.execute(
   `
   ALTER TABLE organization 
   ADD COLUMN longitude FLOAT DEFAULT 0;
+  `
+);
+
+await client.execute(
+  `
+  ALTER TABLE availability 
+  DROP COLUMN is_archived;
+  `
+);
+
+await client.execute(
+  `
+  ALTER TABLE beneficiary 
+  DROP COLUMN is_archived;
   `
 );
 await client.execute(
@@ -22,6 +37,35 @@ await client.execute(
   DROP COLUMN is_archived;
   `
 );
+await client.execute(
+  `
+  ALTER TABLE request 
+  DROP COLUMN is_archived;
+  `
+);
+
+await client.execute(
+  `
+  ALTER TABLE reservation 
+  DROP COLUMN is_archived;
+  `
+);
+
+await client.execute(
+  `
+  ALTER TABLE review 
+  DROP COLUMN is_archived;
+  `
+);
+
+await client.execute(
+  `
+  ALTER TABLE user 
+  DROP COLUMN is_archived;
+  `
+);
+
+
   }
   
   /**
@@ -45,6 +89,42 @@ await client.execute(
     await client.execute(
       `
       ALTER TABLE organization 
+      ADD COLUMN is_archived BOOLEAN;
+      `
+    );
+    await client.execute(
+      `
+      ALTER TABLE availability 
+      ADD COLUMN is_archived BOOLEAN;
+      `
+    );
+    await client.execute(
+      `
+      ALTER TABLE beneficiary 
+      ADD COLUMN is_archived BOOLEAN;
+      `
+    );
+    await client.execute(
+      `
+      ALTER TABLE request 
+      ADD COLUMN is_archived BOOLEAN;
+      `
+    );
+    await client.execute(
+      `
+      ALTER TABLE reservation 
+      ADD COLUMN is_archived BOOLEAN;
+      `
+    );
+    await client.execute(
+      `
+      ALTER TABLE review 
+      ADD COLUMN is_archived BOOLEAN;
+      `
+    );
+    await client.execute(
+      `
+      ALTER TABLE user 
       ADD COLUMN is_archived BOOLEAN;
       `
     );
