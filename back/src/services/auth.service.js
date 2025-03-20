@@ -17,7 +17,7 @@ async function softDeleteUser(userId) {
     let today = new Date().toISOString();
     const query = `
       UPDATE user
-      SET is_archived = ?, deleted_at = ?
+      SET deleted_at = ?
       WHERE id = ?
     `;
     const values = [1, today, userId]
@@ -177,7 +177,7 @@ async function sendEmailVerification(email) {
 
 
 async function getAllUsers() {
-  const query = 'SELECT id,firstname,lastname,email,address,zip,city,phone,role,verified,is_archived,created_at,updated_at,deleted_at FROM user';
+  const query = 'SELECT id,firstname,lastname,email,address,zip,city,phone,role,verified,created_at,updated_at,deleted_at FROM user';
 
   const result = await db.prepare(query).all();
 
@@ -186,7 +186,7 @@ async function getAllUsers() {
 }
 
 async function getUserDetail(id) {
-  const query = `SELECT id,firstname,lastname,email,address,zip,city,phone,role,verified,is_archived,created_at,updated_at,deleted_at 
+  const query = `SELECT id,firstname,lastname,email,address,zip,city,phone,role,verified,created_at,updated_at,deleted_at 
                 FROM user WHERE id = ? `;
   const result = await db.prepare(query).get(id);
   return result;
