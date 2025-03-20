@@ -11,9 +11,13 @@ import {
     getCountRestaurants,
     getCountAsso,
     getAllRestaurantByCity,
-    getAllAssociationByCity} from "../controllers/organization.controller.js";
-import testRouter from "./test.router.js";
+    getRestaurantsStats
+} from "../controllers/organization.controller.js";
+
 const restaurantRouter = new Hono();
+
+restaurantRouter.get('/stats', getRestaurantsStats)
+restaurantRouter.get('/stats/:id', getRestaurantsStats)
 
 restaurantRouter.post(
     "/", zValidator('json', z.object({
@@ -61,6 +65,9 @@ restaurantRouter.put(
 
 restaurantRouter.get('/:id/type', getTypesForRestaurant );
 restaurantRouter.get('/city/:city', getAllRestaurantByCity);
+
+
+
 
 export default restaurantRouter;
 

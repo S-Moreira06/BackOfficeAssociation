@@ -139,6 +139,23 @@ async function getAllAssociationByCity(c) {
     }
 }
 
+async function getRestaurantsStats(c) {
+    try {
+        const id = c.req.param('id');
+        const restaurantsStats = await organisationService.getRestaurantsStats(id);
+        return c.json({
+            message: "restaurant's stats available",
+            restaurantsStats: restaurantsStats
+        }, 200)
+
+    } catch (error) {
+        console.error('Erreur lors de la récupération des stats:', error);
+        return c.json({ error: 'Erreur interne du serveur' }, 500);
+    }
+    
+}
+
+
 export {
     creationOrganization,
     updateOrganization,
@@ -150,5 +167,6 @@ export {
     getCountRestaurants,
     getCountAsso,
     getAllRestaurantByCity,
-    getAllAssociationByCity
+    getAllAssociationByCity,
+    getRestaurantsStats
 };
