@@ -110,6 +110,7 @@ async function getCountAsso(c) {
         return c.json({ error: 'Server error' }, 500);
     }
 }
+
 async function getAllRestaurantByCity(c) {
     try {
         const city = c.req.param('city');
@@ -123,6 +124,7 @@ async function getAllRestaurantByCity(c) {
         return c.json({ error: 'Erreur serveur', details: error.message }, 500);
     }
 }
+
 async function getAllAssociationByCity(c) {
     try {
         const city = c.req.param('city');
@@ -136,6 +138,7 @@ async function getAllAssociationByCity(c) {
         return c.json({ error: 'Erreur serveur', details: error.message }, 500);
     }
 }
+
 export {
     creationOrganization,
     updateOrganization,

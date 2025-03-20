@@ -5,7 +5,7 @@ async function createOrganization(data) {
   const query = `
       INSERT INTO organization (name, address, zip, city, siret, category, contact, email ,phone ,max_meal ,description ,image, remaining_meal)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
-    `;
+`;
   const values = [data.name, data.address, data.zip, data.city , data.siret ,data.category, data.contact, data.email, data.phone , data.max_meal, data.description, data.image , data.max_meal];
   const result = await db.prepare(query).run(values);
   return await db.prepare('SELECT * FROM organization WHERE id = ?').get(result.lastInsertRowid);
@@ -13,10 +13,8 @@ async function createOrganization(data) {
 async function softDeleteOrganization(id){
   try {
     let today = new Date().toISOString();
-    const query = `UPDATE organization SET is_archived = ?,
-                                           deleted_at = ?
-                   WHERE id = ?`;
-    const values = [1, today, id];
+    const query = `UPDATE organization SET deleted_at = ? WHERE id = ?`;
+    const values = [ today, id];
     const result = db.prepare(query).run(values);
     return true
   } catch (err){
@@ -24,6 +22,7 @@ async function softDeleteOrganization(id){
     throw err;
   }
 }
+
 async function getAllOrganizationsByCategory(category) {
   const query = 'SELECT * FROM organization where category = ?';
   const result = await db.prepare(query).all(category);

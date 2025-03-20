@@ -62,6 +62,5 @@ restaurantRouter.put(
 restaurantRouter.get('/:id/type', getTypesForRestaurant );
 restaurantRouter.get('/city/:city', getAllRestaurantByCity);
 
-
 export default restaurantRouter;
 
