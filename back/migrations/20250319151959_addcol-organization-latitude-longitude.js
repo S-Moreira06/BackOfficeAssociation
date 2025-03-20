@@ -11,59 +11,80 @@ export async function up(client) {
     `
 );
 
-await client.execute(
-  `
-  ALTER TABLE organization 
-  ADD COLUMN longitude FLOAT DEFAULT 0;
-  `
-);
+  await client.execute(
+    `
+    ALTER TABLE organization 
+    ADD COLUMN longitude FLOAT DEFAULT 0;
+    `
+  );
 
-await client.execute(
-  `
-  ALTER TABLE availability 
-  DROP COLUMN is_archived;
-  `
-);
+  await client.execute(
+    `
+    ALTER TABLE availability 
+    DROP COLUMN is_archived;
+    `
+  );
 
-await client.execute(
-  `
-  ALTER TABLE beneficiary 
-  DROP COLUMN is_archived;
-  `
-);
-await client.execute(
-  `
-  ALTER TABLE organization 
-  DROP COLUMN is_archived;
-  `
-);
-await client.execute(
-  `
-  ALTER TABLE request 
-  DROP COLUMN is_archived;
-  `
-);
+  await client.execute(
+    `
+    ALTER TABLE beneficiary 
+    DROP COLUMN is_archived;
+    `
+  );
+  await client.execute(
+    `
+    ALTER TABLE organization 
+    DROP COLUMN is_archived;
+    `
+  );
+  await client.execute(
+    `
+    ALTER TABLE request 
+    DROP COLUMN is_archived;
+    `
+  );
 
-await client.execute(
-  `
-  ALTER TABLE reservation 
-  DROP COLUMN is_archived;
-  `
-);
+  await client.execute(
+    `
+    ALTER TABLE reservation 
+    DROP COLUMN is_archived;
+    `
+  );
 
-await client.execute(
-  `
-  ALTER TABLE review 
-  DROP COLUMN is_archived;
-  `
-);
+  await client.execute(
+    `
+    ALTER TABLE review 
+    DROP COLUMN is_archived;
+    `
+  );
 
-await client.execute(
-  `
-  ALTER TABLE user 
-  DROP COLUMN is_archived;
-  `
-);
+  await client.execute(
+    `
+    ALTER TABLE user 
+    DROP COLUMN is_archived;
+    `
+  );
+  await client.execute(
+    `
+    ALTER TABLE beneficiary_organization RENAME COLUMN organisation_id TO organization_id;
+    `
+  );
+  await client.execute(
+    `
+    ALTER TABLE reservation RENAME COLUMN id_organisation TO id_organization;
+    `
+  );
+  await client.execute(
+    `
+    ALTER TABLE type_organization RENAME COLUMN id_organisation TO id_organization;
+    `
+  );
+  await client.execute(
+    `
+    ALTER TABLE user_organization RENAME COLUMN id_organisation TO id_organization;
+    `
+  );
+
 
 
   }
@@ -126,6 +147,26 @@ await client.execute(
       `
       ALTER TABLE user 
       ADD COLUMN is_archived BOOLEAN;
+      `
+    );
+    await client.execute(
+      `
+      ALTER TABLE beneficiary_organization RENAME COLUMN organization_id TO organisation_id;
+      `
+    );
+    await client.execute(
+      `
+      ALTER TABLE reservation RENAME COLUMN id_organization TO id_organisation;
+      `
+    );
+    await client.execute(
+      `
+      ALTER TABLE type_organization RENAME COLUMN id_organization TO id_organisation;
+      `
+    );
+    await client.execute(
+      `
+      ALTER TABLE user_organization RENAME COLUMN id_organization TO id_organisation;
       `
     );
   }
