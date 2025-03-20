@@ -49,7 +49,7 @@ async function createBeneficiary(data) {
   }
 
   async function getBeneficiary(id) {
-    const query = 'SELECT * FROM beneficiary WHERE id=?';
+    const query = 'SELECT b.*, o.id AS organization_id, o.name AS organization_name FROM beneficiary b INNER JOIN beneficiary_organization bo ON b.id = bo.beneficiary_id INNER JOIN organization o ON bo.organisation_id = o.id WHERE b.id=?';
     const result = await db.prepare(query).get(id)
     return result;
   }
