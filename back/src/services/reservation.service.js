@@ -3,10 +3,10 @@ import db from '../config/database.js';
 
 async function createReservation(data) {
     const query = `
-    INSERT INTO reservation (id_organisation, id_availability, time, email, nb_place_setting, status, take_away, commentary)
+    INSERT INTO reservation (id_organization, id_availability, time, email, nb_place_setting, status, take_away, commentary)
     VALUES (?,?,?,?,?,?,?,?)
   `;
-  const values = [data.id_organisation,data.id_availability,data.time,data.email, data.nb_place_setting, data.status, data.take_away, data.commentary];
+  const values = [data.id_organization,data.id_availability,data.time,data.email, data.nb_place_setting, data.status, data.take_away, data.commentary];
   
   const result = await db.prepare(query).run(values);
   return await db.prepare('SELECT * FROM reservation WHERE id = ?').get(result.lastInsertRowid);
@@ -46,8 +46,8 @@ async function getTotalByName(name) {
   const query = `
     SELECT SUM(nb_place_setting) AS total 
     FROM reservation 
-    WHERE id_organisation = (
-      SELECT id FROM organisation WHERE name = ?
+    WHERE id_organization = (
+      SELECT id FROM organization WHERE name = ?
     )
   `;
 
@@ -58,9 +58,9 @@ async function getTotalByName(name) {
 
 async function getAllReservationByAvailability(id_availability) {
   const query = `
-    SELECT r.*, o.name AS organisation_name
+    SELECT r.*, o.name AS organization_name
     FROM reservation r
-    INNER JOIN organisation o ON r.id_organisation = o.id
+    INNER JOIN organization o ON r.id_organization = o.id
     WHERE r.id_availability = ?;
   `;
 

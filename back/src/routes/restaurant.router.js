@@ -2,16 +2,16 @@ import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { z } from 'zod';
 import {
-    creationOrganisation,
-    softDeleteOrganisation,
-    getAllOrganisationsByCategory,
-    updateOrganisation,
+    creationOrganization,
+    softDeleteOrganization,
+    getAllOrganizationsByCategory,
+    updateOrganization,
     getTypesForRestaurant,
-    getOrganisationById,
+    getOrganizationById,
     getCountRestaurants,
     getCountAsso,
     getAllRestaurantByCity,
-    getAllAssociationByCity} from "../controllers/organisation.controller.js";
+    getAllAssociationByCity} from "../controllers/organization.controller.js";
 import testRouter from "./test.router.js";
 const restaurantRouter = new Hono();
 
@@ -29,16 +29,16 @@ restaurantRouter.post(
             description: z.string().optional(),
             image: z.string().optional()
         }
-    )), creationOrganisation
+    )), creationOrganization
 )
-restaurantRouter.delete('/:id', softDeleteOrganisation );
+restaurantRouter.delete('/:id', softDeleteOrganization );
 
-restaurantRouter.get('/', getAllOrganisationsByCategory);
+restaurantRouter.get('/', getAllOrganizationsByCategory);
 restaurantRouter.get('/count', getCountRestaurants);
 restaurantRouter.get('/countasso', getCountAsso);
 
 getCountAsso
-restaurantRouter.get('/:id', getOrganisationById);
+restaurantRouter.get('/:id', getOrganizationById);
 
 restaurantRouter.put(
     '/:id',
@@ -56,12 +56,11 @@ restaurantRouter.put(
             max_meal: z.number().nullable().optional(),
             description: z.string().optional(),
             image: z.string().optional()
-        })), updateOrganisation
+        })), updateOrganization
 );
 
 restaurantRouter.get('/:id/type', getTypesForRestaurant );
 restaurantRouter.get('/city/:city', getAllRestaurantByCity);
-
 
 export default restaurantRouter;
 

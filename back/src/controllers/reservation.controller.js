@@ -1,6 +1,6 @@
 import reservationService from '../services/reservation.service.js';
 import availabilityService from '../services/availability.service.js';
-import organisationService from '../services/organisation.service.js';
+import organizationService from '../services/organization.service.js';
 
 async function createReservation(c) {
     try {
@@ -122,7 +122,7 @@ async function isAcceptedReservation(c) {
         const type = c.req.param('type')
         await reservationService.valid(id_reservation);
         await availabilityService.valid(id_availability,slot,type)
-        await organisationService.valid(id_availability,id_reservation,slot)
+        await organizationService.valid(id_availability,id_reservation,slot)
         return c.json({
             message: 'Reservation validated'
           }, 201)
@@ -154,7 +154,7 @@ async function isCanceledReservation(c) {
         const type = c.req.param('type')
         await reservationService.refuse(id_reservation);
         await availabilityService.cancel(id_availability,slot,type)
-        await organisationService.cancel(id_availability,id_reservation,slot)
+        await organizationService.cancel(id_availability,id_reservation,slot)
         return c.json({
             message: 'Reservation canceled and refused'
           }, 201)

@@ -4,8 +4,8 @@
 * @returns { Promise<void> }
 */
 export async function seed(client) {
-    await client.execute("DELETE FROM beneficiary_organisation;");
-    await client.execute(`INSERT INTO beneficiary_organisation (beneficiary_id,organisation_id)
+    await client.execute("DELETE FROM beneficiary_organization;");
+    await client.execute(`INSERT INTO beneficiary_organization (beneficiary_id,organization_id)
 VALUES
     (1, 4),
     (2, 5),

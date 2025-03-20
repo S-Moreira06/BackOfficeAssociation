@@ -14,7 +14,7 @@ async  function getBeneficiariesForReservation(idReservation){
        b.city, b.phone, 
         FROM beneficiary_reservation as br
         INNER JOIN beneficiary AS b ON br.id_beneficiary = b.id
-        WHERE  br.id_organisation = ? `;
+        WHERE  br.id_organization = ? `;
     const result = db.prepare(query).all(idReservation);
     return result;
 }

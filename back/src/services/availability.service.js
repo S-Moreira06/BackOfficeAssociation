@@ -24,7 +24,7 @@ async function getAllAvailabilities(){
     const query = `
         SELECT a.* , o.name , o.address , o.zip, o.city, o.image, o.menu
         FROM availability a
-        INNER JOIN organisation o ON a.restaurant_id = o.id
+        INNER JOIN organization o ON a.restaurant_id = o.id
         `;
     const result = await db.prepare(query).all();
     return result;
@@ -34,7 +34,7 @@ async function getAvailabilityById(id){
     const query = `
         SELECT a.* , o.name , o.address , o.zip, o.city, o.image, o.menu
         FROM availability a
-        INNER JOIN organisation o ON a.restaurant_id = o.id
+        INNER JOIN organization o ON a.restaurant_id = o.id
         WHERE a.id = ?`;
     const result = await db.prepare(query).get(id);
     return result;

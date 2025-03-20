@@ -2,14 +2,14 @@ import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { z } from 'zod';
 import {
-    creationOrganisation,
-    softDeleteOrganisation,
-    getAllOrganisationsByCategory,
-    updateOrganisation,
+    creationOrganization,
+    softDeleteOrganization,
+    getAllOrganizationsByCategory,
+    updateOrganization,
     getTypesForRestaurant,
-    getOrganisationById,
+    getOrganizationById,
     getCountRestaurants
-} from "../controllers/organisation.controller.js";
+} from "../controllers/organization.controller.js";
 const testRouter = new Hono();
 
 testRouter.get('/count', getCountRestaurants);

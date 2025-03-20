@@ -5,7 +5,7 @@
 */
 export async function seed(client) {
     await client.execute("DELETE FROM reservation;");
-    await client.execute(`INSERT INTO reservation (id_organisation, id_availability, time, email, nb_place_setting, status, take_away)
+    await client.execute(`INSERT INTO reservation (id_organization, id_availability, time, email, nb_place_setting, status, take_away)
                           VALUES 
                         (1, 1, '2025-02-06 12:20:00', 'assoc1@gmail.com', 10, 'En attente', true),
                         (2, 1, '2025-02-06 12:40:00', 'assoc2@gmail.com', 10, 'En attente', false),
