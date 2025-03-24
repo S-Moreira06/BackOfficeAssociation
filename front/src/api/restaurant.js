@@ -38,6 +38,22 @@ async function getRestaurantStatsById(id) {
         return error
     }
 }
+async function getMealValue() {
+    try {
+        const response = await instance.get(`/restaurant/value`)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+async function getMealValueByCat(cat) {
+    try {
+        const response = await instance.get(`/restaurant/value/${cat}`)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
 
 async function updateRestaurant(id, restaurantData) {
     try {
@@ -57,4 +73,4 @@ async function deleteRestaurant(id) {
     }
 }
 
-export { createRestaurant, getAllRestaurant, getRestaurant, updateRestaurant, deleteRestaurant, getRestaurantsStats, getRestaurantStatsById }
+export { createRestaurant, getAllRestaurant, getRestaurant, updateRestaurant, deleteRestaurant, getRestaurantsStats, getRestaurantStatsById, getMealValue, getMealValueByCat }
