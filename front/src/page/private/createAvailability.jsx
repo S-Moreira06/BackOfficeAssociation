@@ -102,7 +102,7 @@ export default function CreateAvailability() {
                                                             {selectedRestaurant?.name || "Choisissez un restaurant"}
                                                         </SelectTrigger>
                                                         <SelectContent className="bg-white">
-                                                            {data?.organisations?.map((restaurant) => (
+                                                            {data?.organizations?.map((restaurant) => (
                                                                 <SelectItem key={restaurant.id} value={restaurant.id}>
                                                                     {restaurant.name}
                                                                 </SelectItem>

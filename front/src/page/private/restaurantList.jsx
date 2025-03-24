@@ -57,7 +57,7 @@ export default function RestaurantList() {
             </TableRow>
             </TableHeader>
             <TableBody>
-            {data?.organisations.length > 0 && data.organisations.map((restaurant)=>{
+            {data?.organizations.length > 0 && data.organizations.map((restaurant)=>{
             return (
                 <TableRow key={restaurant.id}>
                 <TableCell>{restaurant?.name}</TableCell>

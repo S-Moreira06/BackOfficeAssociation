@@ -59,7 +59,7 @@ export default function RestaurantsList() {
             </TableRow>
             </TableHeader>
             <TableBody>
-            {data?.organisations.length > 0 && data.organisations.map((association)=>{
+            {data?.organizations.length > 0 && data.organizations.map((association)=>{
             return (
                 <TableRow key={association.id}>
                 <TableCell>{association?.name}</TableCell>
