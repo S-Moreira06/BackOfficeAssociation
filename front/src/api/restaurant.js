@@ -20,6 +20,22 @@ async function getRestaurant(id) {
         return error
     }
 }
+async function getRestaurantsStats() {
+    try {
+        const response = await instance.get('/restaurant/stats/')
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+async function getRestaurantStat(id) {
+    try {
+        const response = await instance.get(`/restaurant/${id}`)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
 async function updateRestaurant(id, restaurantData) {
     try {
         const response = await instance.put(`/restaurant/${id}`,restaurantData);

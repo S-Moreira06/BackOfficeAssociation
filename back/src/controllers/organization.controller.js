@@ -142,7 +142,7 @@ async function getAllAssociationByCity(c) {
 async function getRestaurantsStats(c) {
     try {
         const id = c.req.param('id');
-        const restaurantsStats = await organisationService.getRestaurantsStats(id);
+        const restaurantsStats = await organizationService.getRestaurantsStats(id);
         return c.json({
             message: "restaurant's stats available",
             restaurantsStats: restaurantsStats

@@ -199,7 +199,7 @@ async function getRestaurantsStats(id = null) {
 
         const totalRemainingMealQuery = `
             SELECT SUM(max_meal) AS total
-            FROM organisation
+            FROM organization
             WHERE category = 'restaurant' ${id ? "AND id = ?" : ""};
         `;
         const totalRemainingMealResult = await db.prepare(totalRemainingMealQuery).get(...params);
