@@ -34,10 +34,11 @@ export default function RequestList() {
 
     // État pour gérer la colonne triée et l'ordre de tri
     const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
+    const [searchTerm, setSearchTerm] = useState(''); // État pour la recherche
 
     // Fonction pour trier les données
     const sortData = (data, key, direction) => {
-        return data?.request.sort((a, b) => {
+        return data?.sort((a, b) => {
             if (a[key] < b[key]) {
                 return direction === 'asc' ? -1 : 1;
             }
@@ -57,11 +58,40 @@ export default function RequestList() {
         setSortConfig({ key, direction });
     };
 
-    // Trier les données en fonction de la configuration de tri
-    const sortedData = sortData(data, sortConfig.key, sortConfig.direction);
+    // Fonction de recherche
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    // Filtrer les données en fonction du terme de recherche
+    const filteredData = data?.request?.filter((request) => {
+        return (
+            request.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            request.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            request.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            request.created_at.toLowerCase().includes(searchTerm.toLowerCase()) ||  // Date
+            request.address.toLowerCase().includes(searchTerm.toLowerCase()) ||     // Adresse
+            request.category.toLowerCase().includes(searchTerm.toLowerCase()) ||    // Type
+            (request.firstname + ' ' + request.lastname).toLowerCase().includes(searchTerm.toLowerCase()) // Contact
+        );
+    });
+
+    // Trier les données après filtrage
+    const sortedData = filteredData ? sortData(filteredData, sortConfig.key, sortConfig.direction) : [];
 
     return (
         <>
+            <div className="mb-4">
+                {/* Champ de recherche */}
+                <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="p-2 border rounded"
+                />
+            </div>
+            
             <Table>
                 <TableCaption className="caption-top text-xl">
                     Liste des requêtes
@@ -112,7 +142,7 @@ export default function RequestList() {
                                         <AlertDialogTrigger>Refuser</AlertDialogTrigger>
                                         <AlertDialogContent className="bg-white">
                                             <AlertDialogHeader>
-                                                <AlertDialogTitle>Etes vous sûr de vouloir refuser la demande ?</AlertDialogTitle>
+                                                <AlertDialogTitle>Etes-vous sûr de vouloir refuser la demande ?</AlertDialogTitle>
                                                 <AlertDialogDescription>
                                                     Un mail automatique sera envoyé à l'organisation.
                                                 </AlertDialogDescription>
