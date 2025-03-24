@@ -126,12 +126,10 @@ async function valid(id_availability,id_reservation, slot) {
       );
   `;
 
-  const dbTransaction = db.transaction(() => {  // CORRECTION ICI
+  const dbTransaction = db.transaction(() => {  
     db.prepare(query1).run(slot, id_availability);
     db.prepare(query2).run(slot, id_reservation);
 });
-
-// Exécute la transaction
 dbTransaction();
 
 return { success: true };
@@ -159,12 +157,11 @@ async function cancel(id_availability,id_reservation, slot) {
       );
   `;
 
-  const dbTransaction = db.transaction(() => {  // CORRECTION ICI
+  const dbTransaction = db.transaction(() => { 
     db.prepare(query1).run(slot, id_availability);
     db.prepare(query2).run(slot, id_reservation);
 });
 
-// Exécute la transaction
 dbTransaction();
 
 return { success: true };
