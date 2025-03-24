@@ -12,6 +12,15 @@ async function getAllBeneficiary() {
         return error
     }
 }
+async function getAllBeneficiaryByAsso(id) {
+    try {
+        const response = await instance.get(`http://localhost:3000/api/beneficiary/association/${id}`)
+        console.log(response)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
 
 async function getBeneficiary(id) {
     try {
@@ -38,4 +47,4 @@ async function deleteBeneficiary(id) {
         return error;
     }
 }
-export { createBeneficiary,getAllBeneficiary, getBeneficiary, updateBeneficiary, deleteBeneficiary }
+export { createBeneficiary,getAllBeneficiary,getAllBeneficiaryByAsso, getBeneficiary, updateBeneficiary, deleteBeneficiary }
