@@ -37,7 +37,7 @@ export function AppSidebar() {
         <Sidebar collapsible="offcanvas">
             <SidebarHeader />
             <SidebarContent className="gap-0">
-                <SidebarGroup>
+                <SidebarGroup key="acceuil">
                     <SidebarGroupLabel>
                         Acceuil
                     </SidebarGroupLabel>

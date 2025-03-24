@@ -225,20 +225,24 @@ async function getRestaurantsStats(id = null) {
             const startDateIso = startDate.toISOString();
             const endDateIso = endDate.toISOString();
 
+            // Récupération du total des repas
             const monthlyMealGiftedQuery = `
-                SELECT SUM(nb_place_setting) AS count
+                SELECT 
+                    SUM(CASE WHEN take_away = 0 THEN nb_place_setting ELSE 0 END) AS count_here,
+                    SUM(CASE WHEN take_away = 1 THEN nb_place_setting ELSE 0 END) AS count_away
                 FROM reservation
-                WHERE created_at >= ? AND created_at <= ? AND status = 'accepted'
-                ${id ? 'AND id_availability IN (SELECT id FROM availability WHERE restaurant_id = ?)' : ''}
-            `;
+                WHERE created_at BETWEEN ? AND ? AND status = 'accepted'
+                ${id ? 'AND id_availability IN (SELECT id FROM availability WHERE restaurant_id = ?)' : ''}`;
 
             const monthlyMealGiftedParams = id ? [startDateIso, endDateIso, id] : [startDateIso, endDateIso];
-            const monthlyMealGiftedResult = await db.prepare(monthlyMealGiftedQuery).all(...monthlyMealGiftedParams);
+            const monthlyMealGiftedResult = await db.prepare(monthlyMealGiftedQuery).get(...monthlyMealGiftedParams);
             const monthLabel = startDate.toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
 
             mealGiftedGrowth.push({
                 date: monthLabel,
-                count: monthlyMealGiftedResult[0]?.count || 0
+                count: (monthlyMealGiftedResult?.count_here || 0) + (monthlyMealGiftedResult?.count_away || 0),
+                count_here: monthlyMealGiftedResult?.count_here || 0,
+                count_away: monthlyMealGiftedResult?.count_away || 0
             });
         }
 
