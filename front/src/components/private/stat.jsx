@@ -12,10 +12,10 @@ export default function Stat() {
 
     return (
         <div className='grid text-center gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-            <BeneficiaryCard />
-            {/* <UserCard />
-            <RequestCard />
             <RestaurantCard />
+            <BeneficiaryCard />
+            {/*<RequestCard />
+            <UserCard />
             <AssociationCard /> */}
         </div>
     )

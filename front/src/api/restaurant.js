@@ -3,6 +3,7 @@ import instance from "./config";
 async function createRestaurant(data) {
     return await instance.post("/restaurant",data)
 }
+
 async function getAllRestaurant() {
     try {
         const response = await instance.get("/restaurant")
@@ -22,12 +23,13 @@ async function getRestaurant(id) {
 }
 async function getRestaurantsStats() {
     try {
-        const response = await instance.get('/restaurant/stats/')
+        const response = await instance.get('/restaurant/stats')
         return response.data
     } catch (error) {
         return error
     }
 }
+
 async function getRestaurantStatsById(id) {
     try {
         const response = await instance.get(`/restaurant/stats/${id}`)
@@ -36,6 +38,7 @@ async function getRestaurantStatsById(id) {
         return error
     }
 }
+
 async function updateRestaurant(id, restaurantData) {
     try {
         const response = await instance.put(`/restaurant/${id}`,restaurantData);
@@ -44,6 +47,7 @@ async function updateRestaurant(id, restaurantData) {
         return error;
     }
 }
+
 async function deleteRestaurant(id) {
     try {
         const response = await instance.delete(`/restaurant/${id}`);
@@ -53,4 +57,4 @@ async function deleteRestaurant(id) {
     }
 }
 
-export { createRestaurant, getAllRestaurant, getRestaurant, updateRestaurant,deleteRestaurant,getRestaurantsStats,getRestaurantStatsById }
+export { createRestaurant, getAllRestaurant, getRestaurant, updateRestaurant, deleteRestaurant, getRestaurantsStats, getRestaurantStatsById }

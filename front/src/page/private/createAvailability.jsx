@@ -86,7 +86,7 @@ export default function CreateAvailability() {
                                         control={form.control}
                                         name="restaurantId"
                                         render={({ field }) => {
-                                            const selectedRestaurant = data?.organisations.find((r) => r.id === Number(field.value));
+                                            const selectedRestaurant = data?.organizations.find((r) => r.id === Number(field.value));
 
                                             return (
                                                 <FormItem>
