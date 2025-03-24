@@ -28,9 +28,9 @@ async function getRestaurantsStats() {
         return error
     }
 }
-async function getRestaurantStat(id) {
+async function getRestaurantStatsById(id) {
     try {
-        const response = await instance.get(`/restaurant/${id}`)
+        const response = await instance.get(`/restaurant/stats/${id}`)
         return response.data
     } catch (error) {
         return error
@@ -53,4 +53,4 @@ async function deleteRestaurant(id) {
     }
 }
 
-export { createRestaurant, getAllRestaurant, getRestaurant, updateRestaurant,deleteRestaurant }
+export { createRestaurant, getAllRestaurant, getRestaurant, updateRestaurant,deleteRestaurant,getRestaurantsStats,getRestaurantStatsById }

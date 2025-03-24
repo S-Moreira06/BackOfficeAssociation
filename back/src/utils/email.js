@@ -41,7 +41,7 @@ export async function sendPasswordResetEmail(email, resetToken) {
         <p>This link will expire in 24 hours.</p>
       `
   try {
-    await sendEmail(email, 'Verify your email address', html)
+    await sendEmail(email, 'Reset your password', html)
     return true
   } catch (error) {
     console.error('Error sending verification email:', error)
