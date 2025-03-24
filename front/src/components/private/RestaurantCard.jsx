@@ -44,7 +44,7 @@ const chartData = restaurantsStatsData?.restaurantsStats?.mealGiftedGrowth?.map(
 
     console.table(restaurantsStatsData)
     return (
-        <Card  onClick={() => navigate("/restaurant-list")}>
+        <Card>
             <CardHeader>Nombre de repas offerts</CardHeader>
             <CardContent className="">
             <ChartContainer config={chartConfig} className="sm:min-h-[200px] w-full">

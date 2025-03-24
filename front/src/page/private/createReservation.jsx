@@ -76,7 +76,7 @@ export default function CreateReservation ({ availabilityId, closeSheet }) {
 
         while (startHour < endHour || (startHour === endHour && startMinute <= endMinute)) { // on compare dabord les heures et si elles sont egales on passe aux minutes
             timeSlot.push(`${String(startHour).padStart(2, "0")}:${String(startMinute).padStart(2, "0")}`); // on ajoute la valeur a notre array en s'assurant que ce soit par exemple 01H00 et pas 1h00
-            startMinute += 30; // ici c'est la durée de nos plages de reservation , a changer si necessaire
+            startMinute += 15; // ici c'est la durée de nos plages de reservation , a changer si necessaire
             if (startMinute === 60) {// condition pour passer a l'heure suivante si les minutes sont a 60
                 startMinute = 0;
                 startHour++;
@@ -155,7 +155,7 @@ export default function CreateReservation ({ availabilityId, closeSheet }) {
                         control={form.control}
                         name="id_organisation"
                         render={({ field }) => {
-                            const selectedAssociation = associationsData?.organisations.find((r) => r.id === Number(field.value));
+                            const selectedAssociation = associationsData?.organizations.find((r) => r.id === Number(field.value));
                             return (
                                 <FormItem>
                                 <FormLabel>Organisation</FormLabel>
@@ -170,7 +170,7 @@ export default function CreateReservation ({ availabilityId, closeSheet }) {
                                         {selectedAssociation?.name || "Choisissez une association"}
                                     </SelectTrigger>
                                     <SelectContent className="bg-white">
-                                        {associationsData?.organisations?.map((association) => (
+                                        {associationsData?.organizations?.map((association) => (
                                             <SelectItem key={association.id} value={association.id}>{association.name}</SelectItem>
                                         ))}
                                     </SelectContent>
@@ -186,7 +186,7 @@ export default function CreateReservation ({ availabilityId, closeSheet }) {
                             control={form.control}
                             name="nb_place_setting"
                             render={({ field }) => {
-                                const selectedSit = associationsData?.organisations.find((r) => r.id === Number(field.value));
+                                const selectedSit = associationsData?.organizations.find((r) => r.id === Number(field.value));
                                 return (
                                 <FormItem>
                                     <FormLabel>Nombre de couverts</FormLabel>
