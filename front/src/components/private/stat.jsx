@@ -19,8 +19,7 @@ export default function Stat() {
                 <RestaurantCard />
                 <AssociationCard />
                 <BeneficiaryCard />
-                <RequestCard />
-                <UserCard />
+                
             </div>
         
         </>

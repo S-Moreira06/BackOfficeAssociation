@@ -259,6 +259,25 @@ async function getRestaurantsStats(id = null) {
         throw error;
     }
 }
+async function getMealValue(category = null) {
+  try {
+    const params = category ? [category] : [];
+    
+    const value = `
+            SELECT SUM(a.price * r.nb_place_setting) AS total
+            FROM reservation r
+            JOIN availability a ON r.id_availability = a.id
+            JOIN organization o ON a.restaurant_id = o.id
+            WHERE r.status = 'accepted'  ${category ? "AND o.category = ?":""};
+        `;
+        const result = await db.prepare(value).get(...params);
+        const resultValue = result?.total / 100 || 0;
+        return resultValue;
+  } catch (error) {
+    console.error('Erreur dans getMealValue:', error);
+        throw error;
+  }
+}
 
 export default {
   createOrganization,
@@ -273,5 +292,6 @@ export default {
   getAllAssociationByCity,
   getRestaurantsStats,
   valid,
-  cancel
+  cancel,
+  getMealValue
 };

@@ -155,6 +155,20 @@ async function getRestaurantsStats(c) {
     
 }
 
+async function getMealValue(c) {
+    try {
+        const category = c.req?.param('category');
+        const mealValue = await organizationService.getMealValue(category);
+        return c.json({
+            message: "meals value available",
+            mealValue: mealValue
+        }, 200)
+    } catch (error) {
+        console.error('Erreur lors de la récupération de la valeur des repas:', error);
+        return c.json({ error: 'Erreur interne du serveur' }, 500);
+    }
+}
+
 
 export {
     creationOrganization,
@@ -168,5 +182,6 @@ export {
     getCountAsso,
     getAllRestaurantByCity,
     getAllAssociationByCity,
-    getRestaurantsStats
+    getRestaurantsStats,
+    getMealValue
 };
