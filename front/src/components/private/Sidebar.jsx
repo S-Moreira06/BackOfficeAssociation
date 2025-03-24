@@ -26,7 +26,7 @@ import { ChevronDown } from 'lucide-react';
 export function AppSidebar() {
 
     const menuItems = [
-        { logo:"ChevronDown",title: "Gestions ADMIN", links: [{ name: "Utilisateurs", path: "/user-list" },{ name: "Restaurants", path: "/restaurant-list" },{ name: "Associations", path: "/association-list" }] },
+        { logo:"ChevronDown",title: "Gestions ADMIN", links: [{ name: "Utilisateurs", path: "/user-list" },{ name: "Restaurants", path: "/restaurant-list" },{ name: "Associations", path: "/association-list" },{ name: "Demandes d'adhésion", path: "/request-list" }] },
 
         { logo:"ChevronDown",title: "Restaurants", links: [{name: "Mes disponibilités"},{name: "Mes réservations"}, {name: "Profil du restaurant"}] },
         { logo:"ChevronDown",title: "Associations", links: [{ name: "Liste des bénéficiaires", path: "/beneficiary-list" },{ name: "Liste des disponibilités", path: "/availability-list" }, {name: "Mes agents de réservation"}] },
