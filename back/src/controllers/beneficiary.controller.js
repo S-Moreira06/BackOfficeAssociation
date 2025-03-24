@@ -52,6 +52,19 @@ async function getAllBeneficiary(c) {
     return c.json({ error: 'beneficiary list loading failed'}, 400)
   }
 }
+async function getAllBeneficiaryByAsso(c) {
+  try {
+    const id = c.req.param("id")
+    const beneficiary = await beneficiaryService.getAllBeneficiaryByAsso(id);
+    return c.json({
+      message: `beneficiary's list available for asso with id ${id}` ,
+      beneficiary:beneficiary
+    }, 200)
+  } catch (error) {
+    console.error(error)
+    return c.json({ error: 'beneficiary list loading failed'}, 400)
+  }
+}
 
 async function getBeneficiary(c) {
   try {
@@ -72,7 +85,7 @@ async function getBeneficiary(c) {
 
 
 
-  export {createBeneficiary,deleteBeneficiary, getAllBeneficiary,getBeneficiary,updateBeneficiary}
+  export {createBeneficiary,deleteBeneficiary, getAllBeneficiary,getAllBeneficiaryByAsso,getBeneficiary,updateBeneficiary}
 
 
 

@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
-import { createBeneficiary, deleteBeneficiary, getAllBeneficiary,getBeneficiary, updateBeneficiary} from "../controllers/beneficiary.controller.js";
+import { createBeneficiary, deleteBeneficiary, getAllBeneficiary,getAllBeneficiaryByAsso,getBeneficiary, updateBeneficiary} from "../controllers/beneficiary.controller.js";
 
 const beneficiaryRouter = new Hono()
 
@@ -54,6 +54,14 @@ beneficiaryRouter.get(
         z.object({
             id: z.string().regex(/^\d+$/),
         })), getBeneficiary
+);
+beneficiaryRouter.get(
+    '/association/:id',
+    zValidator(
+        'param',
+        z.object({
+            id: z.string().regex(/^\d+$/),
+        })), getAllBeneficiaryByAsso
 );
 
 export default beneficiaryRouter;

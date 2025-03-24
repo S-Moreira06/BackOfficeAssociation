@@ -13,12 +13,13 @@ export default function Stat() {
     return (
         <>
             <h1>Tableau de bord</h1>
+            <RestaurantCard />
             <div className='grid text-center gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-                <RestaurantCard />
+                
                 <BeneficiaryCard />
-                {/*<RequestCard />
+                <RequestCard />
                 <UserCard />
-                <AssociationCard /> */}
+                <AssociationCard />
             </div>
         
         </>

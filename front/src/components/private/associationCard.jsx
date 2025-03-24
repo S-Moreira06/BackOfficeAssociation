@@ -21,7 +21,7 @@ export default function AssociationCard() {
     return (
         <Card  onClick={() => navigate("/association-list")}>
             <CardHeader>Nombre d'associations</CardHeader>
-            <CardContent className="">{data?.organisations.length}</CardContent>
+            <CardContent className="">{data?.organizations.length}</CardContent>
         </Card>
     )
     

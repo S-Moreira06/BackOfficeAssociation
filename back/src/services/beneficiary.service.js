@@ -47,6 +47,11 @@ async function createBeneficiary(data) {
     const result = await db.prepare(query).all()
     return result;
   }
+  async function getAllBeneficiaryByAsso(id) {
+    const query = "SELECT b.*, o.id AS organization_id, o.name AS organization_name FROM beneficiary b INNER JOIN beneficiary_organization bo ON b.id = bo.beneficiary_id INNER JOIN organization o ON bo.organization_id = o.id WHERE o.id = ?";
+    const result = await db.prepare(query).all(id)
+    return result;
+  }
 
   async function getBeneficiary(id) {
     const query = 'SELECT b.*, o.id AS organization_id, o.name AS organization_name FROM beneficiary b INNER JOIN beneficiary_organization bo ON b.id = bo.beneficiary_id INNER JOIN organization o ON bo.organization_id = o.id WHERE b.id=?';
@@ -80,4 +85,4 @@ async function createBeneficiary(data) {
     }
   }
 
-  export default {createBeneficiary, deleteBeneficiary, getAllBeneficiary, getBeneficiary,updateBeneficiary,update}
+  export default {createBeneficiary, deleteBeneficiary, getAllBeneficiary, getAllBeneficiaryByAsso, getBeneficiary,updateBeneficiary,update}

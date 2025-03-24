@@ -44,10 +44,10 @@ const chartData = restaurantsStatsData?.restaurantsStats?.mealGiftedGrowth?.map(
 
     console.table(restaurantsStatsData)
     return (
-        <Card>
+        <Card className="lg:w-[80%] mx-auto">
             <CardHeader>Nombre de repas offerts</CardHeader>
             <CardContent className="">
-            <ChartContainer config={chartConfig} className="sm:min-h-[200px] w-full">
+            <ChartContainer config={chartConfig} className="sm:min-h-[200px]  max-h-[300px] w-full">
                 <BarChart accessibilityLayer data={chartData}>
                     <CartesianGrid vertical={false} />  
                     <XAxis
