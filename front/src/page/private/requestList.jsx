@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/table";
 
 import { getAllRequest } from '@/api/request';
-import GetDate from "@/hooks/get-date";
 
 export default function RequestList() {
     const { data } = useQuery({ queryKey: ['requestList'], queryFn: getAllRequest });
@@ -24,7 +23,7 @@ export default function RequestList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; // Nombre d'éléments par page
+    const [itemsPerPage, setItemsPerPage] = useState(5); // Nombre d'éléments par page sélectionnable
 
     // Fonction de tri
     const sortData = (data, key, direction) => {
@@ -50,6 +49,12 @@ export default function RequestList() {
         setCurrentPage(1); // Reset à la première page lors d'une recherche
     };
 
+    // Mise à jour du nombre de résultats par page
+    const handleItemsPerPageChange = (event) => {
+        setItemsPerPage(Number(event.target.value));
+        setCurrentPage(1); // Revenir à la première page après changement
+    };
+
     // Filtrer et trier les données avant pagination
     const filteredData = data?.request?.filter((request) =>
         Object.values(request).some(
@@ -68,17 +73,9 @@ export default function RequestList() {
     const endIndex = startIndex + itemsPerPage;
     const paginatedData = sortedData.slice(startIndex, endIndex);
 
-    // Fonction pour surligner le texte recherché
-    const highlightText = (text, searchTerm) => {
-        if (!searchTerm) return text;
-        const regex = new RegExp(`(${searchTerm})`, 'gi');
-        return text.replace(regex, `<span class="bg-yellow-300 font-bold">$1</span>`);
-    };
-
     return (
         <>
-            {/* Champ de recherche */}
-            <div className="mb-4">
+            <div className="w-72 ml-5 mt-5">
                 <input
                     type="text"
                     placeholder="Rechercher..."
@@ -123,13 +120,13 @@ export default function RequestList() {
                     {paginatedData.length > 0 ? (
                         paginatedData.map((request) => (
                             <TableRow key={request.id} onClick={() => navigate("/request-detail", { state: { requestId: request.id } })}>
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.created_at, searchTerm) }} />
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.category, searchTerm) }} />
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.name, searchTerm) }} />
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.phone, searchTerm) }} />
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.address, searchTerm) }} />
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(`${request.firstname} ${request.lastname}`, searchTerm) }} />
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.status, searchTerm) }} />
+                                <TableCell>{request.created_at}</TableCell>
+                                <TableCell>{request.category}</TableCell>
+                                <TableCell>{request.name}</TableCell>
+                                <TableCell>{request.phone}</TableCell>
+                                <TableCell>{request.address}</TableCell>
+                                <TableCell>{request.firstname} {request.lastname}</TableCell>
+                                <TableCell>{request.status}</TableCell>
                             </TableRow>
                         ))
                     ) : (
@@ -143,8 +140,8 @@ export default function RequestList() {
             </Table>
 
             {/* Pagination */}
-            {totalPages > 1 && (
-                <div className="flex justify-between items-center mt-4">
+            {totalPages >= 1 && (
+                <div className="flex justify-between items-center my-4">
                     <Button
                         variant="outline"
                         disabled={currentPage === 1}
@@ -162,6 +159,19 @@ export default function RequestList() {
                     >
                         Suivant
                     </Button>
+                    <div className="flex items-center">
+                    <label className="mr-2">Afficher :</label>
+                    <select
+                        value={itemsPerPage}
+                        onChange={handleItemsPerPageChange}
+                        className="p-2 border rounded"
+                    >
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
                 </div>
             )}
         </>
