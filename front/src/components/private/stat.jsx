@@ -6,7 +6,7 @@ import BeneficiaryCard from '@/components/private/beneficiaryCard';
 import RestaurantCard from '@/components/private/RestaurantCard';
 import RestaurantsStatsCard from '@/components/private/RestaurantsStatsCard';
 import AssociationCard from '@/components/private/associationCard';
-import MealValueCard from './mealValue';
+import MealValueCard from './mealValueCard';
 
 
 export default function Stat() {
