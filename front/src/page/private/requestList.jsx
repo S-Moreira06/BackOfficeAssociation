@@ -36,7 +36,7 @@ export default function RequestList() {
     const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
     const [searchTerm, setSearchTerm] = useState(''); // État pour la recherche
 
-    // Fonction pour trier les données
+    // Fonction pour trier les données, a extraire dans un hook pour l'utiliser sur toutes les listes
     const sortData = (data, key, direction) => {
         return data?.sort((a, b) => {
             if (a[key] < b[key]) {
@@ -49,7 +49,7 @@ export default function RequestList() {
         });
     };
 
-    // Fonction de gestion du clic sur l'en-tête de colonne pour trier
+    // Fonction de gestion du clic sur l'en-tête de colonne pour trier,  a extraire dans un hook pour l'utiliser sur toutes les listes
     const handleSort = (key) => {
         let direction = 'asc';
         if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -58,12 +58,12 @@ export default function RequestList() {
         setSortConfig({ key, direction });
     };
 
-    // Fonction de recherche
+    // Fonction de recherche,  a extraire dans un hook pour l'utiliser sur toutes les listes
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
     };
 
-    // Filtrer les données en fonction du terme de recherche
+    // Filtrer les données en fonction du terme de recherche, soit a extraire dans un hook pour l'utiliser sur toutes les listes soit a adapter sur chaque page , a tester
     const filteredData = data?.request?.filter((request) => {
         return (
             request.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -76,9 +76,16 @@ export default function RequestList() {
         );
     });
 
-    // Trier les données après filtrage
+    // Trier les données après filtrage, idem a tester selon lutilisation des deux block du dessus
     const sortedData = filteredData ? sortData(filteredData, sortConfig.key, sortConfig.direction) : [];
 
+    //fonction pour surligner le texte selon la valeur du champ de recherche
+    const highlightText = (text, searchTerm) => {
+        if (!searchTerm) return text;
+        const regex = new RegExp(`(${searchTerm})`, 'gi'); // Recherche insensible à la casse
+        return text.replace(regex, `<span class="bg-yellow-300 font-bold">$1</span>`);
+    };
+    
     return (
         <>
             <div className="mb-4">
@@ -122,41 +129,18 @@ export default function RequestList() {
                         </TableHead>
                     </TableRow>
                 </TableHeader>
-
                 <TableBody>
-                    {sortedData?.length > 0 && sortedData.map((request) => {
-                        return (
-                            <TableRow key={request.id} onClick={() => navigate("/request-detail", { state: { requestId: request.id } })}>
-                                <TableCell><GetDate timestamp={request?.created_at} /></TableCell>
-                                <TableCell>{request?.category}</TableCell>
-                                <TableCell>{request?.name}</TableCell>
-                                <TableCell>{request?.phone}</TableCell>
-                                <TableCell>{request?.address}<br />{request?.zip} {request?.city}</TableCell>
-                                <TableCell>{request?.firstname} {request?.lastname}</TableCell>
-                                <TableCell>{request?.status}</TableCell>
-                                <TableCell>
-                                    <Button>Valider</Button>
-                                </TableCell>
-                                <TableCell>
-                                    <AlertDialog>
-                                        <AlertDialogTrigger>Refuser</AlertDialogTrigger>
-                                        <AlertDialogContent className="bg-white">
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Etes-vous sûr de vouloir refuser la demande ?</AlertDialogTitle>
-                                                <AlertDialogDescription>
-                                                    Un mail automatique sera envoyé à l'organisation.
-                                                </AlertDialogDescription>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
-                                                <AlertDialogCancel>Non</AlertDialogCancel>
-                                                <AlertDialogAction onClick={() => mutation.mutate(request.id)}>Oui</AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
-                                </TableCell>
-                            </TableRow>
-                        );
-                    })}
+                    {filteredData?.length > 0 && filteredData.map((request) => (
+                        <TableRow key={request.id} onClick={() => navigate("/request-detail", { state: { requestId: request.id } })}>
+                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.created_at, searchTerm) }} />
+                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.category, searchTerm) }} />
+                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.name, searchTerm) }} />
+                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.phone, searchTerm) }} />
+                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.address, searchTerm) }} />
+                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.firstname + " " + request?.lastname, searchTerm) }} />
+                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.status, searchTerm) }} />
+                        </TableRow>
+                    ))}
                 </TableBody>
             </Table>
         </>
