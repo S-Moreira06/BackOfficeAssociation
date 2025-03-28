@@ -19,7 +19,7 @@ export default function AdminLayout({ children }) {
                 <AppSidebar />
                 <main className="w-[100%]  overflow-x-scroll scrollbar-hide">
                     <div className="min-h-screen">
-                        <SidebarTrigger className="absolute top-12 left-24 z-50"/>
+                        <SidebarTrigger className="fixed top-12 left-24 z-50"/>
                         <Outlet/>
                     </div>
                     <Footer/>
