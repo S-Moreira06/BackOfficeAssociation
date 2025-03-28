@@ -1,8 +1,8 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useNavigate } from "react-router";
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import {
     Table,
     TableBody,
@@ -11,45 +11,31 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/table";
 
 import { getAllRequest } from '@/api/request';
 import GetDate from "@/hooks/get-date";
 
 export default function RequestList() {
-    const { isPending, isError, data, error } = useQuery({ queryKey: ['requestList'], queryFn: getAllRequest });
+    const { data } = useQuery({ queryKey: ['requestList'], queryFn: getAllRequest });
     const navigate = useNavigate();
-    const queryClient = useQueryClient();
 
-    // État pour gérer la colonne triée et l'ordre de tri
+    // États pour la recherche, le tri et la pagination
+    const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
-    const [searchTerm, setSearchTerm] = useState(''); // État pour la recherche
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5; // Nombre d'éléments par page
 
-    // Fonction pour trier les données, a extraire dans un hook pour l'utiliser sur toutes les listes
+    // Fonction de tri
     const sortData = (data, key, direction) => {
-        return data?.sort((a, b) => {
-            if (a[key] < b[key]) {
-                return direction === 'asc' ? -1 : 1;
-            }
-            if (a[key] > b[key]) {
-                return direction === 'asc' ? 1 : -1;
-            }
+        return [...data].sort((a, b) => {
+            if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
+            if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
             return 0;
         });
     };
 
-    // Fonction de gestion du clic sur l'en-tête de colonne pour trier,  a extraire dans un hook pour l'utiliser sur toutes les listes
+    // Fonction de gestion du tri
     const handleSort = (key) => {
         let direction = 'asc';
         if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -58,47 +44,50 @@ export default function RequestList() {
         setSortConfig({ key, direction });
     };
 
-    // Fonction de recherche,  a extraire dans un hook pour l'utiliser sur toutes les listes
+    // Fonction de recherche
     const handleSearch = (event) => {
         setSearchTerm(event.target.value);
+        setCurrentPage(1); // Reset à la première page lors d'une recherche
     };
 
-    // Filtrer les données en fonction du terme de recherche, soit a extraire dans un hook pour l'utiliser sur toutes les listes soit a adapter sur chaque page , a tester
-    const filteredData = data?.request?.filter((request) => {
-        return (
-            request.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            request.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            request.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            request.created_at.toLowerCase().includes(searchTerm.toLowerCase()) ||  // Date
-            request.address.toLowerCase().includes(searchTerm.toLowerCase()) ||     // Adresse
-            request.category.toLowerCase().includes(searchTerm.toLowerCase()) ||    // Type
-            (request.firstname + ' ' + request.lastname).toLowerCase().includes(searchTerm.toLowerCase()) // Contact
-        );
-    });
+    // Filtrer et trier les données avant pagination
+    const filteredData = data?.request?.filter((request) =>
+        Object.values(request).some(
+            (value) =>
+                typeof value === 'string' &&
+                value.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+    ) || [];
 
-    // Trier les données après filtrage, idem a tester selon lutilisation des deux block du dessus
-    const sortedData = filteredData ? sortData(filteredData, sortConfig.key, sortConfig.direction) : [];
+    const sortedData = sortConfig.key ? sortData(filteredData, sortConfig.key, sortConfig.direction) : filteredData;
 
-    //fonction pour surligner le texte selon la valeur du champ de recherche
+    // Pagination
+    const totalItems = sortedData.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedData = sortedData.slice(startIndex, endIndex);
+
+    // Fonction pour surligner le texte recherché
     const highlightText = (text, searchTerm) => {
         if (!searchTerm) return text;
-        const regex = new RegExp(`(${searchTerm})`, 'gi'); // Recherche insensible à la casse
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
         return text.replace(regex, `<span class="bg-yellow-300 font-bold">$1</span>`);
     };
-    
+
     return (
         <>
+            {/* Champ de recherche */}
             <div className="mb-4">
-                {/* Champ de recherche */}
                 <input
                     type="text"
                     placeholder="Rechercher..."
                     value={searchTerm}
                     onChange={handleSearch}
-                    className="p-2 border rounded"
+                    className="p-2 border rounded w-full"
                 />
             </div>
-            
+
             <Table>
                 <TableCaption className="caption-top text-xl">
                     Liste des requêtes
@@ -129,20 +118,52 @@ export default function RequestList() {
                         </TableHead>
                     </TableRow>
                 </TableHeader>
+
                 <TableBody>
-                    {filteredData?.length > 0 && filteredData.map((request) => (
-                        <TableRow key={request.id} onClick={() => navigate("/request-detail", { state: { requestId: request.id } })}>
-                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.created_at, searchTerm) }} />
-                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.category, searchTerm) }} />
-                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.name, searchTerm) }} />
-                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.phone, searchTerm) }} />
-                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.address, searchTerm) }} />
-                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.firstname + " " + request?.lastname, searchTerm) }} />
-                            <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request?.status, searchTerm) }} />
+                    {paginatedData.length > 0 ? (
+                        paginatedData.map((request) => (
+                            <TableRow key={request.id} onClick={() => navigate("/request-detail", { state: { requestId: request.id } })}>
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.created_at, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.category, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.name, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.phone, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.address, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(`${request.firstname} ${request.lastname}`, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.status, searchTerm) }} />
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan="7" className="text-center py-4">
+                                Aucun résultat trouvé.
+                            </TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
             </Table>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+                <div className="flex justify-between items-center mt-4">
+                    <Button
+                        variant="outline"
+                        disabled={currentPage === 1}
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                    >
+                        Précédent
+                    </Button>
+
+                    <span>Page {currentPage} / {totalPages}</span>
+
+                    <Button
+                        variant="outline"
+                        disabled={currentPage === totalPages}
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                    >
+                        Suivant
+                    </Button>
+                </div>
+            )}
         </>
     );
 }
