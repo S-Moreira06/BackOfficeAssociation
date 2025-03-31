@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router";
 
 import { Button } from '@/components/ui/button'
@@ -26,6 +26,8 @@ import {
 
 
 import { getAllRestaurant, deleteRestaurant } from '@/api/restaurant'
+import usePagination from "@/hooks/usePagination"
+import useSorting from "@/hooks/useSorting"
 
 export default function RestaurantList() {
     const { isPending, isError, data, error } = useQuery({ queryKey: ['restaurantList'], queryFn: getAllRestaurant })
@@ -37,11 +39,40 @@ export default function RestaurantList() {
             queryClient.invalidateQueries(['retaurantList']);
         },
     });
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const filteredData = data?.organizations?.filter((restaurant) =>
+            Object.values(restaurant).some(
+                (value) =>
+                    typeof value === 'string' &&
+                    value.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        ) || [];
+        const { sortedData, handleSort, sortConfig } = useSorting(filteredData);
+        const { paginatedData, currentPage, totalPages, goToNextPage, goToPrevPage, changeItemsPerPage, itemsPerPage } = usePagination(sortedData);
+        const handleSearch = (event) => {
+            setSearchTerm(event.target.value);
+        };
+        const highlightText = (text, searchTerm) => {
+            if (!searchTerm|| typeof text !== 'string') return text;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, `<span class="bg-yellow-300 font-bold">$1</span>`);
+        };
     
     return (
         <>
-        
-        <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-restaurant")}>Créer un restaurant</Button>
+        <div className='flex justify-between'>
+            <div className="w-72 ml-5 mt-5">
+                <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="p-2 border rounded w-full"
+                />
+            </div>
+            <Button variant="outline" className="mt-2" onClick={()=>navigate("/create-restaurant")}>Créer un restaurant</Button>
+        </div>
         <Table>
         <TableCaption className="caption-top text-xl">
             Liste des restaurants
@@ -49,22 +80,22 @@ export default function RestaurantList() {
         
             <TableHeader>
             <TableRow>
-                <TableHead>Nom</TableHead>
-                <TableHead>Prénom</TableHead>
-                <TableHead>Téléphone</TableHead>
-                <TableHead>Repas max.</TableHead>
+                <TableHead onClick={() => handleSort('name')}>Nom {sortConfig.key === 'name' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}</TableHead>
+                <TableHead onClick={() => handleSort('city')}>Ville {sortConfig.key === 'city' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}</TableHead>
+                <TableHead onClick={() => handleSort('max_meal')}>Repas max. {sortConfig.key === 'max_meal' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}</TableHead>
+                <TableHead onClick={() => handleSort('phone')}>Téléphone {sortConfig.key === 'phone' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}</TableHead>
                 
             </TableRow>
             </TableHeader>
             <TableBody>
-            {data?.organizations.length > 0 && data.organizations.map((restaurant)=>{
-            return (
+            {paginatedData?.length > 0 ?(
+                paginatedData.map((restaurant)=>(
                 <TableRow key={restaurant.id}>
-                <TableCell>{restaurant?.name}</TableCell>
-                <TableCell>{restaurant?.city}</TableCell>
-                <TableCell>{restaurant?.phone}</TableCell>
-                <TableCell>{restaurant?.max_meal}</TableCell>
-                <TableCell>{restaurant?.is_archived}</TableCell>
+                    <TableCell dangerouslySetInnerHTML={{ __html: highlightText(restaurant.name|| '', searchTerm) }} />
+                    <TableCell dangerouslySetInnerHTML={{ __html: highlightText(restaurant.city|| '', searchTerm) }} />
+                    <TableCell dangerouslySetInnerHTML={{ __html: highlightText(restaurant.max_meal|| '', searchTerm) }} />
+                    <TableCell dangerouslySetInnerHTML={{ __html: highlightText(restaurant.phone|| '', searchTerm) }} />
+                    <TableCell dangerouslySetInnerHTML={{ __html: highlightText(restaurant.is_archived|| '', searchTerm) }} />
                 <TableCell><Button onClick={() => navigate("/update-restaurant",{ state: { restaurantId: restaurant.id }})}>Modifier</Button></TableCell>
                 <TableCell>
                     <AlertDialog>
@@ -83,12 +114,32 @@ export default function RestaurantList() {
                         </AlertDialogContent>
                     </AlertDialog>
                 </TableCell>
+                </TableRow>))
+            ):(
+                <TableRow>
+                    <TableCell colSpan="7" className="text-center py-4">
+                        Aucun résultat trouvé.
+                    </TableCell>
                 </TableRow>
-            )
-            })}
+            )}
             </TableBody>
         
         </Table>
+        {/* Pagination */}
+        <div className="flex justify-between">
+            <Button variant="outline" disabled={currentPage === 1} onClick={goToPrevPage}>Précédent</Button>
+            <span className="mx-40">Page {currentPage} / {totalPages}</span>
+            <Button variant="outline" disabled={currentPage === totalPages} onClick={goToNextPage}>Suivant</Button>
+        </div>
+
+        <div className="flex items-center">
+            <label className="mr-2">Afficher :</label>
+            <select value={itemsPerPage} onChange={(e) => changeItemsPerPage(Number(e.target.value))} className="p-2 border rounded">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+            </select>
+        </div>
         </>
     )
 }

@@ -70,16 +70,18 @@ export default function UserList() {
 
     return (
         <>
-        <div className="w-72 ml-5 mt-5">
-                <input
-                    type="text"
-                    placeholder="Rechercher..."
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    className="p-2 border rounded w-full"
-                />
+            <div className='flex justify-between'>
+                <div className="w-72 ml-5 mt-5">
+                    <input
+                        type="text"
+                        placeholder="Rechercher..."
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        className="p-2 border rounded w-full"
+                    />
+                </div>
+                <Button variant="outline" className="mt-2" onClick={() => navigate("/create-user")}>Créer un utilisateur</Button>
             </div>
-            <Button variant="outline" className="mt-2" onClick={() => navigate("/create-user")}>Créer un utilisateur</Button>
             
             <Table>
                 <TableCaption className="caption-top text-xl">
