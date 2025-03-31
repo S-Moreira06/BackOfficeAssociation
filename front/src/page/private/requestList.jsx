@@ -100,11 +100,11 @@ export default function RequestList() {
                                 <TableCell dangerouslySetInnerHTML={{
                                     __html: highlightText(GetDateTime({ timestamp: request.created_at, format: 'date' }), searchTerm)
                                 }} />
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.category, searchTerm) }} />
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.name, searchTerm) }} />
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.phone, searchTerm) }} />
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.address, searchTerm) }} />
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(`${request.firstname} ${request.lastname}`, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.category|| '', searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.name|| '', searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.phone|| '', searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.address|| '', searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(`${request.firstname} ${request.lastname}`|| '', searchTerm) }} />
                                 <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.status === 'attente'?'En attente':request.status === 'refused'?'Refusée':'Acceptée', searchTerm) }} />
                             </TableRow>
                         ))

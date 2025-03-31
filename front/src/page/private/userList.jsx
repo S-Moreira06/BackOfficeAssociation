@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/alert-dialog"
 
 import { deleteUser, getAllUser } from '@/api/user';
+import usePagination from "@/hooks/usePagination";
+import useSorting from "@/hooks/useSorting";
 
 export default function UserList() {
     const { isPending, isError, data, error } = useQuery({ queryKey: ['userList'], queryFn: getAllUser });
@@ -37,37 +39,46 @@ export default function UserList() {
             queryClient.invalidateQueries(['userList']); 
         },
     });
-
-    const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         console.log("DATA", data);
     }, [data]);
 
-    const sortData = (data, key, direction) => {
-        return data?.users.sort((a, b) => {
-            if (a[key] < b[key]) {
-                return direction === 'asc' ? -1 : 1;
-            }
-            if (a[key] > b[key]) {
-                return direction === 'asc' ? 1 : -1;
-            }
-            return 0;
-        });
+    // Filtrer et trier les données avant pagination
+    const filteredData = data?.users?.filter((user) =>
+        Object.values(user).some(
+            (value) =>
+                typeof value === 'string' &&
+                value.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+    ) || [];
+    const { sortedData, handleSort, sortConfig } = useSorting(filteredData);
+    const { paginatedData, currentPage, totalPages, goToNextPage, goToPrevPage, changeItemsPerPage, itemsPerPage } = usePagination(sortedData);
+    // Fonction pour gérer la recherche
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
     };
 
-    const handleSort = (key) => {
-        let direction = 'asc';
-        if (sortConfig.key === key && sortConfig.direction === 'asc') {
-            direction = 'desc';
-        }
-        setSortConfig({ key, direction });
-    };
 
-    const sortedData = sortData(data, sortConfig.key, sortConfig.direction);
+    // Fonction pour surligner le texte recherché
+    const highlightText = (text, searchTerm) => {
+        if (!searchTerm) return text;
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        return text.replace(regex, `<span class="bg-yellow-300 font-bold">$1</span>`);
+    };
 
     return (
         <>
+        <div className="w-72 ml-5 mt-5">
+                <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="p-2 border rounded w-full"
+                />
+            </div>
             <Button variant="outline" className="mt-2" onClick={() => navigate("/create-user")}>Créer un utilisateur</Button>
             
             <Table>
@@ -93,14 +104,15 @@ export default function UserList() {
                 </TableHeader>
 
                 <TableBody>
-                    {sortedData?.length > 0 && sortedData.map((user) => {
-                        return (
+                    {paginatedData?.length > 0 ?(
+                        paginatedData.map((user) => (
                             <TableRow key={user.id}>
-                                <TableCell>{user?.firstname}</TableCell>
-                                <TableCell>{user?.lastname}</TableCell>
-                                <TableCell>{user?.role}</TableCell>
-                                <TableCell>{user?.phone}</TableCell>
-                                <TableCell>{user?.is_archived}</TableCell>
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(user.firstname|| '', searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(user.lastname|| '', searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(user.role|| '', searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(user.phone|| '', searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(user.is_archived|| '', searchTerm) }} />
+                                
                                 <TableCell>
                                     <Button onClick={() => navigate("/update-user", { state: { userId: user.id } })}>Modifier</Button>
                                 </TableCell>
@@ -121,11 +133,32 @@ export default function UserList() {
                                         </AlertDialogContent>
                                     </AlertDialog>
                                 </TableCell>
+                            </TableRow>))
+                        ):(
+                            <TableRow>
+                                <TableCell colSpan="7" className="text-center py-4">
+                                    Aucun résultat trouvé.
+                                </TableCell>
                             </TableRow>
-                        );
-                    })}
+                        )
+                    }
                 </TableBody>
             </Table>
+            {/* Pagination */}
+            <div className="flex justify-between">
+                <Button variant="outline" disabled={currentPage === 1} onClick={goToPrevPage}>Précédent</Button>
+                <span className="mx-40">Page {currentPage} / {totalPages}</span>
+                <Button variant="outline" disabled={currentPage === totalPages} onClick={goToNextPage}>Suivant</Button>
+            </div>
+
+            <div className="flex items-center">
+                <label className="mr-2">Afficher :</label>
+                <select value={itemsPerPage} onChange={(e) => changeItemsPerPage(Number(e.target.value))} className="p-2 border rounded">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
         </>
     );
 }
