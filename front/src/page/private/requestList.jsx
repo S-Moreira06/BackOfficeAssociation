@@ -13,6 +13,8 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
+import usePagination from "@/hooks/usePagination";
+import useSorting from "@/hooks/useSorting";
 import { getAllRequest } from '@/api/request';
 import GetDateTime from '@/hooks/get-date-time';
 
@@ -20,49 +22,7 @@ export default function RequestList() {
     const { data } = useQuery({ queryKey: ['requestList'], queryFn: getAllRequest });
     const navigate = useNavigate();
 
-    // États pour la recherche, le tri et la pagination
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(5); // Nombre d'éléments par page sélectionnable
-
-    // Fonction de tri
-    const sortData = (data, key, direction) => {
-        return [...data].sort((a, b) => {
-            const valA = a[key] ?? ''; // Gérer valeurs nulles
-            const valB = b[key] ?? '';
-    
-            if (typeof valA === 'number' && typeof valB === 'number') {
-                return direction === 'asc' ? valA - valB : valB - valA;
-            }
-    
-            return direction === 'asc'
-                ? valA.toString().localeCompare(valB.toString())
-                : valB.toString().localeCompare(valA.toString());
-        });
-    };
-    
-
-    // Fonction de gestion du tri
-    const handleSort = (key) => {
-        let direction = 'asc';
-        if (sortConfig.key === key && sortConfig.direction === 'asc') {
-            direction = 'desc';
-        }
-        setSortConfig({ key, direction });
-    };
-
-    // Fonction de recherche
-    const handleSearch = (event) => {
-        setSearchTerm(event.target.value);
-        setCurrentPage(1); // Reset à la première page lors d'une recherche
-    };
-
-    // Mise à jour du nombre de résultats par page
-    const handleItemsPerPageChange = (event) => {
-        setItemsPerPage(Number(event.target.value));
-        setCurrentPage(1); // Revenir à la première page après changement
-    };
 
     // Filtrer et trier les données avant pagination
     const filteredData = data?.request?.filter((request) =>
@@ -73,14 +33,14 @@ export default function RequestList() {
         )
     ) || [];
 
-    const sortedData = sortConfig.key ? sortData(filteredData, sortConfig.key, sortConfig.direction) : filteredData;
+    const { sortedData, handleSort, sortConfig } = useSorting(filteredData);
+    const { paginatedData, currentPage, totalPages, goToNextPage, goToPrevPage, changeItemsPerPage, itemsPerPage } = usePagination(sortedData);
 
-    // Pagination
-    const totalItems = sortedData.length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const paginatedData = sortedData.slice(startIndex, endIndex);
+    // Fonction pour gérer la recherche
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
 
     // Fonction pour surligner le texte recherché
     const highlightText = (text, searchTerm) => {
@@ -137,7 +97,9 @@ export default function RequestList() {
                         paginatedData.map((request) => (
                             
                             <TableRow key={request.id} onClick={() => navigate("/request-detail", { state: { requestId: request.id } })}>
-                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.created_at, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{
+                                    __html: highlightText(GetDateTime({ timestamp: request.created_at }), searchTerm)
+                                }} />
                                 <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.category, searchTerm) }} />
                                 <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.name, searchTerm) }} />
                                 <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.phone, searchTerm) }} />
@@ -157,42 +119,20 @@ export default function RequestList() {
             </Table>
 
             {/* Pagination */}
-            {totalPages >= 1 && (
-                <div className='flex justify-between'>
-                    <div className="flex justify-between items-center my-4">
-                        <Button
-                            variant="outline"
-                            disabled={currentPage === 1}
-                            onClick={() => setCurrentPage(currentPage - 1)}
-                        >
-                            Précédent
-                        </Button>
+            <div className="flex justify-between">
+                <Button variant="outline" disabled={currentPage === 1} onClick={goToPrevPage}>Précédent</Button>
+                <span className="mx-40">Page {currentPage} / {totalPages}</span>
+                <Button variant="outline" disabled={currentPage === totalPages} onClick={goToNextPage}>Suivant</Button>
+            </div>
 
-                        <span className='mx-40'>Page {currentPage} / {totalPages}</span>
-
-                        <Button
-                            variant="outline"
-                            disabled={currentPage === totalPages}
-                            onClick={() => setCurrentPage(currentPage + 1)}
-                        >
-                            Suivant
-                        </Button>
-                    </div>
-                    <div className="flex items-center">
-                        <label className="mr-2">Afficher :</label>
-                        <select
-                            value={itemsPerPage}
-                            onChange={handleItemsPerPageChange}
-                            className="p-2 border rounded"
-                        >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                        </select>
-                    </div>
-                </div>
-            )}
+            <div className="flex items-center">
+                <label className="mr-2">Afficher :</label>
+                <select value={itemsPerPage} onChange={(e) => changeItemsPerPage(Number(e.target.value))} className="p-2 border rounded">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
         </>
     );
 }
