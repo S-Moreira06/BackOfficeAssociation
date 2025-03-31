@@ -120,6 +120,7 @@ export default function RequestList() {
                 <TableBody>
                     {paginatedData.length > 0 ? (
                         paginatedData.map((request) => (
+                            
                             <TableRow key={request.id} onClick={() => navigate("/request-detail", { state: { requestId: request.id } })}>
                                 <TableCell><GetDateTime timestamp={request.created_at}/></TableCell>
                                 <TableCell>{request.category}</TableCell>
@@ -127,7 +128,7 @@ export default function RequestList() {
                                 <TableCell>{request.phone}</TableCell>
                                 <TableCell>{request.address}</TableCell>
                                 <TableCell>{request.firstname} {request.lastname}</TableCell>
-                                <TableCell>{request.status}</TableCell>
+                                <TableCell>{request.status === 'attente'?('En attente'):request.status === 'refused'?('Refusée'):('Acceptée')}</TableCell>
                             </TableRow>
                         ))
                     ) : (

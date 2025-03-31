@@ -37,7 +37,6 @@ export default function RequestDetail () {
             queryClient.invalidateQueries(['requestDetail', requestId]);
             navigate("/request-list")
         },
-        
         onError: (error) => {
             console.log("Erreur lors de la validation de la requete:", error)
         }
@@ -52,7 +51,6 @@ export default function RequestDetail () {
             queryClient.invalidateQueries(['requestDetail', requestId]);
             navigate("/request-list")
         },
-        
         onError: (error) => {
             console.log("Erreur lors du refus de la requete:", error)
         }
