@@ -15,7 +15,7 @@ async function getAllRequest() {
 }
 async function getRequest(id) {
     try {
-        const response = await instance.get(`/request/accpted/${id}`)
+        const response = await instance.get(`/request/${id}`)
         console.log(response)
         return response.data
     } catch (error) {
@@ -25,7 +25,16 @@ async function getRequest(id) {
 
 async function isAcceptedRequest(id) {
     try {
-        const response = await instance.get(`/request/${id}`)
+        const response = await instance.put(`/request/accepted/${id}`)
+        console.log(response)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+async function isRefusedRequest(id) {
+    try {
+        const response = await instance.put(`/request/refused/${id}`)
         console.log(response)
         return response.data
     } catch (error) {
@@ -34,4 +43,4 @@ async function isAcceptedRequest(id) {
 }
 
 
-export { request, getAllRequest, getRequest, isAcceptedRequest }
+export { request, getAllRequest, getRequest, isAcceptedRequest, isRefusedRequest }

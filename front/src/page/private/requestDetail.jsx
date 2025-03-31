@@ -12,13 +12,14 @@ import { Button } from '@/components/ui/button'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation, useNavigate } from "react-router";
 
-import { getRequest, isAcceptedRequest } from "@/api/request"
+import { getRequest, isAcceptedRequest, isRefusedRequest } from "@/api/request"
 import GetDate from "@/hooks/get-date"
 
 
 export default function RequestDetail () {
     const location = useLocation();
     const requestId = location.state?.requestId;
+    const navigate = useNavigate()
     const queryClient = useQueryClient();
 
     console.log("voici l'id ",requestId)
@@ -27,18 +28,33 @@ export default function RequestDetail () {
         queryFn: () =>getRequest(requestId)
     })
     const acceptedRequestMutation = useMutation({
-        mutationFn: async ({ requestID}) => {
+        mutationFn: async (requestID) => {
             return await isAcceptedRequest(requestID);
         },
         onSuccess: () => {
             console.log("request is accepted !");
-            // queryClient.invalidateQueries(['requestDetail']);
             queryClient.invalidateQueries(["requestList"]);
             queryClient.invalidateQueries(['requestDetail', requestId]);
+            navigate("/request-list")
         },
         
         onError: (error) => {
             console.log("Erreur lors de la validation de la requete:", error)
+        }
+    });
+    const refusedRequestMutation = useMutation({
+        mutationFn: async (requestID) => {
+            return await isRefusedRequest(requestID);
+        },
+        onSuccess: () => {
+            console.log("request is refused !");
+            queryClient.invalidateQueries(["requestList"]);
+            queryClient.invalidateQueries(['requestDetail', requestId]);
+            navigate("/request-list")
+        },
+        
+        onError: (error) => {
+            console.log("Erreur lors du refus de la requete:", error)
         }
     });
     console.log(data)
@@ -70,7 +86,8 @@ export default function RequestDetail () {
                 </CardContent>
                 <CardFooter>
                     <div className="mx-auto">
-                        <Button variant="secondary" onClick={() => acceptedRequestMutation.mutate()}>Valider</Button><Button variant="outline">Refuser</Button>
+                        <Button variant="secondary" onClick={() => acceptedRequestMutation.mutate(data?.request.id)}>Valider</Button>
+                        <Button variant="outline" onClick={() => refusedRequestMutation.mutate(data?.request.id)}>Refuser</Button>
                     </div>
                 </CardFooter>
             </Card>
