@@ -29,11 +29,19 @@ export default function RequestList() {
     // Fonction de tri
     const sortData = (data, key, direction) => {
         return [...data].sort((a, b) => {
-            if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
-            if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
-            return 0;
+            const valA = a[key] ?? ''; // Gérer valeurs nulles
+            const valB = b[key] ?? '';
+    
+            if (typeof valA === 'number' && typeof valB === 'number') {
+                return direction === 'asc' ? valA - valB : valB - valA;
+            }
+    
+            return direction === 'asc'
+                ? valA.toString().localeCompare(valB.toString())
+                : valB.toString().localeCompare(valA.toString());
         });
     };
+    
 
     // Fonction de gestion du tri
     const handleSort = (key) => {
@@ -73,6 +81,13 @@ export default function RequestList() {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const paginatedData = sortedData.slice(startIndex, endIndex);
+
+    // Fonction pour surligner le texte recherché
+    const highlightText = (text, searchTerm) => {
+        if (!searchTerm) return text;
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        return text.replace(regex, `<span class="bg-yellow-300 font-bold">$1</span>`);
+    };
 
     return (
         <>
@@ -122,13 +137,13 @@ export default function RequestList() {
                         paginatedData.map((request) => (
                             
                             <TableRow key={request.id} onClick={() => navigate("/request-detail", { state: { requestId: request.id } })}>
-                                <TableCell><GetDateTime timestamp={request.created_at}/></TableCell>
-                                <TableCell>{request.category}</TableCell>
-                                <TableCell>{request.name}</TableCell>
-                                <TableCell>{request.phone}</TableCell>
-                                <TableCell>{request.address}</TableCell>
-                                <TableCell>{request.firstname} {request.lastname}</TableCell>
-                                <TableCell>{request.status === 'attente'?('En attente'):request.status === 'refused'?('Refusée'):('Acceptée')}</TableCell>
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.created_at, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.category, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.name, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.phone, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.address, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(`${request.firstname} ${request.lastname}`, searchTerm) }} />
+                                <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.status === 'attente'?'En attente':request.status === 'refused'?'Refusée':'Acceptée', searchTerm) }} />
                             </TableRow>
                         ))
                     ) : (
