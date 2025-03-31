@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 
 import { getAllRequest } from '@/api/request';
+import GetDateTime from '@/hooks/get-date-time';
 
 export default function RequestList() {
     const { data } = useQuery({ queryKey: ['requestList'], queryFn: getAllRequest });
@@ -120,7 +121,7 @@ export default function RequestList() {
                     {paginatedData.length > 0 ? (
                         paginatedData.map((request) => (
                             <TableRow key={request.id} onClick={() => navigate("/request-detail", { state: { requestId: request.id } })}>
-                                <TableCell>{request.created_at}</TableCell>
+                                <TableCell><GetDateTime timestamp={request.created_at}/></TableCell>
                                 <TableCell>{request.category}</TableCell>
                                 <TableCell>{request.name}</TableCell>
                                 <TableCell>{request.phone}</TableCell>
@@ -141,37 +142,39 @@ export default function RequestList() {
 
             {/* Pagination */}
             {totalPages >= 1 && (
-                <div className="flex justify-between items-center my-4">
-                    <Button
-                        variant="outline"
-                        disabled={currentPage === 1}
-                        onClick={() => setCurrentPage(currentPage - 1)}
-                    >
-                        Précédent
-                    </Button>
+                <div className='flex justify-between'>
+                    <div className="flex justify-between items-center my-4">
+                        <Button
+                            variant="outline"
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                        >
+                            Précédent
+                        </Button>
 
-                    <span>Page {currentPage} / {totalPages}</span>
+                        <span className='mx-40'>Page {currentPage} / {totalPages}</span>
 
-                    <Button
-                        variant="outline"
-                        disabled={currentPage === totalPages}
-                        onClick={() => setCurrentPage(currentPage + 1)}
-                    >
-                        Suivant
-                    </Button>
+                        <Button
+                            variant="outline"
+                            disabled={currentPage === totalPages}
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                        >
+                            Suivant
+                        </Button>
+                    </div>
                     <div className="flex items-center">
-                    <label className="mr-2">Afficher :</label>
-                    <select
-                        value={itemsPerPage}
-                        onChange={handleItemsPerPageChange}
-                        className="p-2 border rounded"
-                    >
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
-                </div>
+                        <label className="mr-2">Afficher :</label>
+                        <select
+                            value={itemsPerPage}
+                            onChange={handleItemsPerPageChange}
+                            className="p-2 border rounded"
+                        >
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
                 </div>
             )}
         </>

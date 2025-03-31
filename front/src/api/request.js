@@ -6,7 +6,7 @@ async function request(data) {
 
 async function getAllRequest() {
     try {
-        const response = await instance.get("http://localhost:3000/api/request")
+        const response = await instance.get("/request")
         console.log(response)
         return response.data
     } catch (error) {
@@ -15,7 +15,17 @@ async function getAllRequest() {
 }
 async function getRequest(id) {
     try {
-        const response = await instance.get(`http://localhost:3000/api/request/${id}`)
+        const response = await instance.get(`/request/accpted/${id}`)
+        console.log(response)
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+
+async function isAcceptedRequest(id) {
+    try {
+        const response = await instance.get(`/request/${id}`)
         console.log(response)
         return response.data
     } catch (error) {
@@ -24,4 +34,4 @@ async function getRequest(id) {
 }
 
 
-export { request, getAllRequest, getRequest }
+export { request, getAllRequest, getRequest, isAcceptedRequest }

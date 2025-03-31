@@ -37,4 +37,20 @@ async function getRequest(id) {
   return result;
 }
 
-export default {createRequest, deleteRequest, getAllRequest, getRequest};
+async function validedRequest(id) {
+  const query= `UPDATE request SET status = 'accepted', updated_at = CURRENT_TIMESTAMP WHERE id= ?`;
+  const result = await db.prepare(query).get(id);
+}
+async function refusedRequest(id) {
+  const query= `UPDATE request SET status = 'refused', updated_at = CURRENT_TIMESTAMP WHERE id= ?`;
+  const result = await db.prepare(query).get(id);
+}
+
+export default { 
+  createRequest, 
+  deleteRequest, 
+  getAllRequest, 
+  getRequest, 
+  validedRequest, 
+  refusedRequest 
+};

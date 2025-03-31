@@ -56,4 +56,31 @@ async function getRequest(c) {
   }
 }
 
-export {createRequest,deleteRequest, getAllRequest, getRequest}
+async function isAcceptedRequest(c) {
+    try {
+        const id_request = c.req.param('id_request');
+        await requestService.validedRequest(id_request);
+        return c.json({
+            message: 'Request validated'
+          }, 201)
+    } catch (error) {
+        console.error(error);
+        return c.json({error: 'request validation failed'}, 400)
+    }
+    
+}
+
+async function isRefusedRequest(c) {
+    try {
+      const id_request = c.req.param('id_request');
+      await requestService.refusedRequest(id_request);
+        return c.json({
+            message: 'Request refused'
+        }, 201)
+    } catch (error) {
+        console.error(error);
+        return c.json({error: 'refuse failed'}, 400)
+    }
+}
+
+export {createRequest,deleteRequest, getAllRequest, getRequest, isAcceptedRequest, isRefusedRequest}

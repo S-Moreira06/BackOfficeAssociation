@@ -12,19 +12,35 @@ import { Button } from '@/components/ui/button'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocation, useNavigate } from "react-router";
 
-import { getRequest } from "@/api/request"
+import { getRequest, isAcceptedRequest } from "@/api/request"
 import GetDate from "@/hooks/get-date"
 
 
 export default function RequestDetail () {
     const location = useLocation();
     const requestId = location.state?.requestId;
+    const queryClient = useQueryClient();
+
     console.log("voici l'id ",requestId)
     const { isPending, isError, data, error } = useQuery({ 
         queryKey: ['requestDetail', requestId], 
         queryFn: () =>getRequest(requestId)
- 
     })
+    const acceptedRequestMutation = useMutation({
+        mutationFn: async ({ requestID}) => {
+            return await isAcceptedRequest(requestID);
+        },
+        onSuccess: () => {
+            console.log("request is accepted !");
+            // queryClient.invalidateQueries(['requestDetail']);
+            queryClient.invalidateQueries(["requestList"]);
+            queryClient.invalidateQueries(['requestDetail', requestId]);
+        },
+        
+        onError: (error) => {
+            console.log("Erreur lors de la validation de la requete:", error)
+        }
+    });
     console.log(data)
     return (
         <>
@@ -54,7 +70,7 @@ export default function RequestDetail () {
                 </CardContent>
                 <CardFooter>
                     <div className="mx-auto">
-                        <Button variant="secondary">Valider</Button><Button variant="outline">Refuser</Button>
+                        <Button variant="secondary" onClick={() => acceptedRequestMutation.mutate()}>Valider</Button><Button variant="outline">Refuser</Button>
                     </div>
                 </CardFooter>
             </Card>
