@@ -98,7 +98,7 @@ export default function RequestList() {
                             
                             <TableRow key={request.id} onClick={() => navigate("/request-detail", { state: { requestId: request.id } })}>
                                 <TableCell dangerouslySetInnerHTML={{
-                                    __html: highlightText(GetDateTime({ timestamp: request.created_at }), searchTerm)
+                                    __html: highlightText(GetDateTime({ timestamp: request.created_at, format: 'date' }), searchTerm)
                                 }} />
                                 <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.category, searchTerm) }} />
                                 <TableCell dangerouslySetInnerHTML={{ __html: highlightText(request.name, searchTerm) }} />
