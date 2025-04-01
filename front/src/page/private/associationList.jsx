@@ -95,24 +95,24 @@ export default function RestaurantsList() {
                     <TableCell dangerouslySetInnerHTML={{ __html: highlightText(association.max_meal|| '', searchTerm) }} />
                     <TableCell dangerouslySetInnerHTML={{ __html: highlightText(association.description|| '', searchTerm) }} />
                     <TableCell dangerouslySetInnerHTML={{ __html: highlightText(association.is_archived|| '', searchTerm) }} />
-                <TableCell><Button onClick={() => navigate("/update-association",{ state: { associationId: association.id }})}>Modifier</Button></TableCell>
-                <TableCell>
-                    <AlertDialog>
-                        <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
-                        <AlertDialogContent className="bg-white">
-                            <AlertDialogHeader>
-                            <AlertDialogTitle>Etes vous sure de vouloir supprimer l'association?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                                Souhaitez vous désactiver l'association et les agents lui appartenant?
-                            </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                            <AlertDialogCancel>Annuler</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => mutation.mutate(association.id)}>Oui</AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-                </TableCell>
+                    <TableCell><Button onClick={() => navigate("/update-association",{ state: { associationId: association.id }})}>Modifier</Button></TableCell>
+                    <TableCell>
+                        <AlertDialog>
+                            <AlertDialogTrigger>Supprimer</AlertDialogTrigger>
+                            <AlertDialogContent className="bg-white">
+                                <AlertDialogHeader>
+                                <AlertDialogTitle>Etes vous sure de vouloir supprimer l'association?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    Souhaitez vous désactiver l'association et les agents lui appartenant?
+                                </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => mutation.mutate(association.id)}>Oui</AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    </TableCell>
                 </TableRow>))
             ):(
                 <TableRow>
