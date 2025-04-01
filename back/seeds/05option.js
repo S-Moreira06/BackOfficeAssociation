@@ -1,4 +1,5 @@
 export async function seed(client) {
+    await client.execute("DELETE FROM option;");
     await client.execute(`INSERT INTO option (name)
                           VALUES
                               ('Halal'),
