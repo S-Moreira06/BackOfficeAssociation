@@ -39,6 +39,7 @@ import GetDateTime from "@/hooks/get-date-time";
 import { getAvailabilityById } from "@/api/availability";
 import { getAllReservationByAvailability, isAcceptedReservation, isRefusedReservation, isCanceledReservation} from '@/api/reservation';
 import CreateReservation from "@/page/private/createReservation";
+import ReusableSheet from "@/components/private/sheet"
 
 
 export default function AvailabilityDetail () {
@@ -132,14 +133,7 @@ export default function AvailabilityDetail () {
                         </CardContent>
                         <CardFooter>
                             <div className="mx-auto">
-                            <Sheet open={open} onOpenChange={setOpen}>
-                            <SheetTrigger asChild>
-                                <Button variant="secondary">Réserver</Button>
-                            </SheetTrigger>
-                            <SheetContent side="right" >
-                                <CreateReservation availabilityId={availabilityId} closeSheet={() => setOpen(false)} className="w-[500px]" />
-                            </SheetContent> 
-                            </Sheet>
+                                <ReusableSheet availabilityId={availabilityId} closeSheet={() => setOpen(false)} className="w-[500px]" />
                             </div>
                         </CardFooter>
                     </Card>
