@@ -28,6 +28,8 @@ import {
 import { getAllRestaurant, deleteRestaurant } from '@/api/restaurant'
 import usePagination from "@/hooks/usePagination"
 import useSorting from "@/hooks/useSorting"
+import { useSearch } from '@/hooks/useSearch'
+import { useHighlight } from '@/hooks/useHighlight'
 
 export default function RestaurantList() {
     const { isPending, isError, data, error } = useQuery({ queryKey: ['restaurantList'], queryFn: getAllRestaurant })
@@ -36,28 +38,13 @@ export default function RestaurantList() {
     const mutation = useMutation({
         mutationFn: deleteRestaurant,
         onSuccess: () => {
-            queryClient.invalidateQueries(['retaurantList']);
+            queryClient.invalidateQueries(['restaurantList']);
         },
     });
-
-    const [searchTerm, setSearchTerm] = useState('');
-    const filteredData = data?.organizations?.filter((restaurant) =>
-            Object.values(restaurant).some(
-                (value) =>
-                    typeof value === 'string' &&
-                    value.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-        ) || [];
-        const { sortedData, handleSort, sortConfig } = useSorting(filteredData);
-        const { paginatedData, currentPage, totalPages, goToNextPage, goToPrevPage, changeItemsPerPage, itemsPerPage } = usePagination(sortedData);
-        const handleSearch = (event) => {
-            setSearchTerm(event.target.value);
-        };
-        const highlightText = (text, searchTerm) => {
-            if (!searchTerm|| typeof text !== 'string') return text;
-            const regex = new RegExp(`(${searchTerm})`, 'gi');
-            return text.replace(regex, `<span class="bg-yellow-300 font-bold">$1</span>`);
-        };
+    const { searchTerm, handleSearch, filteredData } = useSearch(data?.organizations || []);
+    const { sortedData, handleSort, sortConfig } = useSorting(filteredData);
+    const { paginatedData, currentPage, totalPages, goToNextPage, goToPrevPage, changeItemsPerPage, itemsPerPage } = usePagination(sortedData);
+    const { highlightText } = useHighlight();
     
     return (
         <>

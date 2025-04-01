@@ -27,6 +27,8 @@ import {
 import { deleteUser, getAllUser } from '@/api/user';
 import usePagination from "@/hooks/usePagination";
 import useSorting from "@/hooks/useSorting";
+import { useSearch } from '@/hooks/useSearch'
+import { useHighlight } from '@/hooks/useHighlight'
 
 export default function UserList() {
     const { isPending, isError, data, error } = useQuery({ queryKey: ['userList'], queryFn: getAllUser });
@@ -39,35 +41,11 @@ export default function UserList() {
             queryClient.invalidateQueries(['userList']); 
         },
     });
-    const [searchTerm, setSearchTerm] = useState('');
 
-    useEffect(() => {
-        console.log("DATA", data);
-    }, [data]);
-
-    // Filtrer et trier les données avant pagination
-    const filteredData = data?.users?.filter((user) =>
-        Object.values(user).some(
-            (value) =>
-                typeof value === 'string' &&
-                value.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-    ) || [];
+    const { searchTerm, handleSearch, filteredData } = useSearch(data?.users || []);
     const { sortedData, handleSort, sortConfig } = useSorting(filteredData);
     const { paginatedData, currentPage, totalPages, goToNextPage, goToPrevPage, changeItemsPerPage, itemsPerPage } = usePagination(sortedData);
-    // Fonction pour gérer la recherche
-    const handleSearch = (event) => {
-        setSearchTerm(event.target.value);
-    };
-
-
-    // Fonction pour surligner le texte recherché
-    const highlightText = (text, searchTerm) => {
-        if (!searchTerm) return text;
-        const regex = new RegExp(`(${searchTerm})`, 'gi');
-        return text.replace(regex, `<span class="bg-yellow-300 font-bold">$1</span>`);
-    };
-
+    const { highlightText } = useHighlight();
     return (
         <>
             <div className='flex justify-between'>
@@ -80,7 +58,7 @@ export default function UserList() {
                         className="p-2 border rounded w-full"
                     />
                 </div>
-                <Button variant="outline" className="mt-2" onClick={() => navigate("/create-user")}>Créer un utilisateur</Button>
+                <Button variant="outline" className="mt-2" onClick={() => navigate("/create-restaurant")}>Créer un utilisateur</Button>
             </div>
             
             <Table>
