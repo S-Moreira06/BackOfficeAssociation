@@ -19,8 +19,8 @@ import { getAllAssociation } from "@/api/association"
 import { createReservation } from "@/api/reservation";
 
 const reservationSchema = z.object({
-    id_organisation: z.coerce.number().int(),
-    id_availability: z.number().int(),
+    id_organization: z.coerce.number().int(),
+    id_availability: z.coerce.number().int(),
     time: z.string(),
     email: z.string(),
     nb_place_setting: z.coerce.string(),
@@ -153,7 +153,7 @@ export default function CreateReservation ({ availabilityId, closeSheet }) {
                     />
                     <FormField 
                         control={form.control}
-                        name="id_organisation"
+                        name="id_organization"
                         render={({ field }) => {
                             const selectedAssociation = associationsData?.organizations.find((r) => r.id === Number(field.value));
                             return (
