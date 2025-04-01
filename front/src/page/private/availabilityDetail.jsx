@@ -44,7 +44,7 @@ import ReusableSheet from "@/components/private/sheet"
 
 export default function AvailabilityDetail () {
     const location = useLocation();
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const availabilityId = location.state?.availabilityId;
     const [open, setOpen] = useState(false);
@@ -107,6 +107,7 @@ export default function AvailabilityDetail () {
     console.log("data :" , availabilityData)
     return (
         <>
+        <Button onClick={()=>navigate(-1)} >Retour a la liste</Button>
         <Card className="mx-auto pb-5 rounded-md shadow-2xl w-3/4">
                         <CardHeader>
                             <CardTitle className="mx-5">
