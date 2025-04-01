@@ -133,7 +133,9 @@ export default function AvailabilityDetail () {
                         </CardContent>
                         <CardFooter>
                             <div className="mx-auto">
-                                <ReusableSheet availabilityId={availabilityId} closeSheet={() => setOpen(false)} className="w-[500px]" />
+                                <ReusableSheet triggerText="Réserver un table" side="right">
+                                <CreateReservation availabilityId={availabilityId} closeSheet={() => setOpen(false)} className="w-[500px]" />
+                                </ReusableSheet>
                             </div>
                         </CardFooter>
                     </Card>

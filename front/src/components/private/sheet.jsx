@@ -3,16 +3,21 @@ import { useState } from "react";
 import { Button } from '@/components/ui/button'
 import CreateReservation from "@/page/private/createReservation";
 
-export default function ReusableSheet({ availabilityId}) {
+export default function ReusableSheet({ 
+    children,          // Accepte un contenu dynamique
+    triggerText = "Réserver", // Le texte du bouton, avec une valeur par défaut
+    side = "right",     // Le côté où afficher le Sheet, avec une valeur par défaut
+    ...rest            // Autres props que vous souhaitez transmettre au Sheet
+}) {
         const [open, setOpen] = useState(false);
     
     return (
-        <Sheet open={open} onOpenChange={setOpen}>
+        <Sheet open={open} onOpenChange={setOpen} {...rest}>
             <SheetTrigger asChild>
-                <Button variant="secondary">Réserver</Button>
+                <Button variant="secondary">{triggerText}</Button>
             </SheetTrigger>
             <SheetContent side="right" >
-                <CreateReservation availabilityId={availabilityId} closeSheet={() => setOpen(false)} className="w-[500px]" />
+                {children}
             </SheetContent> 
         </Sheet>
     );
